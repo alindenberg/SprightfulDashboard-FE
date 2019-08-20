@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// Bootstrap
 import BootstrapVue from 'bootstrap-vue'
-import App from './App.vue'
-import Dashboard from './components/Dashboard'
-
-// Bootstrap css
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+// Components
+import App from './App.vue'
+import Dashboard from './components/Dashboard'
 
 Vue.config.productionTip = false
 
