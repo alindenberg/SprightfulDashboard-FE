@@ -9,7 +9,7 @@
         />
       </b-row>
       <b-row v-if="is_tou">
-        <b-col style="padding-bottom: 5%" sm="6">
+        <b-col style="padding-bottom: 5%" lg="6">
           <h6>
             <u>On Peak</u>
           </h6>
@@ -19,7 +19,7 @@
             v-bind:cost="on_peak_price"
           />
         </b-col>
-        <b-col style="padding-bottom: 5%" sm="6">
+        <b-col style="padding-bottom: 5%" lg="6">
           <h6>
             <u>Off Peak</u>
           </h6>

@@ -1,10 +1,11 @@
 <template>
-  <b-row class="dashboard" style="background-color: red">
+  <b-row class="dashboard">
     <!-- <h1>Dashboard</h1> -->
-    <b-col md="8" style="background-color: yellow">
-      <h3>Solar Generation</h3>
+    <b-col md="6">
+      <h2>Solar Generation</h2>
+      <solar-graph />
     </b-col>
-    <b-col md="4">
+    <b-col md="6">
       <h2>Energy Data</h2>
       <h6>{{start_date}} - {{end_date}}</h6>
       <b-row class="energy_component">
@@ -21,12 +22,16 @@
 import axios from "axios";
 import NeurioData from "./NeurioData";
 import FplData from "./FplData";
+import SolarGraph from "./SolarGraph";
+
 const moment = require("moment-timezone");
+
 export default {
   name: "Dashboard",
   components: {
     "neurio-data": NeurioData,
-    "fpl-data": FplData
+    "fpl-data": FplData,
+    "solar-graph": SolarGraph
   },
   data() {
     return {
@@ -100,6 +105,6 @@ export default {
 
 <style scoped>
 .energy_component {
-  margin-bottom: 5%;
+  margin-bottom: 2%;
 }
 </style>

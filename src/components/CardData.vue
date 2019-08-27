@@ -19,5 +19,6 @@ export default {
 .card_text {
   margin: 0;
   padding: 0;
+  white-space: nowrap;
 }
 </style>
