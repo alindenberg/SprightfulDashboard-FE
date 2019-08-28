@@ -1,28 +1,31 @@
 <template>
   <b-row class="dashboard">
-    <!-- <h1>Dashboard</h1> -->
     <b-col md="6">
-      <h2>Solar Generation</h2>
-      <solar-graph />
+      <h2>Performance</h2>
+      <performance-chart />
     </b-col>
     <b-col md="6">
-      <h2>Energy Data</h2>
+      <!-- <h2>Energy Data</h2>
       <h6>{{start_date}} - {{end_date}}</h6>
       <b-row class="energy_component">
         <neurio-data v-bind="neurio_data"></neurio-data>
       </b-row>
       <b-row class="energy_component">
         <fpl-data v-bind="fpl_data"></fpl-data>
-      </b-row>
+      </b-row>-->
+      <consumption-chart />
+      <generation-chart />
     </b-col>
   </b-row>
 </template>
 
 <script>
 import axios from "axios";
-import NeurioData from "./NeurioData";
-import FplData from "./FplData";
-import SolarGraph from "./SolarGraph";
+import NeurioData from "../components/NeurioData";
+import FplData from "../components/FplData";
+import PerformanceChart from "../components/charts/PerformanceChart";
+import ConsumptionChart from "../components/charts/ConsumptionChart";
+import GenerationChart from "../components/charts/GenerationChart";
 
 const moment = require("moment-timezone");
 
@@ -31,7 +34,9 @@ export default {
   components: {
     "neurio-data": NeurioData,
     "fpl-data": FplData,
-    "solar-graph": SolarGraph
+    "performance-chart": PerformanceChart,
+    "consumption-chart": ConsumptionChart,
+    "generation-chart": GenerationChart
   },
   data() {
     return {
