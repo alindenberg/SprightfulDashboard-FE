@@ -7,13 +7,15 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 // Components
 import App from './App.vue'
 import Dashboard from './pages/Dashboard'
-import Contact from './pages/Contact'
+import Controls from './pages/Controls'
+import Bills from './pages/Bills'
 
 Vue.config.productionTip = false
 
 const routes = [
   { path: "/", component: Dashboard },
-  { path: "/contact", component: Contact },
+  { path: "/controls", component: Controls },
+  { path: "/bills", component: Bills }
 ]
 
 const router = new VueRouter({

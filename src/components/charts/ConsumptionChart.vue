@@ -75,7 +75,7 @@ export default {
           datasets: [
             {
               data: this.consumptionValues,
-              backgroundColor: "blue",
+              backgroundColor: "red",
               fill: false,
               label: "Consumption"
             }
@@ -83,6 +83,7 @@ export default {
         },
         options: {
           responsive: true,
+          maintainAspectRatio: true,
           scales: {
             xAxes: [
               {

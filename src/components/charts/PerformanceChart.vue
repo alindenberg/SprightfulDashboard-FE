@@ -9,10 +9,10 @@ export default {
   name: "SolarChart",
   data() {
     return {
-      onPeakConsumption: 100,
-      offPeakConsumption: 150,
-      onPeakGeneration: 200,
-      offPeakGeneration: 250
+      consumption: 150,
+      consumptionGoal: 50,
+      generation: 180,
+      generationGoal: 70
     };
   },
   mounted() {
@@ -26,22 +26,17 @@ export default {
         data: {
           datasets: [
             {
-              data: [this.onPeakConsumption, this.offPeakConsumption],
-              backgroundColor: ["red", "green"],
+              data: [this.consumption, this.consumptionGoal],
+              backgroundColor: ["red", "grey"],
               labels: [
                 "On-Peak Consumption (kWh)",
                 "Off-Peak Consumption (kWh)"
               ]
             },
             {
-              data: [this.onPeakGeneration, this.offPeakGeneration],
-              backgroundColor: ["blue", "yellow"],
+              data: [this.generation, this.generationGoal],
+              backgroundColor: ["green", "grey"],
               labels: ["On-Peak Generation", "Off-Peak Generation"]
-            },
-            {
-              data: [100],
-              backgroundColor: ["grey"],
-              labels: ["Off-Peak Consumption"]
             }
           ]
         },
@@ -65,6 +60,5 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 </style>

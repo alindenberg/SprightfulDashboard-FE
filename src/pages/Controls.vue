@@ -1,8 +1,8 @@
 <template>
-  <h1>CONTACT PAGE</h1>
+  <h1>CONTROLS PAGE</h1>
 </template>
 <script>
 export default {
-  name: "ContactPage"
+  name: "ControlsPage"
 };
 </script>

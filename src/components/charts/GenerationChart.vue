@@ -75,7 +75,7 @@ export default {
           datasets: [
             {
               data: this.generationValues,
-              backgroundColor: "red",
+              backgroundColor: "green",
               fill: false,
               label: "Generation"
             }
