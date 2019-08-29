@@ -3,13 +3,20 @@
     <b-col md="6">
       <b-row class="d-flex justify-content-between">
         <h2>Energy Performance</h2>
-        <div>
+        <b-row class="d-flex">
           <b-dropdown right variant="secondary" :text="timeRangeSelection">
             <b-dropdown-item @click="timeRangeSelected('Day')">Day</b-dropdown-item>
             <b-dropdown-item @click="timeRangeSelected('Month')">Month</b-dropdown-item>
             <b-dropdown-item @click="timeRangeSelected('Custom')">Custom</b-dropdown-item>
           </b-dropdown>
-        </div>
+          <datepicker
+            input-class="datepicker"
+            :format="'MM/dd/yyyy'"
+            :value="date"
+            placeholder="Date"
+            name="end_date_picker"
+          ></datepicker>
+        </b-row>
       </b-row>
       <day-performance v-if="timeRangeSelection=='Day'" />
       <month-performance v-if="timeRangeSelection=='Month'" />
@@ -33,6 +40,7 @@
 
 <script>
 import axios from "axios";
+import datepicker from "vuejs-datepicker";
 import NeurioData from "../components/NeurioData";
 import FplData from "../components/FplData";
 import DayPerformance from "../components/DayView";
@@ -45,6 +53,7 @@ const moment = require("moment-timezone");
 export default {
   name: "Dashboard",
   components: {
+    datepicker,
     "neurio-data": NeurioData,
     "fpl-data": FplData,
     "day-performance": DayPerformance,
@@ -59,7 +68,10 @@ export default {
       neurio_data: {},
       fpl_data: {},
       energyPerformances: [1],
-      timeRangeSelection: "Day"
+      timeRangeSelection: "Day",
+      date: moment()
+        .tz("America/New_York")
+        .format("MM/DD/YYYY")
     };
   },
   created() {
