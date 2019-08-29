@@ -1,5 +1,5 @@
 <template>
-  <b-navbar variant="light">
+  <b-navbar class="navbar-inverse">
     <b-navbar-nav>
       <b-nav-item :active="$route.path =='/'" to="/">Home</b-nav-item>
       <b-nav-item :active="$route.path == '/bills'" to="/bills">Bills</b-nav-item>

@@ -11,9 +11,10 @@
           </b-dropdown>
         </div>
       </b-row>
-      <div v-for="(val, idx) in energyPerformances" :key="idx">
-        <performance-chart :index="idx" />
-      </div>
+      <day-performance v-if="timeRangeSelection=='Day'" />
+      <month-performance v-if="timeRangeSelection=='Month'" />
+      <!-- <day-performance-chart v-if="timeRangeSelection=='Day'" />
+      <month-performance-chart v-if="timeRangeSelection=='Day'" />-->
     </b-col>
     <b-col md="6">
       <!-- <h2>Energy Data</h2>
@@ -34,7 +35,8 @@
 import axios from "axios";
 import NeurioData from "../components/NeurioData";
 import FplData from "../components/FplData";
-import PerformanceChart from "../components/charts/PerformanceChart";
+import DayPerformance from "../components/DayView";
+import MonthPerformance from "../components/MonthView";
 import ConsumptionChart from "../components/charts/ConsumptionChart";
 import GenerationChart from "../components/charts/GenerationChart";
 
@@ -45,7 +47,8 @@ export default {
   components: {
     "neurio-data": NeurioData,
     "fpl-data": FplData,
-    "performance-chart": PerformanceChart,
+    "day-performance": DayPerformance,
+    "month-performance": MonthPerformance,
     "consumption-chart": ConsumptionChart,
     "generation-chart": GenerationChart
   },
@@ -130,7 +133,7 @@ export default {
           break;
         case "Custom":
           console.log("Custom selected");
-          this.$set(this, "energyPerformances", [1, 2, 3]);
+          this.$set(this, "energyPerformances", [1, 2, 3, 4, 5]);
           break;
       }
     }

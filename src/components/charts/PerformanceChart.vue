@@ -1,10 +1,12 @@
 <template>
   <div>
     <canvas :id="`graph-${this.index}`"></canvas>
+    <label>{{timestamp}}</label>
   </div>
 </template>
 <script>
 import Chart from "chart.js";
+var moment = require("moment-timezone");
 export default {
   name: "SolarChart",
   data() {
@@ -12,7 +14,8 @@ export default {
       consumption: 150,
       consumptionGoal: 50,
       generation: 180,
-      generationGoal: 70
+      generationGoal: 70,
+      timestamp: moment("2019-04-04").format("MM/DD/YYYY")
     };
   },
   props: {
