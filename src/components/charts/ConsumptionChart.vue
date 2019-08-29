@@ -75,7 +75,7 @@ export default {
           datasets: [
             {
               data: this.consumptionValues,
-              backgroundColor: "red",
+              backgroundColor: "#ff6666",
               fill: false,
               label: "Consumption"
             }

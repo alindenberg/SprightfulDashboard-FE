@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="graph"></canvas>
+    <canvas :id="`graph-${this.index}`"></canvas>
   </div>
 </template>
 <script>
@@ -15,19 +15,24 @@ export default {
       generationGoal: 70
     };
   },
+  props: {
+    index: Number
+  },
   mounted() {
     this.createPerformanceGraph();
   },
   methods: {
     createPerformanceGraph() {
-      var ctxD = document.getElementById("graph").getContext("2d");
+      var ctxD = document
+        .getElementById(`graph-${this.index}`)
+        .getContext("2d");
       new Chart(ctxD, {
         type: "doughnut",
         data: {
           datasets: [
             {
               data: [this.consumption, this.consumptionGoal],
-              backgroundColor: ["red", "grey"],
+              backgroundColor: ["#ff6666", "grey"],
               labels: [
                 "On-Peak Consumption (kWh)",
                 "Off-Peak Consumption (kWh)"
@@ -35,7 +40,7 @@ export default {
             },
             {
               data: [this.generation, this.generationGoal],
-              backgroundColor: ["green", "grey"],
+              backgroundColor: ["#33ff33", "grey"],
               labels: ["On-Peak Generation", "Off-Peak Generation"]
             }
           ]

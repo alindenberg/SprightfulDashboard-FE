@@ -1,8 +1,19 @@
 <template>
   <b-row class="dashboard">
     <b-col md="6">
-      <h2>Performance</h2>
-      <performance-chart />
+      <b-row class="d-flex justify-content-between">
+        <h2>Energy Performance</h2>
+        <div>
+          <b-dropdown right variant="secondary" :text="timeRangeSelection">
+            <b-dropdown-item @click="timeRangeSelected('Day')">Day</b-dropdown-item>
+            <b-dropdown-item @click="timeRangeSelected('Month')">Month</b-dropdown-item>
+            <b-dropdown-item @click="timeRangeSelected('Custom')">Custom</b-dropdown-item>
+          </b-dropdown>
+        </div>
+      </b-row>
+      <div v-for="(val, idx) in energyPerformances" :key="idx">
+        <performance-chart :index="idx" />
+      </div>
     </b-col>
     <b-col md="6">
       <!-- <h2>Energy Data</h2>
@@ -43,7 +54,9 @@ export default {
       start_date: null,
       end_date: null,
       neurio_data: {},
-      fpl_data: {}
+      fpl_data: {},
+      energyPerformances: [1],
+      timeRangeSelection: "Day"
     };
   },
   created() {
@@ -103,6 +116,23 @@ export default {
       //   .catch(err => {
       //     console.log("Error getting neurio data ", err);
       //   });
+    },
+    timeRangeSelected(value) {
+      this.timeRangeSelection = value;
+      switch (value) {
+        case "Day":
+          console.log("Day selected");
+          this.$set(this, "energyPerformances", [1]);
+          break;
+        case "Month":
+          console.log("Month selected");
+          this.$set(this, "energyPerformances", [1, 2]);
+          break;
+        case "Custom":
+          console.log("Custom selected");
+          this.$set(this, "energyPerformances", [1, 2, 3]);
+          break;
+      }
     }
   }
 };

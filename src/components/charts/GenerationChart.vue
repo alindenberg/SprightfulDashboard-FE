@@ -75,7 +75,7 @@ export default {
           datasets: [
             {
               data: this.generationValues,
-              backgroundColor: "green",
+              backgroundColor: "#33ff33",
               fill: false,
               label: "Generation"
             }
@@ -100,7 +100,7 @@ export default {
           tooltips: {
             callbacks: {
               label: function(tooltipItem, data) {
-                return tooltipItem.value + " (kWh)";
+                return tooltipItem.value + " kWh";
               }
             }
           }
