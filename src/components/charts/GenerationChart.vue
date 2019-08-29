@@ -96,6 +96,13 @@ export default {
                 }
               }
             ]
+          },
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                return tooltipItem.value + " (kWh)";
+              }
+            }
           }
         }
       });
