@@ -18,20 +18,18 @@
           ></datepicker>
         </b-row>
       </b-row>
-      <day-performance v-if="timeRangeSelection=='Day'" />
-      <month-performance v-if="timeRangeSelection=='Month'" />
-      <!-- <day-performance-chart v-if="timeRangeSelection=='Day'" />
-      <month-performance-chart v-if="timeRangeSelection=='Day'" />-->
+      <!-- <day-performance v-if="timeRangeSelection=='Day'" /> -->
+      <!-- <month-performance v-if="timeRangeSelection=='Month'" /> -->
+      <performance-chart :timestamp="energyData[selectedIndex]" v-if="timeRangeSelection=='Day'" />
+      <b-row v-if="timeRangeSelection=='Month'">
+        <b-col sm="3" v-for="(data, index) in energyData" :key="index">
+          <div v-on:click="clicked(index)">
+            <performance-chart :timestamp="data" :index="index" />
+          </div>
+        </b-col>
+      </b-row>
     </b-col>
     <b-col md="6">
-      <!-- <h2>Energy Data</h2>
-      <h6>{{start_date}} - {{end_date}}</h6>
-      <b-row class="energy_component">
-        <neurio-data v-bind="neurio_data"></neurio-data>
-      </b-row>
-      <b-row class="energy_component">
-        <fpl-data v-bind="fpl_data"></fpl-data>
-      </b-row>-->
       <consumption-chart />
       <generation-chart />
     </b-col>
@@ -43,8 +41,9 @@ import axios from "axios";
 import datepicker from "vuejs-datepicker";
 import NeurioData from "../components/NeurioData";
 import FplData from "../components/FplData";
-import DayPerformance from "../components/DayView";
-import MonthPerformance from "../components/MonthView";
+// import DayPerformance from "../components/DayView";
+// import MonthPerformance from "../components/MonthView";
+import PerformanceChart from "../components/charts/PerformanceChart";
 import ConsumptionChart from "../components/charts/ConsumptionChart";
 import GenerationChart from "../components/charts/GenerationChart";
 
@@ -56,8 +55,7 @@ export default {
     datepicker,
     "neurio-data": NeurioData,
     "fpl-data": FplData,
-    "day-performance": DayPerformance,
-    "month-performance": MonthPerformance,
+    "performance-chart": PerformanceChart,
     "consumption-chart": ConsumptionChart,
     "generation-chart": GenerationChart
   },
@@ -67,7 +65,16 @@ export default {
       end_date: null,
       neurio_data: {},
       fpl_data: {},
-      energyPerformances: [1],
+      energyData: [
+        "2019-01-01",
+        "2019-01-02",
+        "2019-01-03",
+        "2019-01-04",
+        "2019-01-05",
+        "2019-01-06",
+        "2019-01-07"
+      ],
+      selectedIndex: 1,
       timeRangeSelection: "Day",
       date: moment()
         .tz("America/New_York")
@@ -137,17 +144,22 @@ export default {
       switch (value) {
         case "Day":
           console.log("Day selected");
-          this.$set(this, "energyPerformances", [1]);
+          // this.$set(this, "energyData", [1]);
           break;
         case "Month":
           console.log("Month selected");
-          this.$set(this, "energyPerformances", [1, 2]);
+          // this.$set(this, "energyData", [1, 2]);
           break;
         case "Custom":
           console.log("Custom selected");
-          this.$set(this, "energyPerformances", [1, 2, 3, 4, 5]);
+          // this.$set(this, "energyData", [1, 2, 3, 4, 5]);
           break;
       }
+    },
+    clicked(index) {
+      console.log("Performance chart clicked with index: ", index);
+      this.selectedIndex = index;
+      this.timeRangeSelection = "Day";
     }
   }
 };

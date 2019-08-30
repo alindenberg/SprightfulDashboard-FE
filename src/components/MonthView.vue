@@ -1,6 +1,6 @@
 <template>
   <b-row>
-    <b-col sm="2" v-for="(data, index) in energyData" :key="index">
+    <b-col sm="3" xs="2" v-for="(data, index) in energyData" :key="index">
       <performance-chart :index="index" />
     </b-col>
   </b-row>
