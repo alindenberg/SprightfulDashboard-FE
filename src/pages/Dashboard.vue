@@ -8,27 +8,36 @@
           <b-dropdown right class="btn-sm" variant="info" :text="timeRangeSelection">
             <b-dropdown-item @click="timeRangeSelected('Day')">Day</b-dropdown-item>
             <b-dropdown-item @click="timeRangeSelected('Month')">Month</b-dropdown-item>
-            <b-dropdown-item @click="timeRangeSelected('Custom')">Custom</b-dropdown-item>
+            <!-- <b-dropdown-item @click="timeRangeSelected('Custom')">Custom</b-dropdown-item> -->
           </b-dropdown>
           <b-dropdown
             right
             class="btn-sm"
             variant="info"
-            :text="monthSelection"
+            :text="selectedMonth"
             v-if="timeRangeSelection=='Month'"
           >
-            <b-dropdown-item v-for="(month, index) in months" :key="index">{{month}}</b-dropdown-item>
+            <b-dropdown-item
+              v-for="(month, index) in months"
+              @click="monthSelected(month)"
+              :key="index"
+            >{{month}}</b-dropdown-item>
           </b-dropdown>
+          <!-- Day view date-iterator div -->
           <div
             style="text-align: center"
             class="d-flex align-items-center"
             v-if="timeRangeSelection=='Day'"
           >
-            <button type="button" class="btn btn-link fa fa-angle-left" />
+            <button
+              type="button"
+              v-on:click="loadPreviousDay"
+              class="btn btn-link fa fa-angle-left"
+            />
             <h5
               style="margin-top: 10px; padding-left: 4px; padding-right: 4px"
             >{{energyData[selectedIndex]}}</h5>
-            <button type="button" class="btn btn-link fa fa-angle-right" />
+            <button type="button" v-on:click="loadNextDay" class="btn btn-link fa fa-angle-right" />
           </div>
         </b-row>
       </b-row>
@@ -36,7 +45,7 @@
       <performance-chart :timestamp="energyData[selectedIndex]" v-if="timeRangeSelection=='Day'" />
       <b-row v-if="timeRangeSelection=='Month'">
         <b-col sm="3" v-for="(data, index) in energyData" :key="index">
-          <div v-on:click="clicked(index)">
+          <div v-on:click="daySelected(index)">
             <performance-chart :timestamp="data" :index="index" />
           </div>
         </b-col>
@@ -88,11 +97,9 @@ export default {
         "2019-01-06",
         "2019-01-07"
       ],
-      selectedIndex: 1,
+      selectedIndex: 0,
       months: ["August", "Sepetember", "October", "Novembor", "December"],
-      monthSelection: moment()
-        .tz("America/New_York")
-        .format("MMMM"),
+      selectedMonth: null,
       timeRangeSelection: "Day",
       date: moment()
         .tz("America/New_York")
@@ -100,6 +107,7 @@ export default {
     };
   },
   created() {
+    this.selectedMonth = moment.tz("America/New_York").format("MMMM");
     // On load: fetch data for current month
     // month_data = [
     //   {
@@ -182,16 +190,33 @@ export default {
           break;
       }
     },
-    clicked(index) {
-      console.log("Performance chart clicked with index: ", index);
+    monthSelected(month) {
+      this.selectedMonth = month;
+    },
+    daySelected(index) {
       this.selectedIndex = index;
       this.date = moment(this.energyData[this.selectedIndex]).tz(
         "America/New_York"
       );
       this.timeRangeSelection = "Day";
     },
-    iconClicked(value) {
-      console.log(`${value} icon clicked`);
+    loadPreviousDay() {
+      console.log(`load previous day`);
+      if (this.selectedIndex > 0) {
+        this.selectedIndex--;
+      } else {
+        // else we are going to previous month - load data of last day from previous month
+        this.selectedIndex = this.energyData.length - 1;
+      }
+    },
+    loadNextDay() {
+      // Replace energyData with currentMonthData.date
+      if (this.selectedIndex < this.energyData.length - 1) {
+        this.selectedIndex++;
+      } else {
+        // else we are going to next month - load data of first data from next month
+        this.selectedIndex = 0;
+      }
     }
   }
 };

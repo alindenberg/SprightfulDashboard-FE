@@ -1,7 +1,7 @@
 <template>
   <div>
     <canvas :id="`graph-${this.index}`"></canvas>
-    <label>{{date}}</label>
+    <label>{{this.date}}</label>
   </div>
 </template>
 <script>
@@ -14,9 +14,15 @@ export default {
       consumption: 150,
       consumptionGoal: 50,
       generation: 180,
-      generationGoal: 70,
-      date: moment(this.timestamp).format("MM/DD/YYYY")
+      generationGoal: 70
     };
+  },
+  computed: {
+    date: function() {
+      return moment(this.timestamp)
+        .tz("America/New_York")
+        .format("MM/DD/YYYY");
+    }
   },
   props: {
     index: Number,
