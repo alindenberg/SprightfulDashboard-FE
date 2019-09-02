@@ -5,6 +5,72 @@
       "cost": 192.04,
       "start_date": "2019-08-01",
       "end_date": "2019-09-01"
+    },
+    {
+      "month": "September",
+      "cost": 80.07,
+      "start_date": "2019-09-01",
+      "end_date": "2019-10-01"
+    },
+    {
+      "month": "October",
+      "cost": 91.12,
+      "start_date": "2019-10-01",
+      "end_date": "2019-11-01"
+    },
+    {
+      "month": "November",
+      "cost": 112.12,
+      "start_date": "2019-11-01",
+      "end_date": "2019-12-01"
+    },
+    {
+      "month": "December",
+      "cost": 167.89,
+      "start_date": "2019-12-01",
+      "end_date": "2020-01-01"
+    },
+    {
+      "month": "January",
+      "cost": 143.76,
+      "start_date": "2020-01-01",
+      "end_date": "2020-02-01"
+    },
+    {
+      "month": "February",
+      "cost": 107.20,
+      "start_date": "2020-02-01",
+      "end_date": "2020-03-01"
+    },
+    {
+      "month": "March",
+      "cost": 94.65,
+      "start_date": "2020-03-01",
+      "end_date": "2020-04-01"
+    },
+    {
+      "month": "April",
+      "cost": 74.83,
+      "start_date": "2020-04-01",
+      "end_date": "2020-05-01"
+    },
+    {
+      "month": "May",
+      "cost": 56.78,
+      "start_date": "2020-05-01",
+      "end_date": "2020-06-01"
+    },
+    {
+      "month": "June",
+      "cost": 40.56,
+      "start_date": "2020-06-01",
+      "end_date": "2020-07-01"
+    },
+    {
+      "month": "July",
+      "cost": 39.87,
+      "start_date": "2020-07-01",
+      "end_date": "2020-08-01"
     }
   ]
 }

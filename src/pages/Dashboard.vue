@@ -43,8 +43,8 @@
       </b-row>
       <!-- Below header bar w/ date selection -->
       <performance-chart :timestamp="energyData[selectedIndex]" v-if="timeRangeSelection=='Day'" />
-      <b-row v-if="timeRangeSelection=='Month'">
-        <b-col sm="3" v-for="(data, index) in energyData" :key="index">
+      <b-row class="w-100" v-if="timeRangeSelection=='Month'">
+        <b-col class="col-4" sm="3" v-for="(data, index) in energyData" :key="index">
           <div v-on:click="daySelected(index)">
             <performance-chart :timestamp="data" :index="index" />
           </div>
@@ -97,7 +97,7 @@ export default {
         "2019-01-07"
       ],
       selectedIndex: 0,
-      months: ["August", "Sepetember", "October", "Novembor", "December"],
+      months: ["August", "Sepetember", "October", "November", "December"],
       selectedMonth: null,
       timeRangeSelection: "Day",
       date: moment()
