@@ -10,23 +10,30 @@ var moment = require("moment-timezone");
 export default {
   name: "PerformanceChart",
   data() {
-    return {
-      consumption: 150,
-      consumptionGoal: 50,
-      generation: 180,
-      generationGoal: 70
-    };
+    return {};
+  },
+  watch: {
+    data: function(newData, oldData) {
+      this.data = newData;
+      this.createPerformanceGraph();
+    }
   },
   computed: {
     date: function() {
-      return moment(this.timestamp)
+      return moment(this.data.timestamp)
         .tz("America/New_York")
         .format("MM/DD/YYYY");
     }
   },
   props: {
     index: Number,
-    timestamp: String
+    data: {
+      on_peak_consumption: Number,
+      off_peak_consumption: Number,
+      on_peak_generation: Number,
+      off_peak_generation: Number,
+      timestamp: String
+    }
   },
   mounted() {
     this.createPerformanceGraph();
@@ -41,7 +48,10 @@ export default {
         data: {
           datasets: [
             {
-              data: [this.consumption, this.consumptionGoal],
+              data: [
+                this.data.on_peak_consumption,
+                this.data.off_peak_consumption
+              ],
               backgroundColor: ["#ff6666", "grey"],
               labels: [
                 "On-Peak Consumption (kWh)",
@@ -49,7 +59,10 @@ export default {
               ]
             },
             {
-              data: [this.generation, this.generationGoal],
+              data: [
+                this.data.on_peak_generation,
+                this.data.off_peak_generation
+              ],
               backgroundColor: ["#33ff33", "grey"],
               labels: ["On-Peak Generation", "Off-Peak Generation"]
             }
