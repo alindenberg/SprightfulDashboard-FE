@@ -1,0 +1,10 @@
+{
+  "Bills": [
+    {
+      "month": "August",
+      "cost": 192.04,
+      "start_date": "2019-08-01",
+      "end_date": "2019-09-01"
+    }
+  ]
+}

@@ -68,13 +68,12 @@ import FplData from "../components/FplData";
 import PerformanceChart from "../components/charts/PerformanceChart";
 import ConsumptionChart from "../components/charts/ConsumptionChart";
 import GenerationChart from "../components/charts/GenerationChart";
-import { mdbIcon } from "mdbvue";
+
 const moment = require("moment-timezone");
 
 export default {
   name: "Dashboard",
   components: {
-    mdbIcon,
     datepicker,
     "neurio-data": NeurioData,
     "fpl-data": FplData,
@@ -215,6 +214,7 @@ export default {
         this.selectedIndex++;
       } else {
         // else we are going to next month - load data of first data from next month
+        // TODO - swap out month data
         this.selectedIndex = 0;
       }
     }
