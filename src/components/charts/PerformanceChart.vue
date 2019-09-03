@@ -10,12 +10,14 @@ var moment = require("moment-timezone");
 export default {
   name: "PerformanceChart",
   data() {
-    return {};
+    return {
+      myChart: null
+    };
   },
   watch: {
     data: function(newData, oldData) {
       this.data = newData;
-      this.createPerformanceGraph();
+      this.redrawGraph();
     }
   },
   computed: {
@@ -39,11 +41,15 @@ export default {
     this.createPerformanceGraph();
   },
   methods: {
+    redrawGraph() {
+      this.myChart.destroy();
+      this.createPerformanceGraph();
+    },
     createPerformanceGraph() {
       var ctxD = document
         .getElementById(`graph-${this.index}`)
         .getContext("2d");
-      new Chart(ctxD, {
+      this.myChart = new Chart(ctxD, {
         type: "doughnut",
         data: {
           datasets: [

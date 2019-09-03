@@ -6,8 +6,8 @@
         <h2>Energy Performance</h2>
         <b-row class="d-flex justify-content-between">
           <b-dropdown right class="btn-sm" variant="info" :text="timeRangeSelection">
-            <b-dropdown-item @click="timeRangeSelected('Day')">Day</b-dropdown-item>
-            <b-dropdown-item @click="timeRangeSelected('Month')">Month</b-dropdown-item>
+            <b-dropdown-item @click="timeRangeSelection='Day'">Day</b-dropdown-item>
+            <b-dropdown-item @click="timeRangeSelection='Month'">Month</b-dropdown-item>
           </b-dropdown>
           <b-dropdown
             right
@@ -30,13 +30,19 @@
           >
             <button
               type="button"
+              :disabled="this.monthIndex == 0 && this.dayIndex == 0"
               v-on:click="loadPreviousDay"
               class="btn btn-link fa fa-angle-left"
             />
             <h5
               style="margin-top: 10px; padding-left: 4px; padding-right: 4px"
             >{{selectedMonth.data[dayIndex].timestamp}}</h5>
-            <button type="button" v-on:click="loadNextDay" class="btn btn-link fa fa-angle-right" />
+            <button
+              type="button"
+              :disabled="this.monthIndex==this.data.length-1 && this.dayIndex == this.selectedMonth.data.length-1 "
+              v-on:click="loadNextDay"
+              class="btn btn-link fa fa-angle-right"
+            />
           </div>
         </b-row>
       </b-row>
@@ -80,6 +86,7 @@ export default {
   data() {
     return {
       dayIndex: 0,
+      monthIndex: -1,
       selectedMonth: null,
       timeRangeSelection: "Day",
       data: [],
@@ -92,24 +99,13 @@ export default {
     var jsonData = require("../mock/EnergyData.json").data;
     // Simulate loading initial month data, then loading other month data
     this.data.push(...jsonData);
+    this.monthIndex = 0;
     this.selectedMonth = jsonData[0];
   },
   methods: {
-    timeRangeSelected(value) {
-      this.timeRangeSelection = value;
-      switch (value) {
-        case "Day":
-          console.log("Day selected");
-          // this.$set(this, "energyData", [1]);
-          break;
-        case "Month":
-          console.log("Month selected");
-          // this.$set(this, "energyData", [1, 2]);
-          break;
-      }
-    },
     monthSelected(index) {
-      this.selectedMonth = this.data[index];
+      this.monthIndex = index;
+      this.selectedMonth = this.data[this.monthIndex];
     },
     daySelected(index) {
       this.dayIndex = index;
@@ -123,7 +119,9 @@ export default {
         this.dayIndex--;
       } else {
         // else we are going to previous month - load data of last day from previous month
-        this.dayIndex = this.data.length - 1;
+        this.monthIndex--;
+        this.selectedMonth = this.data[this.monthIndex];
+        this.dayIndex = this.selectedMonth.data.length - 1;
       }
     },
     loadNextDay() {
@@ -132,8 +130,9 @@ export default {
         this.dayIndex++;
       } else {
         // else we are going to next month - load data of first data from next month
-        // TODO - swap out month data
+        this.monthIndex++;
         this.dayIndex = 0;
+        this.selectedMonth = this.data[this.monthIndex];
       }
     }
   }
