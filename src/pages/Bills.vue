@@ -11,9 +11,9 @@
         >
           <div class="flex-column d-flex align-items-start">
             <h3>{{bill.month}}</h3>
-            <small>{{bill.start_date}} - {{bill.end_date}}</small>
+            <small>{{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}}</small>
           </div>
-          <h3>${{bill.cost}}</h3>
+          <h3 class="h-100 d-flex align-items-center">${{bill.cost.toFixed(2)}}</h3>
         </b-list-group-item>
       </b-list-group>
     </b-col>
@@ -21,6 +21,7 @@
   </b-row>
 </template>
 <script>
+var moment = require("moment-timezone");
 export default {
   name: "BillPage",
   data() {
@@ -31,6 +32,13 @@ export default {
   created() {
     this.bills = require("../mock/Bills").Bills;
     // TODO - Load actual bill data
+  },
+  methods: {
+    formatDate(date) {
+      return moment(date)
+        .tz("America/New_York")
+        .format("MM/DD/YYYY");
+    }
   }
 };
 </script>
