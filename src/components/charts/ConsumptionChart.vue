@@ -1,6 +1,6 @@
 <template>
   <div>
-    <canvas id="consumptionGraph"></canvas>
+    <canvas :id="this.label"></canvas>
   </div>
 </template>
 <script>
@@ -9,41 +9,32 @@ export default {
   name: "SolarChart",
   data() {
     return {
-      consumptionValues: [
-        5,
-        5,
-        6,
-        7,
-        4,
-        5,
-        6,
-        7,
-        4,
-        2,
-        1,
-        8,
-        5,
-        5,
-        6,
-        7,
-        4,
-        5,
-        6,
-        7,
-        4,
-        2,
-        1,
-        8
-      ]
+      chart: null
     };
+  },
+  props: {
+    data: [String],
+    label: String
   },
   mounted() {
     this.createConsumptionGraph();
   },
+  watch: {
+    data: function(newData, oldData) {
+      this.data = newData;
+      this.chart.destroy();
+      this.createConsumptionGraph();
+    }
+  },
+  computed: {
+    backgroundColor: function() {
+      return this.label == "Consumption" ? "#ff6666" : "#33ff33";
+    }
+  },
   methods: {
     createConsumptionGraph() {
-      var ctx = document.getElementById("consumptionGraph").getContext("2d");
-      new Chart(ctx, {
+      var ctx = document.getElementById(`${this.label}`).getContext("2d");
+      this.chart = new Chart(ctx, {
         type: "bar",
         data: {
           labels: [
@@ -74,10 +65,10 @@ export default {
           ],
           datasets: [
             {
-              data: this.consumptionValues,
-              backgroundColor: "#ff6666",
+              data: this.data,
+              backgroundColor: this.backgroundColor,
               fill: false,
-              label: "Consumption"
+              label: this.label
             }
           ]
         },
@@ -100,6 +91,11 @@ export default {
           },
           tooltips: {
             callbacks: {
+              title: function(title, data) {
+                let index = title[0].index;
+
+                return index + (index < 12 ? " AM" : " PM");
+              },
               label: function(tooltipItem, data) {
                 return tooltipItem.value + " (kWh)";
               }

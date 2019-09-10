@@ -1,441 +1,431 @@
 {
   "data": [
     {
-      "month": "August",
-      "data": [
-        {
-          "timestamp": "2019-08-01",
-          "on_peak_consumption": 120,
-          "off_peak_consumption": 100,
-          "on_peak_generation": 110,
-          "off_peak_generation": 80
-        },
-        {
-          "timestamp": "2019-08-02",
-          "on_peak_consumption": 100,
-          "off_peak_consumption": 110,
-          "on_peak_generation": 90,
-          "off_peak_generation": 85
-        },
-        {
-          "timestamp": "2019-08-03",
-          "on_peak_consumption": 105,
-          "off_peak_consumption": 106,
-          "on_peak_generation": 94,
-          "off_peak_generation": 65
-        },
-        {
-          "timestamp": "2019-08-04",
-          "on_peak_consumption": 130,
-          "off_peak_consumption": 120,
-          "on_peak_generation": 100,
-          "off_peak_generation": 185
-        },
-        {
-          "timestamp": "2019-08-05",
-          "on_peak_consumption": 98,
-          "off_peak_consumption": 92,
-          "on_peak_generation": 97,
-          "off_peak_generation": 65
-        },
-        {
-          "timestamp": "2019-08-06",
-          "on_peak_consumption": 87,
-          "off_peak_consumption": 94,
-          "on_peak_generation": 76,
-          "off_peak_generation": 55
-        },
-        {
-          "timestamp": "2019-08-07",
-          "on_peak_consumption": 56,
-          "off_peak_consumption": 87,
-          "on_peak_generation": 78,
-          "off_peak_generation": 89
-        },
-        {
-          "timestamp": "2019-08-08",
-          "on_peak_consumption": 101,
-          "off_peak_consumption": 102,
-          "on_peak_generation": 97,
-          "off_peak_generation": 105
-        },
-        {
-          "timestamp": "2019-08-09",
-          "on_peak_consumption": 110,
-          "off_peak_consumption": 110,
-          "on_peak_generation": 60,
-          "off_peak_generation": 45
-        },
-        {
-          "timestamp": "2019-08-10",
-          "on_peak_consumption": 123,
-          "off_peak_consumption": 120,
-          "on_peak_generation": 95,
-          "off_peak_generation": 94
-        },
-        {
-          "timestamp": "2019-08-11",
-          "on_peak_consumption": 20,
-          "off_peak_consumption": 89,
-          "on_peak_generation": 76,
-          "off_peak_generation": 84
-        },
-        {
-          "timestamp": "2019-08-12",
-          "on_peak_consumption": 94,
-          "off_peak_consumption": 104,
-          "on_peak_generation": 98,
-          "off_peak_generation": 87
-        },
-        {
-          "timestamp": "2019-08-13",
-          "on_peak_consumption": 105,
-          "off_peak_consumption": 106,
-          "on_peak_generation": 94,
-          "off_peak_generation": 65
-        },
-        {
-          "timestamp": "2019-08-14",
-          "on_peak_consumption": 104,
-          "off_peak_consumption": 121,
-          "on_peak_generation": 76,
-          "off_peak_generation": 85
-        },
-        {
-          "timestamp": "2019-08-15",
-          "on_peak_consumption": 118,
-          "off_peak_consumption": 122,
-          "on_peak_generation": 76,
-          "off_peak_generation": 59
-        },
-        {
-          "timestamp": "2019-08-16",
-          "on_peak_consumption": 112,
-          "off_peak_consumption": 95,
-          "on_peak_generation": 110,
-          "off_peak_generation": 112
-        },
-        {
-          "timestamp": "2019-08-17",
-          "on_peak_consumption": 112,
-          "off_peak_consumption": 89,
-          "on_peak_generation": 67,
-          "off_peak_generation": 89
-        },
-        {
-          "timestamp": "2019-08-18",
-          "on_peak_consumption": 90,
-          "off_peak_consumption": 85,
-          "on_peak_generation": 51,
-          "off_peak_generation": 61
-        },
-        {
-          "timestamp": "2019-08-19",
-          "on_peak_consumption": 89,
-          "off_peak_consumption": 92,
-          "on_peak_generation": 76,
-          "off_peak_generation": 87
-        },
-        {
-          "timestamp": "2019-08-20",
-          "on_peak_consumption": 101,
-          "off_peak_consumption": 121,
-          "on_peak_generation": 75,
-          "off_peak_generation": 49
-        },
-        {
-          "timestamp": "2019-08-21",
-          "on_peak_consumption": 120,
-          "off_peak_consumption": 100,
-          "on_peak_generation": 110,
-          "off_peak_generation": 80
-        },
-        {
-          "timestamp": "2019-08-22",
-          "on_peak_consumption": 100,
-          "off_peak_consumption": 110,
-          "on_peak_generation": 90,
-          "off_peak_generation": 85
-        },
-        {
-          "timestamp": "2019-08-23",
-          "on_peak_consumption": 105,
-          "off_peak_consumption": 106,
-          "on_peak_generation": 94,
-          "off_peak_generation": 65
-        },
-        {
-          "timestamp": "2019-08-24",
-          "on_peak_consumption": 130,
-          "off_peak_consumption": 120,
-          "on_peak_generation": 100,
-          "off_peak_generation": 185
-        },
-        {
-          "timestamp": "2019-08-25",
-          "on_peak_consumption": 98,
-          "off_peak_consumption": 92,
-          "on_peak_generation": 97,
-          "off_peak_generation": 65
-        },
-        {
-          "timestamp": "2019-08-26",
-          "on_peak_consumption": 87,
-          "off_peak_consumption": 94,
-          "on_peak_generation": 76,
-          "off_peak_generation": 55
-        },
-        {
-          "timestamp": "2019-08-27",
-          "on_peak_consumption": 56,
-          "off_peak_consumption": 87,
-          "on_peak_generation": 78,
-          "off_peak_generation": 89
-        },
-        {
-          "timestamp": "2019-08-28",
-          "on_peak_consumption": 101,
-          "off_peak_consumption": 102,
-          "on_peak_generation": 97,
-          "off_peak_generation": 105
-        },
-        {
-          "timestamp": "2019-08-29",
-          "on_peak_consumption": 110,
-          "off_peak_consumption": 110,
-          "on_peak_generation": 60,
-          "off_peak_generation": 45
-        },
-        {
-          "timestamp": "2019-08-30",
-          "on_peak_consumption": 123,
-          "off_peak_consumption": 120,
-          "on_peak_generation": 95,
-          "off_peak_generation": 94
-        },
-        {
-          "timestamp": "2019-08-31",
-          "on_peak_consumption": 95,
-          "off_peak_consumption": 87,
-          "on_peak_generation": 30,
-          "off_peak_generation": 21
-        }
-      ]
+      "timestamp": "2019-08-01",
+      "on_peak_consumption": 120,
+      "off_peak_consumption": 100,
+      "on_peak_generation": 110,
+      "off_peak_generation": 80
     },
     {
-      "month": "September",
-      "data": [
-        {
-          "timestamp": "2019-09-01",
-          "on_peak_consumption": 89,
-          "off_peak_consumption": 91,
-          "on_peak_generation": 120,
-          "off_peak_generation": 140
-        },
-        {
-          "timestamp": "2019-09-02",
-          "on_peak_consumption": 76,
-          "off_peak_consumption": 90,
-          "on_peak_generation": 135,
-          "off_peak_generation": 125
-        },
-        {
-          "timestamp": "2019-09-03",
-          "on_peak_consumption": 57,
-          "off_peak_consumption": 67,
-          "on_peak_generation": 134,
-          "off_peak_generation": 149
-        },
-        {
-          "timestamp": "2019-09-04",
-          "on_peak_consumption": 76,
-          "off_peak_consumption": 82,
-          "on_peak_generation": 78,
-          "off_peak_generation": 85
-        },
-        {
-          "timestamp": "2019-09-05",
-          "on_peak_consumption": 96,
-          "off_peak_consumption": 89,
-          "on_peak_generation": 102,
-          "off_peak_generation": 110
-        },
-        {
-          "timestamp": "2019-09-06",
-          "on_peak_consumption": 107,
-          "off_peak_consumption": 102,
-          "on_peak_generation": 78,
-          "off_peak_generation": 88
-        },
-        {
-          "timestamp": "2019-09-07",
-          "on_peak_consumption": 98,
-          "off_peak_consumption": 87,
-          "on_peak_generation": 100,
-          "off_peak_generation": 100
-        },
-        {
-          "timestamp": "2019-09-09",
-          "on_peak_consumption": 86,
-          "off_peak_consumption": 72,
-          "on_peak_generation": 101,
-          "off_peak_generation": 105
-        },
-        {
-          "timestamp": "2019-09-09",
-          "on_peak_consumption": 104,
-          "off_peak_consumption": 95,
-          "on_peak_generation": 65,
-          "off_peak_generation": 45
-        },
-        {
-          "timestamp": "2019-09-10",
-          "on_peak_consumption": 85,
-          "off_peak_consumption": 120,
-          "on_peak_generation": 95,
-          "off_peak_generation": 94
-        },
-        {
-          "timestamp": "2019-09-11",
-          "on_peak_consumption": 80,
-          "off_peak_consumption": 89,
-          "on_peak_generation": 36,
-          "off_peak_generation": 84
-        },
-        {
-          "timestamp": "2019-09-12",
-          "on_peak_consumption": 54,
-          "off_peak_consumption": 104,
-          "on_peak_generation": 48,
-          "off_peak_generation": 87
-        },
-        {
-          "timestamp": "2019-09-13",
-          "on_peak_consumption": 55,
-          "off_peak_consumption": 106,
-          "on_peak_generation": 94,
-          "off_peak_generation": 95
-        },
-        {
-          "timestamp": "2019-09-14",
-          "on_peak_consumption": 64,
-          "off_peak_consumption": 121,
-          "on_peak_generation": 26,
-          "off_peak_generation": 85
-        },
-        {
-          "timestamp": "2019-09-15",
-          "on_peak_consumption": 118,
-          "off_peak_consumption": 62,
-          "on_peak_generation": 116,
-          "off_peak_generation": 59
-        },
-        {
-          "timestamp": "2019-09-16",
-          "on_peak_consumption": 112,
-          "off_peak_consumption": 55,
-          "on_peak_generation": 110,
-          "off_peak_generation": 52
-        },
-        {
-          "timestamp": "2019-09-17",
-          "on_peak_consumption": 112,
-          "off_peak_consumption": 59,
-          "on_peak_generation": 67,
-          "off_peak_generation": 99
-        },
-        {
-          "timestamp": "2019-09-18",
-          "on_peak_consumption": 90,
-          "off_peak_consumption": 45,
-          "on_peak_generation": 51,
-          "off_peak_generation": 111
-        },
-        {
-          "timestamp": "2019-09-19",
-          "on_peak_consumption": 49,
-          "off_peak_consumption": 92,
-          "on_peak_generation": 26,
-          "off_peak_generation": 87
-        },
-        {
-          "timestamp": "2019-09-20",
-          "on_peak_consumption": 51,
-          "off_peak_consumption": 121,
-          "on_peak_generation": 95,
-          "off_peak_generation": 49
-        },
-        {
-          "timestamp": "2019-09-21",
-          "on_peak_consumption": 120,
-          "off_peak_consumption": 60,
-          "on_peak_generation": 110,
-          "off_peak_generation": 50
-        },
-        {
-          "timestamp": "2019-09-22",
-          "on_peak_consumption": 55,
-          "off_peak_consumption": 110,
-          "on_peak_generation": 90,
-          "off_peak_generation": 45
-        },
-        {
-          "timestamp": "2019-09-23",
-          "on_peak_consumption": 55,
-          "off_peak_consumption": 106,
-          "on_peak_generation": 94,
-          "off_peak_generation": 45
-        },
-        {
-          "timestamp": "2019-09-24",
-          "on_peak_consumption": 130,
-          "off_peak_consumption": 65,
-          "on_peak_generation": 180,
-          "off_peak_generation": 185
-        },
-        {
-          "timestamp": "2019-09-25",
-          "on_peak_consumption": 98,
-          "off_peak_consumption": 49,
-          "on_peak_generation": 97,
-          "off_peak_generation": 34
-        },
-        {
-          "timestamp": "2019-09-26",
-          "on_peak_consumption": 40,
-          "off_peak_consumption": 94,
-          "on_peak_generation": 96,
-          "off_peak_generation": 45
-        },
-        {
-          "timestamp": "2019-09-27",
-          "on_peak_consumption": 46,
-          "off_peak_consumption": 87,
-          "on_peak_generation": 45,
-          "off_peak_generation": 89
-        },
-        {
-          "timestamp": "2019-09-28",
-          "on_peak_consumption": 51,
-          "off_peak_consumption": 102,
-          "on_peak_generation": 56,
-          "off_peak_generation": 105
-        },
-        {
-          "timestamp": "2019-09-29",
-          "on_peak_consumption": 55,
-          "off_peak_consumption": 110,
-          "on_peak_generation": 120,
-          "off_peak_generation": 45
-        },
-        {
-          "timestamp": "2019-09-30",
-          "on_peak_consumption": 123,
-          "off_peak_consumption": 65,
-          "on_peak_generation": 95,
-          "off_peak_generation": 45
-        }
-      ]
+      "timestamp": "2019-08-02",
+      "on_peak_consumption": 100,
+      "off_peak_consumption": 110,
+      "on_peak_generation": 90,
+      "off_peak_generation": 85
+    },
+    {
+      "timestamp": "2019-08-03",
+      "on_peak_consumption": 105,
+      "off_peak_consumption": 106,
+      "on_peak_generation": 94,
+      "off_peak_generation": 65
+    },
+    {
+      "timestamp": "2019-08-04",
+      "on_peak_consumption": 130,
+      "off_peak_consumption": 120,
+      "on_peak_generation": 100,
+      "off_peak_generation": 185
+    },
+    {
+      "timestamp": "2019-08-05",
+      "on_peak_consumption": 98,
+      "off_peak_consumption": 92,
+      "on_peak_generation": 97,
+      "off_peak_generation": 65
+    },
+    {
+      "timestamp": "2019-08-06",
+      "on_peak_consumption": 87,
+      "off_peak_consumption": 94,
+      "on_peak_generation": 76,
+      "off_peak_generation": 55
+    },
+    {
+      "timestamp": "2019-08-07",
+      "on_peak_consumption": 56,
+      "off_peak_consumption": 87,
+      "on_peak_generation": 78,
+      "off_peak_generation": 89
+    },
+    {
+      "timestamp": "2019-08-08",
+      "on_peak_consumption": 101,
+      "off_peak_consumption": 102,
+      "on_peak_generation": 97,
+      "off_peak_generation": 105
+    },
+    {
+      "timestamp": "2019-08-09",
+      "on_peak_consumption": 110,
+      "off_peak_consumption": 110,
+      "on_peak_generation": 60,
+      "off_peak_generation": 45
+    },
+    {
+      "timestamp": "2019-08-10",
+      "on_peak_consumption": 123,
+      "off_peak_consumption": 120,
+      "on_peak_generation": 95,
+      "off_peak_generation": 94
+    },
+    {
+      "timestamp": "2019-08-11",
+      "on_peak_consumption": 20,
+      "off_peak_consumption": 89,
+      "on_peak_generation": 76,
+      "off_peak_generation": 84
+    },
+    {
+      "timestamp": "2019-08-12",
+      "on_peak_consumption": 94,
+      "off_peak_consumption": 104,
+      "on_peak_generation": 98,
+      "off_peak_generation": 87
+    },
+    {
+      "timestamp": "2019-08-13",
+      "on_peak_consumption": 105,
+      "off_peak_consumption": 106,
+      "on_peak_generation": 94,
+      "off_peak_generation": 65
+    },
+    {
+      "timestamp": "2019-08-14",
+      "on_peak_consumption": 104,
+      "off_peak_consumption": 121,
+      "on_peak_generation": 76,
+      "off_peak_generation": 85
+    },
+    {
+      "timestamp": "2019-08-15",
+      "on_peak_consumption": 118,
+      "off_peak_consumption": 122,
+      "on_peak_generation": 76,
+      "off_peak_generation": 59
+    },
+    {
+      "timestamp": "2019-08-16",
+      "on_peak_consumption": 112,
+      "off_peak_consumption": 95,
+      "on_peak_generation": 110,
+      "off_peak_generation": 112
+    },
+    {
+      "timestamp": "2019-08-17",
+      "on_peak_consumption": 112,
+      "off_peak_consumption": 89,
+      "on_peak_generation": 67,
+      "off_peak_generation": 89
+    },
+    {
+      "timestamp": "2019-08-18",
+      "on_peak_consumption": 90,
+      "off_peak_consumption": 85,
+      "on_peak_generation": 51,
+      "off_peak_generation": 61
+    },
+    {
+      "timestamp": "2019-08-19",
+      "on_peak_consumption": 89,
+      "off_peak_consumption": 92,
+      "on_peak_generation": 76,
+      "off_peak_generation": 87
+    },
+    {
+      "timestamp": "2019-08-20",
+      "on_peak_consumption": 101,
+      "off_peak_consumption": 121,
+      "on_peak_generation": 75,
+      "off_peak_generation": 49
+    },
+    {
+      "timestamp": "2019-08-21",
+      "on_peak_consumption": 120,
+      "off_peak_consumption": 100,
+      "on_peak_generation": 110,
+      "off_peak_generation": 80
+    },
+    {
+      "timestamp": "2019-08-22",
+      "on_peak_consumption": 100,
+      "off_peak_consumption": 110,
+      "on_peak_generation": 90,
+      "off_peak_generation": 85
+    },
+    {
+      "timestamp": "2019-08-23",
+      "on_peak_consumption": 105,
+      "off_peak_consumption": 106,
+      "on_peak_generation": 94,
+      "off_peak_generation": 65
+    },
+    {
+      "timestamp": "2019-08-24",
+      "on_peak_consumption": 130,
+      "off_peak_consumption": 120,
+      "on_peak_generation": 100,
+      "off_peak_generation": 185
+    },
+    {
+      "timestamp": "2019-08-25",
+      "on_peak_consumption": 98,
+      "off_peak_consumption": 92,
+      "on_peak_generation": 97,
+      "off_peak_generation": 65
+    },
+    {
+      "timestamp": "2019-08-26",
+      "on_peak_consumption": 87,
+      "off_peak_consumption": 94,
+      "on_peak_generation": 76,
+      "off_peak_generation": 55
+    },
+    {
+      "timestamp": "2019-08-27",
+      "on_peak_consumption": 56,
+      "off_peak_consumption": 87,
+      "on_peak_generation": 78,
+      "off_peak_generation": 89
+    },
+    {
+      "timestamp": "2019-08-28",
+      "on_peak_consumption": 101,
+      "off_peak_consumption": 102,
+      "on_peak_generation": 97,
+      "off_peak_generation": 105
+    },
+    {
+      "timestamp": "2019-08-29",
+      "on_peak_consumption": 110,
+      "off_peak_consumption": 110,
+      "on_peak_generation": 60,
+      "off_peak_generation": 45
+    },
+    {
+      "timestamp": "2019-08-30",
+      "on_peak_consumption": 123,
+      "off_peak_consumption": 120,
+      "on_peak_generation": 95,
+      "off_peak_generation": 94
+    },
+    {
+      "timestamp": "2019-08-31",
+      "on_peak_consumption": 95,
+      "off_peak_consumption": 87,
+      "on_peak_generation": 30,
+      "off_peak_generation": 21
+    },
+    {
+      "timestamp": "2019-09-01",
+      "on_peak_consumption": 89,
+      "off_peak_consumption": 91,
+      "on_peak_generation": 120,
+      "off_peak_generation": 140
+    },
+    {
+      "timestamp": "2019-09-02",
+      "on_peak_consumption": 76,
+      "off_peak_consumption": 90,
+      "on_peak_generation": 135,
+      "off_peak_generation": 125
+    },
+    {
+      "timestamp": "2019-09-03",
+      "on_peak_consumption": 57,
+      "off_peak_consumption": 67,
+      "on_peak_generation": 134,
+      "off_peak_generation": 149
+    },
+    {
+      "timestamp": "2019-09-04",
+      "on_peak_consumption": 76,
+      "off_peak_consumption": 82,
+      "on_peak_generation": 78,
+      "off_peak_generation": 85
+    },
+    {
+      "timestamp": "2019-09-05",
+      "on_peak_consumption": 96,
+      "off_peak_consumption": 89,
+      "on_peak_generation": 102,
+      "off_peak_generation": 110
+    },
+    {
+      "timestamp": "2019-09-06",
+      "on_peak_consumption": 107,
+      "off_peak_consumption": 102,
+      "on_peak_generation": 78,
+      "off_peak_generation": 88
+    },
+    {
+      "timestamp": "2019-09-07",
+      "on_peak_consumption": 98,
+      "off_peak_consumption": 87,
+      "on_peak_generation": 100,
+      "off_peak_generation": 100
+    },
+    {
+      "timestamp": "2019-09-09",
+      "on_peak_consumption": 86,
+      "off_peak_consumption": 72,
+      "on_peak_generation": 101,
+      "off_peak_generation": 105
+    },
+    {
+      "timestamp": "2019-09-09",
+      "on_peak_consumption": 104,
+      "off_peak_consumption": 95,
+      "on_peak_generation": 65,
+      "off_peak_generation": 45
+    },
+    {
+      "timestamp": "2019-09-10",
+      "on_peak_consumption": 85,
+      "off_peak_consumption": 120,
+      "on_peak_generation": 95,
+      "off_peak_generation": 94
+    },
+    {
+      "timestamp": "2019-09-11",
+      "on_peak_consumption": 80,
+      "off_peak_consumption": 89,
+      "on_peak_generation": 36,
+      "off_peak_generation": 84
+    },
+    {
+      "timestamp": "2019-09-12",
+      "on_peak_consumption": 54,
+      "off_peak_consumption": 104,
+      "on_peak_generation": 48,
+      "off_peak_generation": 87
+    },
+    {
+      "timestamp": "2019-09-13",
+      "on_peak_consumption": 55,
+      "off_peak_consumption": 106,
+      "on_peak_generation": 94,
+      "off_peak_generation": 95
+    },
+    {
+      "timestamp": "2019-09-14",
+      "on_peak_consumption": 64,
+      "off_peak_consumption": 121,
+      "on_peak_generation": 26,
+      "off_peak_generation": 85
+    },
+    {
+      "timestamp": "2019-09-15",
+      "on_peak_consumption": 118,
+      "off_peak_consumption": 62,
+      "on_peak_generation": 116,
+      "off_peak_generation": 59
+    },
+    {
+      "timestamp": "2019-09-16",
+      "on_peak_consumption": 112,
+      "off_peak_consumption": 55,
+      "on_peak_generation": 110,
+      "off_peak_generation": 52
+    },
+    {
+      "timestamp": "2019-09-17",
+      "on_peak_consumption": 112,
+      "off_peak_consumption": 59,
+      "on_peak_generation": 67,
+      "off_peak_generation": 99
+    },
+    {
+      "timestamp": "2019-09-18",
+      "on_peak_consumption": 90,
+      "off_peak_consumption": 45,
+      "on_peak_generation": 51,
+      "off_peak_generation": 111
+    },
+    {
+      "timestamp": "2019-09-19",
+      "on_peak_consumption": 49,
+      "off_peak_consumption": 92,
+      "on_peak_generation": 26,
+      "off_peak_generation": 87
+    },
+    {
+      "timestamp": "2019-09-20",
+      "on_peak_consumption": 51,
+      "off_peak_consumption": 121,
+      "on_peak_generation": 95,
+      "off_peak_generation": 49
+    },
+    {
+      "timestamp": "2019-09-21",
+      "on_peak_consumption": 120,
+      "off_peak_consumption": 60,
+      "on_peak_generation": 110,
+      "off_peak_generation": 50
+    },
+    {
+      "timestamp": "2019-09-22",
+      "on_peak_consumption": 55,
+      "off_peak_consumption": 110,
+      "on_peak_generation": 90,
+      "off_peak_generation": 45
+    },
+    {
+      "timestamp": "2019-09-23",
+      "on_peak_consumption": 55,
+      "off_peak_consumption": 106,
+      "on_peak_generation": 94,
+      "off_peak_generation": 45
+    },
+    {
+      "timestamp": "2019-09-24",
+      "on_peak_consumption": 130,
+      "off_peak_consumption": 65,
+      "on_peak_generation": 180,
+      "off_peak_generation": 185
+    },
+    {
+      "timestamp": "2019-09-25",
+      "on_peak_consumption": 98,
+      "off_peak_consumption": 49,
+      "on_peak_generation": 97,
+      "off_peak_generation": 34
+    },
+    {
+      "timestamp": "2019-09-26",
+      "on_peak_consumption": 40,
+      "off_peak_consumption": 94,
+      "on_peak_generation": 96,
+      "off_peak_generation": 45
+    },
+    {
+      "timestamp": "2019-09-27",
+      "on_peak_consumption": 46,
+      "off_peak_consumption": 87,
+      "on_peak_generation": 45,
+      "off_peak_generation": 89
+    },
+    {
+      "timestamp": "2019-09-28",
+      "on_peak_consumption": 51,
+      "off_peak_consumption": 102,
+      "on_peak_generation": 56,
+      "off_peak_generation": 105
+    },
+    {
+      "timestamp": "2019-09-29",
+      "on_peak_consumption": 55,
+      "off_peak_consumption": 110,
+      "on_peak_generation": 120,
+      "off_peak_generation": 45
+    },
+    {
+      "timestamp": "2019-09-30",
+      "on_peak_consumption": 123,
+      "off_peak_consumption": 65,
+      "on_peak_generation": 95,
+      "off_peak_generation": 45
     }
   ]
 }

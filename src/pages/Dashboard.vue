@@ -3,74 +3,35 @@
     <b-col md="6">
       <!-- Header bar -->
       <b-row class="d-flex justify-content-between" style="margin-left: 2%; margin-right: 2%">
-        <h2>Energy Performance</h2>
-        <b-row class="d-flex justify-content-between">
-          <b-dropdown right class="btn-sm" variant="info" :text="timeRangeSelection">
-            <b-dropdown-item @click="timeRangeSelection='Day'">Day</b-dropdown-item>
-            <b-dropdown-item @click="timeRangeSelection='Month'">Month</b-dropdown-item>
-          </b-dropdown>
-          <b-dropdown
-            right
-            class="btn-sm"
-            variant="info"
-            :text="selectedMonth.month"
-            v-if="timeRangeSelection=='Month'"
-          >
-            <b-dropdown-item
-              v-for="(val, index) in data"
-              @click="monthSelected(index)"
-              :key="index"
-            >{{val.month}}</b-dropdown-item>
-          </b-dropdown>
-          <!-- Day view date-iterator div -->
-          <div
-            style="text-align: center"
-            class="d-flex align-items-center"
-            v-if="timeRangeSelection=='Day'"
-          >
-            <button
-              type="button"
-              :disabled="this.monthIndex == 0 && this.dayIndex == 0"
-              v-on:click="loadPreviousDay"
-              class="btn btn-link fa fa-angle-left"
-            />
-            <h5
-              style="margin-top: 10px; padding-left: 4px; padding-right: 4px"
-            >{{selectedMonth.data[dayIndex].timestamp}}</h5>
-            <button
-              type="button"
-              :disabled="this.monthIndex==this.data.length-1 && this.dayIndex == this.selectedMonth.data.length-1 "
-              v-on:click="loadNextDay"
-              class="btn btn-link fa fa-angle-right"
-            />
-          </div>
-        </b-row>
-      </b-row>
-      <!-- Below header bar w/ date selection -->
-      <!-- Day View -->
-      <performance-chart :data="selectedMonth.data[dayIndex]" v-if="timeRangeSelection=='Day'" />
-      <!-- Month View -->
-      <b-row class="w-100" v-if="timeRangeSelection=='Month'">
-        <b-col class="col-4" md="3" v-for="(data, index) in selectedMonth.data" :key="index">
-          <div v-on:click="daySelected(index)">
-            <performance-chart :data="data" :index="index" />
-          </div>
+        <b-col sm="8">
+          <h2 style="float: left">Energy Performance</h2>
+        </b-col>
+        <b-col sm="4">
+          <datepicker
+            :format="'MM/dd/yyyy'"
+            :disabled-dates="disabled_dates"
+            @selected="date_changed"
+            typeable="true"
+            bootstrap-styling="true"
+            :value="calendar_date"
+          ></datepicker>
         </b-col>
       </b-row>
+      <!-- Below header bar w/ date selection -->
+      <performance-chart :data="data[selected_date]" v-if="timeRangeSelection=='Day'" />
     </b-col>
     <b-col md="6">
-      <consumption-chart />
-      <generation-chart />
+      <bar-chart :label="'Consumption'" :data="data[selected_date].consumption" />
+      <bar-chart :label="'Generation'" :data="data[selected_date].generation" />
     </b-col>
   </b-row>
-</template>
+</template> 
 
 <script>
 import axios from "axios";
 import datepicker from "vuejs-datepicker";
 import PerformanceChart from "../components/charts/PerformanceChart";
 import ConsumptionChart from "../components/charts/ConsumptionChart";
-import GenerationChart from "../components/charts/GenerationChart";
 import { mdbIcon } from "mdbvue";
 const moment = require("moment-timezone");
 
@@ -80,8 +41,7 @@ export default {
     datepicker,
     mdbIcon,
     "performance-chart": PerformanceChart,
-    "consumption-chart": ConsumptionChart,
-    "generation-chart": GenerationChart
+    "bar-chart": ConsumptionChart
   },
   data() {
     return {
@@ -89,20 +49,46 @@ export default {
       monthIndex: -1,
       selectedMonth: null,
       timeRangeSelection: "Day",
-      data: [],
-      date: moment()
+      data: {},
+      selected_date: moment()
         .tz("America/New_York")
-        .format("MM/DD/YYYY")
+        .format("YYYY-MM-DD"),
+      calendar_date: new Date(
+        moment()
+          .tz("America/New_York")
+          .format("MM/DD/YYYY")
+      ),
+      disabled_dates: {
+        from: new Date(
+          moment()
+            .tz("America/New_York")
+            .format("MM/DD/YYYY")
+        )
+      }
     };
   },
   created() {
     var jsonData = require("../mock/EnergyData.json").data;
     // Simulate loading initial month data, then loading other month data
-    this.data.push(...jsonData);
-    this.monthIndex = 0;
-    this.selectedMonth = jsonData[0];
+    for (let i = 0; i < jsonData.length; i++) {
+      let energyData = jsonData[i];
+      energyData.generation = [];
+      energyData.consumption = [];
+      // Mock generation and consumption hourly data for now
+      for (let j = 0; j < 24; j++) {
+        energyData.generation.push(Math.random() * 100);
+        energyData.consumption.push(Math.random() * 100);
+      }
+      this.data[energyData.timestamp] = energyData;
+    }
+    console.log("After loading data we have ", this.data);
   },
   methods: {
+    date_changed(value) {
+      this.selected_date = moment(value)
+        .tz("America/New_York")
+        .format("YYYY-MM-DD");
+    },
     monthSelected(index) {
       this.monthIndex = index;
       this.selectedMonth = this.data[this.monthIndex];

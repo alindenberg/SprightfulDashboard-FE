@@ -9,33 +9,18 @@ export default {
   name: "SolarChart",
   data() {
     return {
-      generationValues: [
-        5,
-        5,
-        6,
-        7,
-        4,
-        5,
-        6,
-        7,
-        4,
-        2,
-        1,
-        8,
-        5,
-        5,
-        6,
-        7,
-        4,
-        5,
-        6,
-        7,
-        4,
-        2,
-        1,
-        8
-      ]
+      chart: null
     };
+  },
+  props: {
+    data: [Number]
+  },
+  watch: {
+    data: function(newData, oldData) {
+      this.data = newData;
+      this.chart.destroy();
+      this.createGenerationGraph();
+    }
   },
   mounted() {
     this.createGenerationGraph();
@@ -43,7 +28,7 @@ export default {
   methods: {
     createGenerationGraph() {
       var ctx = document.getElementById("generationGraph").getContext("2d");
-      new Chart(ctx, {
+      this.chart = new Chart(ctx, {
         type: "bar",
         data: {
           labels: [
@@ -74,7 +59,7 @@ export default {
           ],
           datasets: [
             {
-              data: this.generationValues,
+              data: this.data,
               backgroundColor: "#33ff33",
               fill: false,
               label: "Generation"
