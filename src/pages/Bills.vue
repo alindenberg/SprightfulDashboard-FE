@@ -2,8 +2,8 @@
   <b-row class="d-flex justify-content-center">
     <!-- <b-col md="2" lg="3">
     </b-col>-->
-    <b-col lg="10">
-      <b-list-group v-if="selected_bill == null">
+    <b-col md="8" lg="6" v-if="selected_bill == null">
+      <b-list-group>
         <b-list-group-item
           v-for="(bill, index) in bills"
           :key="index"
@@ -18,14 +18,15 @@
           <h3 class="h-100 d-flex align-items-center">${{bill.cost.toFixed(2)}}</h3>
         </b-list-group-item>
       </b-list-group>
-      <b-row v-if="selected_bill">
+    </b-col>
+    <b-col sm="12" v-if="selected_bill">
+      <b-row>
         <div>
           <button
             type="button"
-            style="color: grey;"
+            style="color: grey; float: left"
             class="btn btn-link btn-lg"
             v-on:click="selected_bill=null"
-            v-if="selected_bill != null"
           >
             <span class="fa fa-arrow-left" />
           </button>

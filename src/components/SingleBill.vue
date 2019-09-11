@@ -3,7 +3,7 @@
     <h1 class="text-nowrap">{{bill.month}}</h1>
     <label>({{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}})</label>
     <b-row>
-      <b-col lg="6">
+      <b-col lg="5">
         <h3>
           <u>Cost: ${{bill.cost}}</u>
         </h3>
@@ -14,8 +14,11 @@
           :on_peak_generation="on_peak_generation"
           :off_peak_generation="off_peak_generation"
         />
+        <div class="d-none d-md-block">
+          <p style="color: red">Text that should disappear on small screen size</p>
+        </div>
       </b-col>
-      <b-col lg="6">
+      <b-col lg="7">
         <bar-chart
           :if="generation_chart_data"
           :title="'Generation'"

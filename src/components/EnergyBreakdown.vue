@@ -1,6 +1,6 @@
 <template>
   <b-row class="d-flex justify-content-center" style="margin-top: 2%;">
-    <b-col class="col-6">
+    <b-col sm="6" class="col-12">
       <h4>
         <u>Generation</u>
       </h4>
@@ -8,7 +8,7 @@
       <h5>Off-Peak: {{off_peak_generation.toFixed(2)}} kWh</h5>
       <h5>Total: {{(off_peak_generation + on_peak_generation).toFixed(2)}} kWh</h5>
     </b-col>
-    <b-col class="col-6">
+    <b-col sm="6" class="col-12">
       <h4>
         <u>Consumption</u>
       </h4>
