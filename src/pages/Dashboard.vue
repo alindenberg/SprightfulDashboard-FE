@@ -3,22 +3,41 @@
     <b-col md="6">
       <!-- Header bar -->
       <b-row class="d-flex justify-content-between">
-        <b-col sm="8">
+        <b-col sm="6">
           <h2 style="float: left">Energy Performance</h2>
         </b-col>
-        <b-col sm="4">
-          <datepicker
-            :format="'MM/dd/yyyy'"
-            :disabled-dates="disabled_dates"
-            @selected="date_changed"
-            typeable="true"
-            bootstrap-styling="true"
-            :value="calendar_date"
-          ></datepicker>
+        <b-col sm="6">
+          <b-row class="justify-content-center">
+            <button
+              type="button"
+              style="color: grey; float: left"
+              class="btn btn-link btn-lg"
+              v-on:click="loadPreviousDay"
+            >
+              <span class="fa fa-arrow-left" />
+            </button>
+            <datepicker
+              style="width: 60%"
+              :format="'MM/dd/yyyy'"
+              :disabled-dates="disabled_dates"
+              @selected="date_changed"
+              typeable="true"
+              bootstrap-styling="true"
+              :value="calendar_date"
+            ></datepicker>
+            <button
+              type="button"
+              style="color: grey"
+              class="btn btn-link btn-lg"
+              v-on:click="loadNextDay"
+            >
+              <span class="fa fa-arrow-right" />
+            </button>
+          </b-row>
         </b-col>
       </b-row>
       <!-- Below header bar w/ date selection -->
-      <performance-chart :data="data[selected_date]" v-if="timeRangeSelection=='Day'" />
+      <performance-chart :data="data[selected_date]" />
       <energy-breakdown
         :on_peak_consumption="data[selected_date].on_peak_consumption"
         :off_peak_consumption="data[selected_date].off_peak_consumption"
@@ -53,10 +72,6 @@ export default {
   },
   data() {
     return {
-      dayIndex: 0,
-      monthIndex: -1,
-      selectedMonth: null,
-      timeRangeSelection: "Day",
       data: {},
       selected_date: moment()
         .tz("America/New_York")
@@ -97,37 +112,25 @@ export default {
         .tz("America/New_York")
         .format("YYYY-MM-DD");
     },
-    monthSelected(index) {
-      this.monthIndex = index;
-      this.selectedMonth = this.data[this.monthIndex];
-    },
-    daySelected(index) {
-      this.dayIndex = index;
-      this.date = moment(this.selectedMonth[this.dayIndex]).tz(
-        "America/New_York"
-      );
-      this.timeRangeSelection = "Day";
-    },
     loadPreviousDay() {
-      if (this.dayIndex > 0) {
-        this.dayIndex--;
-      } else {
-        // else we are going to previous month - load data of last day from previous month
-        this.monthIndex--;
-        this.selectedMonth = this.data[this.monthIndex];
-        this.dayIndex = this.selectedMonth.data.length - 1;
-      }
+      console.log("Load previous day");
+      this.selected_date = moment(this.selected_date)
+        .tz("America/New_York")
+        .subtract(1, "days")
+        .format("YYYY-MM-DD");
+      this.calendar_date = moment(this.selected_date)
+        .tz("America/New_York")
+        .format("MM/DD/YYYY");
     },
     loadNextDay() {
-      // Replace energyData with currentMonthData.date
-      if (this.dayIndex < this.selectedMonth.data.length - 1) {
-        this.dayIndex++;
-      } else {
-        // else we are going to next month - load data of first data from next month
-        this.monthIndex++;
-        this.dayIndex = 0;
-        this.selectedMonth = this.data[this.monthIndex];
-      }
+      console.log("Load next day");
+      this.selected_date = moment(this.selected_date)
+        .tz("America/New_York")
+        .add(1, "days")
+        .format("YYYY-MM-DD");
+      this.calendar_date = moment(this.selected_date)
+        .tz("America/New_York")
+        .format("MM/DD/YYYY");
     }
   }
 };
