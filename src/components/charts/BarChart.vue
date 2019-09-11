@@ -1,74 +1,76 @@
 <template>
   <div>
-    <canvas :id="this.label"></canvas>
+    <canvas :id="this.title"></canvas>
   </div>
 </template>
 <script>
 import Chart from "chart.js";
 export default {
-  name: "SolarChart",
+  name: "BarChart",
   data() {
     return {
-      chart: null
+      chart: null,
+      hourLabels: [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ]
     };
   },
   props: {
-    data: [String],
-    label: String
+    data: Array,
+    labels: Array,
+    title: String
   },
   mounted() {
-    this.createConsumptionGraph();
+    this.createGraph();
   },
   watch: {
     data: function(newData, oldData) {
       this.data = newData;
       this.chart.destroy();
-      this.createConsumptionGraph();
+      this.createGraph();
     }
   },
   computed: {
     backgroundColor: function() {
-      return this.label == "Consumption" ? "#ff6666" : "#33ff33";
+      return this.title == "Consumption" ? "#ff6666" : "#33ff33";
     }
   },
   methods: {
-    createConsumptionGraph() {
-      var ctx = document.getElementById(`${this.label}`).getContext("2d");
+    createGraph() {
+      var ctx = document.getElementById(`${this.title}`).getContext("2d");
       this.chart = new Chart(ctx, {
         type: "bar",
         data: {
-          labels: [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23
-          ],
+          labels: this.labels ? this.labels : this.hourLabels,
           datasets: [
             {
               data: this.data,
               backgroundColor: this.backgroundColor,
               fill: false,
-              label: this.label
+              label: this.title
             }
           ]
         },

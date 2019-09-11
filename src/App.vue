@@ -5,7 +5,9 @@
   </head>
   <nav-bar />
   <b-container fluid id="app" style="margin-top: 5px; margin-bottom: 5%">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </b-container>
 </html>
 </template>

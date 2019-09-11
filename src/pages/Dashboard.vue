@@ -19,26 +19,16 @@
       </b-row>
       <!-- Below header bar w/ date selection -->
       <performance-chart :data="data[selected_date]" v-if="timeRangeSelection=='Day'" />
-      <b-row class="d-flex justify-content-center" style="margin-top: 2%;">
-        <b-col sm="6">
-          <h4>
-            <u>Generation</u>
-          </h4>
-          <h5>On-Peak: {{data[selected_date].on_peak_generation}} kWh</h5>
-          <h5>Off-Peak: {{data[selected_date].off_peak_generation}} kWh</h5>
-        </b-col>
-        <b-col sm="6">
-          <h4>
-            <u>Consumption</u>
-          </h4>
-          <h5>On-Peak: {{data[selected_date].on_peak_consumption}} kWh</h5>
-          <h5>Off-Peak: {{data[selected_date].off_peak_consumption}} kWh</h5>
-        </b-col>
-      </b-row>
+      <energy-breakdown
+        :on_peak_consumption="data[selected_date].on_peak_consumption"
+        :off_peak_consumption="data[selected_date].off_peak_consumption"
+        :on_peak_generation="data[selected_date].on_peak_generation"
+        :off_peak_generation="data[selected_date].off_peak_generation"
+      />
     </b-col>
     <b-col md="6">
-      <bar-chart :label="'Consumption'" :data="data[selected_date].consumption" />
-      <bar-chart :label="'Generation'" :data="data[selected_date].generation" />
+      <bar-chart :title="'Consumption'" :data="data[selected_date].consumption" />
+      <bar-chart :title="'Generation'" :data="data[selected_date].generation" />
     </b-col>
   </b-row>
 </template> 
@@ -47,6 +37,7 @@
 import axios from "axios";
 import datepicker from "vuejs-datepicker";
 import PerformanceChart from "../components/charts/PerformanceChart";
+import EnergyBreakdown from "../components/EnergyBreakdown";
 import BarChart from "../components/charts/BarChart";
 import { mdbIcon } from "mdbvue";
 const moment = require("moment-timezone");
@@ -56,6 +47,7 @@ export default {
   components: {
     datepicker,
     mdbIcon,
+    "energy-breakdown": EnergyBreakdown,
     "performance-chart": PerformanceChart,
     "bar-chart": BarChart
   },
@@ -98,7 +90,6 @@ export default {
       }
       this.data[energyData.timestamp] = energyData;
     }
-    console.log("After loading data we have ", this.data);
   },
   methods: {
     date_changed(value) {

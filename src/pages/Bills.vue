@@ -1,12 +1,14 @@
 <template>
-  <b-row>
-    <b-col md="2" lg="3" />
-    <b-col md="8" lg="6">
-      <b-list-group>
+  <b-row class="d-flex justify-content-center">
+    <!-- <b-col md="2" lg="3">
+    </b-col>-->
+    <b-col lg="10">
+      <b-list-group v-if="selected_bill == null">
         <b-list-group-item
           v-for="(bill, index) in bills"
           :key="index"
-          to="/"
+          to="/bills"
+          v-on:click="bill_selected(index)"
           class="d-flex w-100 justify-content-between"
         >
           <div class="flex-column d-flex align-items-start">
@@ -16,20 +18,41 @@
           <h3 class="h-100 d-flex align-items-center">${{bill.cost.toFixed(2)}}</h3>
         </b-list-group-item>
       </b-list-group>
+      <b-row v-if="selected_bill">
+        <div>
+          <button
+            type="button"
+            style="color: grey;"
+            class="btn btn-link btn-lg"
+            v-on:click="selected_bill=null"
+            v-if="selected_bill != null"
+          >
+            <span class="fa fa-arrow-left" />
+          </button>
+        </div>
+        <single-bill v-bind:bill="selected_bill" />
+      </b-row>
     </b-col>
-    <b-col md="2" lg="3" />
   </b-row>
 </template>
 <script>
+import { mdbIcon } from "mdbvue";
+import SingleBill from "../components/SingleBill";
 var moment = require("moment-timezone");
 export default {
   name: "BillPage",
+  components: {
+    mdbIcon,
+    "single-bill": SingleBill
+  },
   data() {
     return {
-      bills: []
+      bills: [],
+      selected_bill: null
     };
   },
   created() {
+    console.log("BILLS PAGE CREATED");
     this.bills = require("../mock/Bills").Bills;
     // TODO - Load actual bill data
   },
@@ -37,7 +60,11 @@ export default {
     formatDate(date) {
       return moment(date)
         .tz("America/New_York")
-        .format("MM/DD/YYYY");
+        .format("MMM Do YYYY");
+    },
+    bill_selected(index) {
+      console.log(`Bill ${index} selected!`);
+      this.selected_bill = this.bills[index];
     }
   }
 };
