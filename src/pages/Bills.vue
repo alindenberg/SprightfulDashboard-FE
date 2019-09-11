@@ -13,7 +13,9 @@
         >
           <div class="flex-column d-flex align-items-start">
             <h3>{{bill.month}}</h3>
-            <small>{{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}}</small>
+            <small
+              class="text-nowrap"
+            >{{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}}</small>
           </div>
           <h3 class="h-100 d-flex align-items-center">${{bill.cost.toFixed(2)}}</h3>
         </b-list-group-item>
