@@ -1,7 +1,7 @@
 <template>
   <div>
     <canvas :id="`graph-${this.index}`"></canvas>
-    <label>{{this.date}}</label>
+    <h4 style="margin-top: 2%">{{this.date}}</h4>
   </div>
 </template>
 <script>

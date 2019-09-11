@@ -2,7 +2,7 @@
   <b-row class="dashboard">
     <b-col md="6">
       <!-- Header bar -->
-      <b-row class="d-flex justify-content-between" style="margin-left: 2%; margin-right: 2%">
+      <b-row class="d-flex justify-content-between">
         <b-col sm="8">
           <h2 style="float: left">Energy Performance</h2>
         </b-col>
@@ -19,6 +19,22 @@
       </b-row>
       <!-- Below header bar w/ date selection -->
       <performance-chart :data="data[selected_date]" v-if="timeRangeSelection=='Day'" />
+      <b-row class="d-flex justify-content-center" style="margin-top: 2%;">
+        <b-col sm="6">
+          <h4>
+            <u>Generation</u>
+          </h4>
+          <h5>On-Peak: {{data[selected_date].on_peak_generation}} kWh</h5>
+          <h5>Off-Peak: {{data[selected_date].off_peak_generation}} kWh</h5>
+        </b-col>
+        <b-col sm="6">
+          <h4>
+            <u>Consumption</u>
+          </h4>
+          <h5>On-Peak: {{data[selected_date].on_peak_consumption}} kWh</h5>
+          <h5>Off-Peak: {{data[selected_date].off_peak_consumption}} kWh</h5>
+        </b-col>
+      </b-row>
     </b-col>
     <b-col md="6">
       <bar-chart :label="'Consumption'" :data="data[selected_date].consumption" />
@@ -31,7 +47,7 @@
 import axios from "axios";
 import datepicker from "vuejs-datepicker";
 import PerformanceChart from "../components/charts/PerformanceChart";
-import ConsumptionChart from "../components/charts/ConsumptionChart";
+import BarChart from "../components/charts/BarChart";
 import { mdbIcon } from "mdbvue";
 const moment = require("moment-timezone");
 
@@ -41,7 +57,7 @@ export default {
     datepicker,
     mdbIcon,
     "performance-chart": PerformanceChart,
-    "bar-chart": ConsumptionChart
+    "bar-chart": BarChart
   },
   data() {
     return {
@@ -59,6 +75,7 @@ export default {
           .format("MM/DD/YYYY")
       ),
       disabled_dates: {
+        // TODO - Disable "to" (up-to) when the user first joined Neurio
         from: new Date(
           moment()
             .tz("America/New_York")
