@@ -4,17 +4,17 @@
       <h4>
         <u>Generation</u>
       </h4>
-      <h5>On-Peak: {{on_peak_generation.toFixed(2)}} kWh</h5>
-      <h5>Off-Peak: {{off_peak_generation.toFixed(2)}} kWh</h5>
-      <h5>Total: {{(off_peak_generation + on_peak_generation).toFixed(2)}} kWh</h5>
+      <p>On-Peak: {{on_peak_generation.toFixed(2)}} kWh</p>
+      <p>Off-Peak: {{off_peak_generation.toFixed(2)}} kWh</p>
+      <p>Total: {{(off_peak_generation + on_peak_generation).toFixed(2)}} kWh</p>
     </b-col>
     <b-col sm="6" class="col-12">
       <h4>
         <u>Consumption</u>
       </h4>
-      <h5>On-Peak: {{on_peak_consumption.toFixed(2)}} kWh</h5>
-      <h5>Off-Peak: {{off_peak_consumption.toFixed(2)}} kWh</h5>
-      <h5>Total: {{(off_peak_consumption + on_peak_consumption).toFixed(2)}} kWh</h5>
+      <p>On-Peak: {{on_peak_consumption.toFixed(2)}} kWh</p>
+      <p>Off-Peak: {{off_peak_consumption.toFixed(2)}} kWh</p>
+      <p>Total: {{(off_peak_consumption + on_peak_consumption).toFixed(2)}} kWh</p>
     </b-col>
   </b-row>
 </template>

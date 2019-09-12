@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="chart_div">
     <canvas :id="`graph-${this.index}`"></canvas>
-    <h4 style="margin-top: 2%">{{this.date}}</h4>
+    <!-- <label style="margin-top: 2%">{{this.date}}</label> -->
   </div>
 </template>
 <script>
@@ -24,7 +24,7 @@ export default {
     date: function() {
       return moment(this.data.timestamp)
         .tz("America/New_York")
-        .format("MM/DD/YYYY");
+        .format("MMM Do");
     }
   },
   props: {
@@ -59,10 +59,7 @@ export default {
                 this.data.off_peak_consumption
               ],
               backgroundColor: ["#ff6666", "grey"],
-              labels: [
-                "On-Peak Consumption (kWh)",
-                "Off-Peak Consumption (kWh)"
-              ]
+              labels: ["On-Peak Consumption", "Off-Peak Consumption"]
             },
             {
               data: [
@@ -84,7 +81,9 @@ export default {
               label: function(tooltipItem, data) {
                 var dataset = data.datasets[tooltipItem.datasetIndex];
                 var index = tooltipItem.index;
-                return dataset.labels[index] + ": " + dataset.data[index];
+                return (
+                  dataset.labels[index] + ": " + dataset.data[index] + " kWh"
+                );
               }
             }
           }
@@ -95,4 +94,7 @@ export default {
 };
 </script>
 <style scoped>
+#chart_div canvas {
+  z-index: 999;
+}
 </style>

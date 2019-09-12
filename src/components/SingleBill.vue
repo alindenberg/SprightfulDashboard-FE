@@ -3,22 +3,22 @@
     <h1 class="text-nowrap">{{bill.month}}</h1>
     <label>({{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}})</label>
     <b-row>
-      <b-col lg="5">
-        <h3>
-          <u>Cost: ${{bill.cost}}</u>
-        </h3>
-        <!-- <performance-chart -->
+      <b-col md="5">
+        <!-- Iterate over days in billing cycle with pie chart and number legend -->
+        <performance-chart :data="energy_totals" />
+        <!-- Div with bill totals (cost, generation, consumption) -->
         <energy-breakdown
           :on_peak_consumption="on_peak_consumption"
           :off_peak_consumption="off_peak_consumption"
           :on_peak_generation="on_peak_generation"
           :off_peak_generation="off_peak_generation"
         />
-        <div class="d-none d-md-block">
-          <p style="color: red">Text that should disappear on small screen size</p>
-        </div>
+        <h3>
+          <strong>Bill Cost: ${{bill.cost.toFixed(2)}}</strong>
+        </h3>
       </b-col>
-      <b-col lg="7">
+      <!-- </b-col> -->
+      <b-col md="7">
         <bar-chart
           :if="generation_chart_data"
           :title="'Generation'"
@@ -66,6 +66,16 @@ export default {
       end_date: String
     }
   },
+  computed: {
+    energy_totals: function() {
+      return {
+        on_peak_generation: this.$data.on_peak_generation,
+        off_peak_generation: this.off_peak_generation,
+        on_peak_consumption: this.on_peak_consumption,
+        off_peak_consumption: this.off_peak_consumption
+      };
+    }
+  },
   methods: {
     formatDate(date) {
       return moment(date)
@@ -83,7 +93,7 @@ export default {
     let end_date = moment(this.bill.end_date).tz("America/New_York");
     while (start_date.isBefore(end_date)) {
       let mock_data = {
-        date: start_date.format("MMM Do"),
+        timestamp: start_date.format("MM/DD/YYYY"),
         on_peak_generation: Math.random() * 100,
         off_peak_generation: Math.random() * 100,
         on_peak_consumption: Math.random() * 100,
@@ -99,20 +109,30 @@ export default {
     let consumption_chart_values = [];
     for (let i = 0; i < this.neurio_data.length; i++) {
       // Totals for energy breakdown component & pie chart
-      this.on_peak_generation += this.neurio_data[i].on_peak_generation;
-      this.off_peak_generation += this.neurio_data[i].off_peak_generation;
-      this.on_peak_consumption += this.neurio_data[i].on_peak_consumption;
-      this.off_peak_consumption += this.neurio_data[i].off_peak_consumption;
+      this.on_peak_generation += Number(this.neurio_data[i].on_peak_generation);
+      this.off_peak_generation += Number(
+        this.neurio_data[i].off_peak_generation
+      );
+      this.on_peak_consumption += Number(
+        this.neurio_data[i].on_peak_consumption
+      );
+      this.off_peak_consumption += Number(
+        this.neurio_data[i].off_peak_consumption
+      );
 
       // Arrays for bar chart data
-      chart_labels.push(this.neurio_data[i].date);
+      chart_labels.push(this.neurio_data[i].timestamp);
       generation_chart_values.push(
-        this.neurio_data[i].on_peak_generation +
+        (
+          this.neurio_data[i].on_peak_generation +
           this.neurio_data[i].off_peak_generation
+        ).toFixed(2)
       );
       consumption_chart_values.push(
-        this.neurio_data[i].on_peak_consumption +
+        (
+          this.neurio_data[i].on_peak_consumption +
           this.neurio_data[i].off_peak_consumption
+        ).toFixed(2)
       );
     }
 
