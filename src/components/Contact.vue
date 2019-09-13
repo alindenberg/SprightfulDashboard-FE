@@ -6,7 +6,12 @@
     <b-row class="card-body">
       <b-col>
         <div style="display: block; margin-bottom: 2%">
-          <textarea id="textarea" class="form-control" aria-label="With textarea"></textarea>
+          <textarea
+            id="textarea"
+            placeholder="Reach out to us and let us know what we could be doing better!"
+            class="form-control"
+            aria-label="With textarea"
+          ></textarea>
           <button
             style="margin-top: 2%"
             type="submit"

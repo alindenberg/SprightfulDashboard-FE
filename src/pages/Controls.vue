@@ -1,6 +1,6 @@
 <template>
   <b-row class="d-flex justify-content-center">
-    <b-col lg="8">
+    <b-col md="8" lg="6">
       <ecobee />
       <!-- Account card -->
       <account style="margin-top: 2%" />
