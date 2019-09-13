@@ -20,7 +20,9 @@
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th scope="col"></th>
+        <th scope="col">
+          <i>Energy Details</i>
+        </th>
         <th scope="col">Generation (kWh)</th>
         <th scope="col">Consumption (kWh)</th>
       </tr>

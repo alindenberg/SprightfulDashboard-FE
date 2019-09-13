@@ -22,19 +22,7 @@
       </b-list-group>
     </b-col>
     <b-col sm="12" v-if="selected_bill">
-      <b-row class="justify-content-start">
-        <div>
-          <button
-            type="button"
-            style="color: grey;"
-            class="btn btn-link btn-lg"
-            v-on:click="selected_bill=null"
-          >
-            <span class="fa fa-arrow-left" />
-          </button>
-        </div>
-        <single-bill v-bind:bill="selected_bill" />
-      </b-row>
+      <single-bill v-on:go_back="selected_bill = null" v-bind:bill="selected_bill" />
     </b-col>
   </b-row>
 </template>

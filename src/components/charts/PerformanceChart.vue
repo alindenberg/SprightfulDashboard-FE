@@ -55,16 +55,16 @@ export default {
           datasets: [
             {
               data: [
-                this.data.on_peak_consumption,
-                this.data.off_peak_consumption
+                this.data.on_peak_consumption.toFixed(2),
+                this.data.off_peak_consumption.toFixed(2)
               ],
               backgroundColor: ["#ff6666", "grey"],
               labels: ["On-Peak Consumption", "Off-Peak Consumption"]
             },
             {
               data: [
-                this.data.on_peak_generation,
-                this.data.off_peak_generation
+                this.data.on_peak_generation.toFixed(2),
+                this.data.off_peak_generation.toFixed(2)
               ],
               backgroundColor: ["#33ff33", "grey"],
               labels: ["On-Peak Generation", "Off-Peak Generation"]

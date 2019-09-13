@@ -1,13 +1,20 @@
 <template>
   <b-col>
-    <h1 class="text-nowrap">{{bill.month}}</h1>
+    <b-row class="d-flex w-100 justify-content-center">
+      <button
+        type="button"
+        style="color: grey;"
+        class="btn btn-link btn-lg"
+        v-on:click="$emit('go_back')"
+      >
+        <span class="fa fa-arrow-left" />
+      </button>
+      <h1 class="text-nowrap">{{bill.month}}</h1>
+    </b-row>
     <!-- <label>({{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}})</label> -->
     <b-row>
       <b-col md="5">
-        <h5>Bill Cost: ${{bill.cost.toFixed(2)}}</h5>
-        <!-- Iterate over days in billing cycle with pie chart and number legend -->
         <performance-chart :data="energy_totals" />
-        <!-- Div with bill totals (cost, generation, consumption) -->
         <energy-breakdown
           style="margin-top: 5%"
           :on_peak_consumption="on_peak_consumption"
@@ -15,6 +22,38 @@
           :on_peak_generation="on_peak_generation"
           :off_peak_generation="off_peak_generation"
         />
+        <!-- Bill breakdown table -->
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">
+                <i>Bill Details</i>
+              </th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Cost</th>
+              <td>
+                <strong>${{bill.cost}}</strong>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Bill Savings</th>
+              <td>$41.50</td>
+            </tr>
+            <tr>
+              <th scope="row">YTD Savings</th>
+              <td>$250.67</td>
+            </tr>
+            <tr>
+              <th scope="row">Savings Share</th>
+              <td>???</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- End bill breakdown table -->
       </b-col>
       <!-- </b-col> -->
       <b-col md="7">
@@ -68,10 +107,10 @@ export default {
   computed: {
     energy_totals: function() {
       return {
-        on_peak_generation: this.on_peak_generation.toFixed(2),
-        off_peak_generation: this.off_peak_generation.toFixed(2),
-        on_peak_consumption: this.on_peak_consumption.toFixed(2),
-        off_peak_consumption: this.off_peak_consumption.toFixed(2)
+        on_peak_generation: this.on_peak_generation,
+        off_peak_generation: this.off_peak_generation,
+        on_peak_consumption: this.on_peak_consumption,
+        off_peak_consumption: this.off_peak_consumption
       };
     }
   },
@@ -83,7 +122,6 @@ export default {
     }
   },
   created() {
-    console.log("single bill component created");
     // Load Neurio data using dates associated with the bill - mocked w/ random values for now
     // axios.get(API).then(data => {this.neurio_data = data})
 
@@ -108,16 +146,10 @@ export default {
     let consumption_chart_values = [];
     for (let i = 0; i < this.neurio_data.length; i++) {
       // Totals for energy breakdown component & pie chart
-      this.on_peak_generation += Number(this.neurio_data[i].on_peak_generation);
-      this.off_peak_generation += Number(
-        this.neurio_data[i].off_peak_generation
-      );
-      this.on_peak_consumption += Number(
-        this.neurio_data[i].on_peak_consumption
-      );
-      this.off_peak_consumption += Number(
-        this.neurio_data[i].off_peak_consumption
-      );
+      this.on_peak_generation += this.neurio_data[i].on_peak_generation;
+      this.off_peak_generation += this.neurio_data[i].off_peak_generation;
+      this.on_peak_consumption += this.neurio_data[i].on_peak_consumption;
+      this.off_peak_consumption += this.neurio_data[i].off_peak_consumption;
 
       // Arrays for bar chart data
       chart_labels.push(this.neurio_data[i].timestamp);

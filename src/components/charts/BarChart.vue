@@ -44,6 +44,7 @@ export default {
     title: String
   },
   mounted() {
+    console.log("Mounted for graph ", this.title);
     this.createGraph();
   },
   watch: {
