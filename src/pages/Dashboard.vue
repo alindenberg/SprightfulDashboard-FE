@@ -7,7 +7,7 @@
           <h2 style="float: left">Energy Performance</h2>
         </b-col>
         <b-col sm="6">
-          <b-row class="justify-content-center">
+          <b-row class="flex-nowrap justify-content-center">
             <button
               type="button"
               style="color: grey; float: left"
@@ -39,6 +39,7 @@
       <!-- Below header bar w/ date selection -->
       <performance-chart :data="data[selected_date]" />
       <energy-breakdown
+        style="margin-top: 2%"
         :on_peak_consumption="data[selected_date].on_peak_consumption"
         :off_peak_consumption="data[selected_date].off_peak_consumption"
         :on_peak_generation="data[selected_date].on_peak_generation"
