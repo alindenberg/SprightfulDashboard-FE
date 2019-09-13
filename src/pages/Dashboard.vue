@@ -101,8 +101,10 @@ export default {
       energyData.consumption = [];
       // Mock generation and consumption hourly data for now
       for (let j = 0; j < 24; j++) {
-        energyData.generation.push(Math.random() * 100);
-        energyData.consumption.push(Math.random() * 100);
+        let genValue = Math.random() * 100;
+        let conValue = Math.random() * 100;
+        energyData.generation.push(genValue.toFixed(2));
+        energyData.consumption.push(conValue.toFixed(2));
       }
       this.data[energyData.timestamp] = energyData;
     }
