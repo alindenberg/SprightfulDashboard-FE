@@ -1,21 +1,20 @@
 <template>
   <b-col>
     <h1 class="text-nowrap">{{bill.month}}</h1>
-    <label>({{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}})</label>
+    <!-- <label>({{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}})</label> -->
     <b-row>
       <b-col md="5">
+        <h5>Bill Cost: ${{bill.cost.toFixed(2)}}</h5>
         <!-- Iterate over days in billing cycle with pie chart and number legend -->
         <performance-chart :data="energy_totals" />
         <!-- Div with bill totals (cost, generation, consumption) -->
         <energy-breakdown
+          style="margin-top: 5%"
           :on_peak_consumption="on_peak_consumption"
           :off_peak_consumption="off_peak_consumption"
           :on_peak_generation="on_peak_generation"
           :off_peak_generation="off_peak_generation"
         />
-        <h3>
-          <strong>Bill Cost: ${{bill.cost.toFixed(2)}}</strong>
-        </h3>
       </b-col>
       <!-- </b-col> -->
       <b-col md="7">
@@ -69,10 +68,10 @@ export default {
   computed: {
     energy_totals: function() {
       return {
-        on_peak_generation: this.$data.on_peak_generation,
-        off_peak_generation: this.off_peak_generation,
-        on_peak_consumption: this.on_peak_consumption,
-        off_peak_consumption: this.off_peak_consumption
+        on_peak_generation: this.on_peak_generation.toFixed(2),
+        off_peak_generation: this.off_peak_generation.toFixed(2),
+        on_peak_consumption: this.on_peak_consumption.toFixed(2),
+        off_peak_consumption: this.off_peak_consumption.toFixed(2)
       };
     }
   },

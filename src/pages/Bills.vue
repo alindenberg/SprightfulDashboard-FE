@@ -22,11 +22,11 @@
       </b-list-group>
     </b-col>
     <b-col sm="12" v-if="selected_bill">
-      <b-row>
+      <b-row class="justify-content-start">
         <div>
           <button
             type="button"
-            style="color: grey; float: left"
+            style="color: grey;"
             class="btn btn-link btn-lg"
             v-on:click="selected_bill=null"
           >

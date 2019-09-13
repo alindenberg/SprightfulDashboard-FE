@@ -99,7 +99,7 @@ export default {
                 return index + (index < 12 ? " AM" : " PM");
               },
               label: function(tooltipItem, data) {
-                return tooltipItem.value + " (kWh)";
+                return tooltipItem.value + " kWh";
               }
             }
           }

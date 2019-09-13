@@ -17,7 +17,7 @@
       <p>Total: {{(off_peak_consumption + on_peak_consumption).toFixed(2)}} kWh</p>
     </b-col>
   </b-row>-->
-  <table class="table">
+  <table class="table table-bordered">
     <thead>
       <tr>
         <th scope="col"></th>
