@@ -53,7 +53,6 @@ export default {
     };
   },
   created() {
-    console.log("BILLS PAGE CREATED");
     this.bills = require("../mock/Bills").Bills;
     // TODO - Load actual bill data
   },

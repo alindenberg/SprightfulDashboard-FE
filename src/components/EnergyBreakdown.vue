@@ -17,34 +17,36 @@
       <p>Total: {{(off_peak_consumption + on_peak_consumption).toFixed(2)}} kWh</p>
     </b-col>
   </b-row>-->
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th scope="col">
-          <i>Energy Details</i>
-        </th>
-        <th scope="col">Generation (kWh)</th>
-        <th scope="col">Consumption (kWh)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th scope="row">On-Peak</th>
-        <td>{{on_peak_generation.toFixed(2)}}</td>
-        <td>{{on_peak_consumption.toFixed(2)}}</td>
-      </tr>
-      <tr>
-        <th scope="row">Off-Peak</th>
-        <td>{{off_peak_generation.toFixed(2)}}</td>
-        <td>{{off_peak_consumption.toFixed(2)}}</td>
-      </tr>
-      <tr>
-        <th scope="row">Total</th>
-        <td>{{total_generation.toFixed(2)}}</td>
-        <td>{{total_consumption.toFixed(2)}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-responsive-sm">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">
+            <i>Energy Details</i>
+          </th>
+          <th scope="col">Generation (kWh)</th>
+          <th scope="col">Consumption (kWh)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">On-Peak</th>
+          <td>{{on_peak_generation.toFixed(2)}}</td>
+          <td>{{on_peak_consumption.toFixed(2)}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Off-Peak</th>
+          <td>{{off_peak_generation.toFixed(2)}}</td>
+          <td>{{off_peak_consumption.toFixed(2)}}</td>
+        </tr>
+        <tr>
+          <th scope="row">Total</th>
+          <td>{{total_generation.toFixed(2)}}</td>
+          <td>{{total_consumption.toFixed(2)}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 <script>
 export default {
