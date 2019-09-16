@@ -18,7 +18,7 @@
               >{{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}}</label>
             </b-col>
             <b-col sm="3" class="d-flex flex-column justify-content-center align-items-center">
-              <h3>${{bill.cost.toFixed(2)}}</h3>
+              <h2>${{bill.cost.toFixed(2)}}</h2>
             </b-col>
           </b-row>
           <!-- <div class="flex-column d-flex align-items-start">

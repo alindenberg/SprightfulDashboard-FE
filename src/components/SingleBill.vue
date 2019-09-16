@@ -1,6 +1,6 @@
 <template>
   <b-col>
-    <b-row class="d-flex w-100 justify-content-center">
+    <b-row class="text-nowrap w-100 d-flex justify-content-center">
       <button
         type="button"
         style="color: grey;"
