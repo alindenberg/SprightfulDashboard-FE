@@ -58,7 +58,7 @@ export default {
                 this.data.on_peak_consumption.toFixed(2),
                 this.data.off_peak_consumption.toFixed(2)
               ],
-              backgroundColor: ["#ff6666", "grey"],
+              backgroundColor: ["#ff0000", "#cc0000"],
               labels: ["On-Peak Consumption", "Off-Peak Consumption"]
             },
             {
@@ -66,7 +66,7 @@ export default {
                 this.data.on_peak_generation.toFixed(2),
                 this.data.off_peak_generation.toFixed(2)
               ],
-              backgroundColor: ["#33ff33", "grey"],
+              backgroundColor: ["#00ff00", "#00b300"],
               labels: ["On-Peak Generation", "Off-Peak Generation"]
             }
           ]
