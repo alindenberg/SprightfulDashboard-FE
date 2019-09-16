@@ -9,15 +9,25 @@
           :key="index"
           to="/bills"
           v-on:click="bill_selected(index)"
-          class="d-flex w-100 justify-content-between"
         >
-          <div class="flex-column d-flex align-items-start">
+          <b-row>
+            <b-col sm="9" class="d-flex flex-column align-items-sm-start">
+              <h3>{{bill.month}}</h3>
+              <label
+                class="text-nowrap"
+              >{{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}}</label>
+            </b-col>
+            <b-col sm="3" class="d-flex flex-column justify-content-center align-items-center">
+              <h3>${{bill.cost.toFixed(2)}}</h3>
+            </b-col>
+          </b-row>
+          <!-- <div class="flex-column d-flex align-items-start">
             <h3>{{bill.month}}</h3>
             <small
               class="text-nowrap"
             >{{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}}</small>
           </div>
-          <h3 class="h-100 d-flex align-items-center">${{bill.cost.toFixed(2)}}</h3>
+          <h3 class="h-100 d-flex align-items-center">${{bill.cost.toFixed(2)}}</h3>-->
         </b-list-group-item>
       </b-list-group>
     </b-col>
