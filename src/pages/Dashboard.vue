@@ -30,6 +30,7 @@
               style="color: grey"
               class="btn btn-link btn-lg"
               v-on:click="loadNextDay"
+              :disabled="!canLoadNextDay"
             >
               <span class="fa fa-arrow-right" />
             </button>
@@ -91,6 +92,19 @@ export default {
         )
       }
     };
+  },
+  computed: {
+    canLoadNextDay: function() {
+      // Dont allow a future date to be clicked into
+      return moment(this.selected_date)
+        .tz("America/New_York")
+        .startOf("day")
+        .isBefore(
+          moment()
+            .tz("America/New_York")
+            .startOf("day")
+        );
+    }
   },
   created() {
     var jsonData = require("../mock/EnergyData.json").data;
