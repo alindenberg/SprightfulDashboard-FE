@@ -4,7 +4,7 @@
       <!-- Header bar -->
       <b-row class="d-flex justify-content-between">
         <b-col sm="6">
-          <h2 style="float: left">Energy Performance</h2>
+          <h2>Energy Performance</h2>
         </b-col>
         <b-col sm="6">
           <b-row class="flex-nowrap justify-content-center">

@@ -66,6 +66,7 @@ export default {
     bill_selected(index) {
       console.log(`Bill ${index} selected!`);
       this.selected_bill = this.bills[index];
+      scrollTo(0, 0);
     }
   }
 };
