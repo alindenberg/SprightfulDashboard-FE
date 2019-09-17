@@ -51,7 +51,9 @@
       <bar-chart :title="'Consumption'" :data="data[selected_date].consumption" />
       <bar-chart :title="'Generation'" :data="data[selected_date].generation" />
     </b-col>
-    <performance-chart-legend />
+    <b-col md="6">
+      <performance-chart-legend />
+    </b-col>
   </b-row>
 </template> 
 
