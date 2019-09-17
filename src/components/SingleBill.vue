@@ -13,10 +13,15 @@
     </b-row>
     <!-- <label>({{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}})</label> -->
     <b-row>
-      <b-col md="5">
-        <performance-chart :data="energy_totals" />
+      <b-col md="8">
+        <b-row>
+          <b-col xl="2" sm="3" class="col-4" v-for="(data, index) in neurio_data" :key="index">
+            <performance-chart style="width: 100%; height: 100%" :index="index" :data="data" />
+          </b-col>
+        </b-row>
+      </b-col>
+      <b-col md="4">
         <energy-breakdown
-          style="margin-top: 5%"
           :on_peak_consumption="on_peak_consumption"
           :off_peak_consumption="off_peak_consumption"
           :on_peak_generation="on_peak_generation"
@@ -54,15 +59,20 @@
           </tbody>
         </table>
         <!-- End bill breakdown table -->
+        <performance-chart-legend style="margin-top 3%; margin-bottom: 3%" />
       </b-col>
-      <!-- </b-col> -->
-      <b-col md="7">
+    </b-row>
+    <!-- </b-col> -->
+    <b-row class="d-none d-md-flex">
+      <b-col md="6">
         <bar-chart
           :if="generation_chart_data"
           :title="'Generation'"
           :data="generation_chart_data.values"
           :labels="generation_chart_data.labels"
         />
+      </b-col>
+      <b-col md="6">
         <bar-chart
           :if="consumption_chart_data"
           :title="'Consumption'"
@@ -76,6 +86,7 @@
 <script>
 import EnergyBreakdown from "./EnergyBreakdown";
 import PerformanceChart from "./charts/PerformanceChart";
+import PerformanceChartLegend from "./charts/PerformanceChartLegend";
 import BarChart from "./charts/BarChart";
 const moment = require("moment-timezone");
 
@@ -84,6 +95,7 @@ export default {
   components: {
     "energy-breakdown": EnergyBreakdown,
     "performance-chart": PerformanceChart,
+    "performance-chart-legend": PerformanceChartLegend,
     "bar-chart": BarChart
   },
   data() {

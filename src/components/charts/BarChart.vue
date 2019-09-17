@@ -77,14 +77,25 @@ export default {
         options: {
           responsive: true,
           maintainAspectRatio: true,
+          legend: {
+            display: true
+          },
           scales: {
             xAxes: [
               {
-                barPercentage: 0.4
+                barPercentage: 0.4,
+                scaleLabel: {
+                  display: false,
+                  labelString: this.labels ? "Date" : "Hour"
+                }
               }
             ],
             yAxes: [
               {
+                scaleLabel: {
+                  display: true,
+                  labelString: "Kilowatt-Hours"
+                },
                 ticks: {
                   beginAtZero: true
                 }
