@@ -98,6 +98,15 @@ export default {
       }
     };
   },
+  props: {
+    locationIndex: Number
+  },
+  watch: {
+    locationIndex: function() {
+      console.log("Dashboard page location index changed ", this.locationIndex);
+      //TODO - load new location index data
+    }
+  },
   computed: {
     canLoadNextDay: function() {
       // Dont allow a future date to be clicked into

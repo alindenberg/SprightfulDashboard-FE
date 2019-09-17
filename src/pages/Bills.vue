@@ -52,6 +52,15 @@ export default {
       selected_bill: null
     };
   },
+  props: {
+    locationIndex: Number
+  },
+  watch: {
+    locationIndex: function() {
+      console.log("Bills page location index changed ", this.locationIndex);
+      //TODO - Load new location bills
+    }
+  },
   created() {
     this.bills = require("../mock/Bills").Bills;
     // TODO - Load actual bill data

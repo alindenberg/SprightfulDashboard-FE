@@ -3,10 +3,10 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   </head>
-  <nav-bar />
+  <nav-bar v-on:LocationChanged="locationChanged" :locationIndex="locationIndex" />
   <b-container fluid id="app" style="margin-top: 5px; margin-bottom: 5%">
     <keep-alive>
-      <router-view></router-view>
+      <router-view :locationIndex="locationIndex"></router-view>
     </keep-alive>
   </b-container>
 </html>
@@ -18,6 +18,16 @@ export default {
   name: "app",
   components: {
     "nav-bar": Navbar
+  },
+  data() {
+    return {
+      locationIndex: 0
+    };
+  },
+  methods: {
+    locationChanged(index) {
+      this.locationIndex = index;
+    }
   }
 };
 </script>
