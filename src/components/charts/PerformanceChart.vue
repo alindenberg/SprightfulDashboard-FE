@@ -1,7 +1,7 @@
 <template>
   <div id="chart_div">
-    <canvas :id="`graph-${this.index}`"></canvas>
-    <label style="margin-top: 2%">{{this.date}}</label>
+    <canvas :id="`graph-${index}`"></canvas>
+    <label v-if="index != null" style="margin-top: 2%">{{this.date}}</label>
   </div>
 </template>
 <script>
@@ -73,7 +73,7 @@ export default {
         },
         options: {
           responsive: true,
-          cutoutPercentage: 10,
+          cutoutPercentage: this.index != null ? 10 : 40,
           legend: {
             display: true
           },
