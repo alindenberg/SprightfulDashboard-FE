@@ -27,11 +27,7 @@
               v-for="(data, index) in neurio_data.slice(startIndex, endIndex)"
               :key="index"
             >
-              <performance-chart
-                style="width: 100%; height: 100%"
-                :index="`condensed_row_one_${index}`"
-                :data="data"
-              />
+              <performance-chart style="width: 100%; height: 100%" :index="index+100" :data="data" />
             </b-col>
           </b-row>
           <b-row class="justify-content-center flex-nowrap align-items-center">
