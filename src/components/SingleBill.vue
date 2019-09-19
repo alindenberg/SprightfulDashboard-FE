@@ -1,6 +1,6 @@
 <template>
   <b-col>
-    <b-row class="text-nowrap w-100 d-flex justify-content-center">
+    <b-row class="d-flex justify-content-center">
       <button
         type="button"
         style="color: grey;"
@@ -44,7 +44,7 @@
             >
               <span class="fa fa-arrow-left" />
             </button>
-            {{neurio_data[startIndex].timestamp}} - {{neurio_data[endIndex-1].timestamp}}
+            {{start_label}} - {{end_label}}
             <button
               type="button"
               style="color: grey;"
@@ -163,6 +163,16 @@ export default {
         on_peak_consumption: this.on_peak_consumption,
         off_peak_consumption: this.off_peak_consumption
       };
+    },
+    start_label: function() {
+      return this.neurio_data[this.startIndex].timestamp;
+    },
+    end_label: function() {
+      let index =
+        this.endIndex <= this.neurio_data.length
+          ? this.endIndex - 1
+          : this.neurio_data.length - 1;
+      return this.neurio_data[index].timestamp;
     }
   },
   methods: {
