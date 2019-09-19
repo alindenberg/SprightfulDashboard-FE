@@ -1,7 +1,7 @@
 <template>
   <div id="chart_div">
-    <canvas :id="`graph-${this.index}`"></canvas>
-    <!-- <label style="margin-top: 2%">{{this.date}}</label> -->
+    <canvas :id="`graph-${index}`"></canvas>
+    <label v-if="index != null" style="margin-top: 2%">{{this.date}}</label>
   </div>
 </template>
 <script>
@@ -73,17 +73,16 @@ export default {
         },
         options: {
           responsive: true,
+          cutoutPercentage: this.index != null ? 10 : 40,
           legend: {
-            display: false
+            display: true
           },
           tooltips: {
             callbacks: {
               label: function(tooltipItem, data) {
                 var dataset = data.datasets[tooltipItem.datasetIndex];
                 var index = tooltipItem.index;
-                return (
-                  dataset.labels[index] + ": " + dataset.data[index] + " kWh"
-                );
+                return dataset.data[index] + " kWh";
               }
             }
           }
@@ -94,7 +93,4 @@ export default {
 };
 </script>
 <style scoped>
-#chart_div canvas {
-  z-index: 999;
-}
 </style>

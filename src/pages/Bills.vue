@@ -52,6 +52,15 @@ export default {
       selected_bill: null
     };
   },
+  props: {
+    locationIndex: Number
+  },
+  watch: {
+    locationIndex: function() {
+      console.log("Bills page location index changed ", this.locationIndex);
+      //TODO - Load new location bills
+    }
+  },
   created() {
     this.bills = require("../mock/Bills").Bills;
     // TODO - Load actual bill data
@@ -63,7 +72,6 @@ export default {
         .format("MMM Do YYYY");
     },
     bill_selected(index) {
-      console.log(`Bill ${index} selected!`);
       this.selected_bill = this.bills[index];
       scrollTo(0, 0);
     }

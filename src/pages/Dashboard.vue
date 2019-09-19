@@ -51,6 +51,9 @@
       <bar-chart :title="'Consumption'" :data="data[selected_date].consumption" />
       <bar-chart :title="'Generation'" :data="data[selected_date].generation" />
     </b-col>
+    <b-col md="6">
+      <performance-chart-legend />
+    </b-col>
   </b-row>
 </template> 
 
@@ -58,6 +61,7 @@
 import axios from "axios";
 import datepicker from "vuejs-datepicker";
 import PerformanceChart from "../components/charts/PerformanceChart";
+import PerformanceChartLegend from "../components/charts/PerformanceChartLegend";
 import EnergyBreakdown from "../components/EnergyBreakdown";
 import BarChart from "../components/charts/BarChart";
 import { mdbIcon } from "mdbvue";
@@ -70,6 +74,7 @@ export default {
     mdbIcon,
     "energy-breakdown": EnergyBreakdown,
     "performance-chart": PerformanceChart,
+    "performance-chart-legend": PerformanceChartLegend,
     "bar-chart": BarChart
   },
   data() {
@@ -92,6 +97,15 @@ export default {
         )
       }
     };
+  },
+  props: {
+    locationIndex: Number
+  },
+  watch: {
+    locationIndex: function() {
+      console.log("Dashboard page location index changed ", this.locationIndex);
+      //TODO - load new location index data
+    }
   },
   computed: {
     canLoadNextDay: function() {
