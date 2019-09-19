@@ -14,11 +14,48 @@
     <!-- <label>({{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}})</label> -->
     <b-row>
       <b-col md="8">
-        <b-row>
-          <b-col xl="2" sm="3" class="col-4" v-for="(data, index) in neurio_data" :key="index">
+        <b-row class="d-none d-sm-flex">
+          <b-col xl="2" sm="3" v-for="(data, index) in neurio_data" :key="index">
             <performance-chart style="width: 100%; height: 100%" :index="index" :data="data" />
           </b-col>
         </b-row>
+        <!-- Iterable pie charts on reduced screen size -->
+        <div class="d-sm-none d-block" style="margin-bottom: 2%">
+          <b-row>
+            <b-col
+              class="col-6"
+              v-for="(data, index) in neurio_data.slice(startIndex, endIndex)"
+              :key="index"
+            >
+              <performance-chart
+                style="width: 100%; height: 100%"
+                :index="`condensed_row_one_${index}`"
+                :data="data"
+              />
+            </b-col>
+          </b-row>
+          <b-row class="justify-content-center flex-nowrap align-items-center">
+            <button
+              type="button"
+              style="color: grey;"
+              class="btn btn-link btn-lg"
+              :disabled="startIndex == 0"
+              v-on:click="decrementIndexes"
+            >
+              <span class="fa fa-arrow-left" />
+            </button>
+            {{neurio_data[startIndex].timestamp}} - {{neurio_data[endIndex-1].timestamp}}
+            <button
+              type="button"
+              style="color: grey;"
+              class="btn btn-link btn-lg"
+              :disabled="endIndex >= neurio_data.length"
+              v-on:click="incrementIndexes"
+            >
+              <span class="fa fa-arrow-right" />
+            </button>
+          </b-row>
+        </div>
       </b-col>
       <b-col md="4">
         <energy-breakdown
@@ -63,7 +100,7 @@
       </b-col>
     </b-row>
     <!-- </b-col> -->
-    <b-row class="d-none d-md-flex">
+    <b-row class="d-none d-sm-flex">
       <b-col md="6">
         <bar-chart
           :if="generation_chart_data"
@@ -106,7 +143,9 @@ export default {
       on_peak_consumption: 0,
       off_peak_consumption: 0,
       generation_chart_data: null,
-      consumption_chart_data: null
+      consumption_chart_data: null,
+      startIndex: 0,
+      endIndex: 6
     };
   },
   props: {
@@ -131,6 +170,14 @@ export default {
       return moment(date)
         .tz("America/New_York")
         .format("MMM Do YYYY");
+    },
+    decrementIndexes() {
+      this.startIndex -= 6;
+      this.endIndex -= 6;
+    },
+    incrementIndexes() {
+      this.startIndex += 6;
+      this.endIndex += 6;
     }
   },
   created() {
