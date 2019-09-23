@@ -34,4 +34,10 @@ export default {
 a {
   color: #f4f4f4 !important;
 }
+.dropdown-item {
+  color: black !important;
+}
+.dropdown-item.disabled {
+  color: grey !important;
+}
 </style>
