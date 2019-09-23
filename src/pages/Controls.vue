@@ -1,11 +1,11 @@
 <template>
   <b-row class="d-flex justify-content-center">
     <b-col md="10" lg="8" xl="6">
-      <ecobee />
+      <ecobee class="control_div" />
       <!-- Account card -->
-      <account style="margin-top: 2%" />
+      <account class="control_div" />
       <!-- Contact card -->
-      <contact style="margin-top: 2%" />
+      <contact class="control_div" />
     </b-col>
   </b-row>
 </template>
@@ -22,3 +22,10 @@ export default {
   }
 };
 </script>
+<style scoped>
+.control_div {
+  background-color: #131313;
+  border: 1px solid white;
+  margin-bottom: 2%;
+}
+</style>

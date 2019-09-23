@@ -9,6 +9,7 @@
           :key="index"
           to="/bills"
           v-on:click="bill_selected(index)"
+          style="background-color: #131313; border: 1px solid #f4f4f4"
         >
           <b-row>
             <b-col sm="9" class="d-flex flex-column align-items-sm-start">
@@ -78,3 +79,5 @@ export default {
   }
 };
 </script>
+<style>
+</style>

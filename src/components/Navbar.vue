@@ -6,7 +6,7 @@
       <b-nav-item :active="$route.path == '/controls'" to="/controls">Controls</b-nav-item>
     </b-navbar-nav>
     <b-navbar-nav>
-      <b-nav-item-dropdown right :text="locations[locationIndex]">
+      <b-nav-item-dropdown right :text="locations[locationIndex]" toggle-class="link_span">
         <b-dropdown-item
           v-on:click="$emit('LocationChanged', index)"
           :disabled="locationIndex == index"
@@ -30,3 +30,8 @@ export default {
   }
 };
 </script>
+<style>
+a {
+  color: #f4f4f4 !important;
+}
+</style>

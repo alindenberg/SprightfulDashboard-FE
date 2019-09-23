@@ -98,20 +98,10 @@
     <!-- </b-col> -->
     <b-row class="d-none d-sm-flex">
       <b-col md="6">
-        <bar-chart
-          :if="generation_chart_data"
-          :title="'Generation'"
-          :data="generation_chart_data.values"
-          :labels="generation_chart_data.labels"
-        />
+        <generation-bar-chart :data="neurio_data" />
       </b-col>
       <b-col md="6">
-        <bar-chart
-          :if="consumption_chart_data"
-          :title="'Consumption'"
-          :data="consumption_chart_data.values"
-          :labels="consumption_chart_data.labels"
-        />
+        <consumption-bar-chart :title="'Consumption'" :data="neurio_data" />
       </b-col>
     </b-row>
   </b-col>
@@ -120,7 +110,8 @@
 import EnergyBreakdown from "./EnergyBreakdown";
 import PerformanceChart from "./charts/PerformanceChart";
 import PerformanceChartLegend from "./charts/PerformanceChartLegend";
-import BarChart from "./charts/BarChart";
+import ConsumptionBarChart from "./charts/ConsumptionBarChart";
+import GenerationBarChart from "./charts/GenerationBarChart";
 const moment = require("moment-timezone");
 
 export default {
@@ -129,7 +120,8 @@ export default {
     "energy-breakdown": EnergyBreakdown,
     "performance-chart": PerformanceChart,
     "performance-chart-legend": PerformanceChartLegend,
-    "bar-chart": BarChart
+    "generation-bar-chart": GenerationBarChart,
+    "consumption-bar-chart": ConsumptionBarChart
   },
   data() {
     return {
@@ -215,31 +207,13 @@ export default {
       this.off_peak_generation += this.neurio_data[i].off_peak_generation;
       this.on_peak_consumption += this.neurio_data[i].on_peak_consumption;
       this.off_peak_consumption += this.neurio_data[i].off_peak_consumption;
-
-      // Arrays for bar chart data
-      chart_labels.push(this.neurio_data[i].timestamp);
-      generation_chart_values.push(
-        (
-          this.neurio_data[i].on_peak_generation +
-          this.neurio_data[i].off_peak_generation
-        ).toFixed(2)
-      );
-      consumption_chart_values.push(
-        (
-          this.neurio_data[i].on_peak_consumption +
-          this.neurio_data[i].off_peak_consumption
-        ).toFixed(2)
-      );
     }
-
-    this.generation_chart_data = {
-      labels: chart_labels,
-      values: generation_chart_values
-    };
-    this.consumption_chart_data = {
-      labels: chart_labels,
-      values: consumption_chart_values
-    };
   }
 };
 </script>
+<style>
+th,
+td {
+  color: #f4f4f4;
+}
+</style>
