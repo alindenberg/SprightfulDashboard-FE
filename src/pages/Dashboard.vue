@@ -30,7 +30,48 @@
         </b-col>
       </b-row>
       <!-- Below header bar w/ date selection -->
-      <performance-chart :data="energyTotals" />
+      <b-row class="d-none d-sm-flex">
+        <b-col xl="2" sm="3" v-for="(energyData, index) in data" :key="index">
+          <performance-chart style="width: 100%; height: 100%" :index="index" :data="energyData" />
+        </b-col>
+      </b-row>
+      <!-- Iterable pie charts on reduced screen size -->
+      <div class="d-sm-none d-block" style="margin-bottom: 2%">
+        <b-row>
+          <b-col
+            class="col-6"
+            v-for="(energyData, index) in data.slice(startIndex, endIndex)"
+            :key="index"
+          >
+            <performance-chart
+              style="width: 100%; height: 100%"
+              :index="index+100"
+              :data="energyData"
+            />
+          </b-col>
+        </b-row>
+        <b-row class="justify-content-center flex-nowrap align-items-center">
+          <button
+            type="button"
+            style="color: grey;"
+            class="btn btn-link btn-lg"
+            :disabled="startIndex == 0"
+            v-on:click="decrementIndexes"
+          >
+            <span class="fa fa-arrow-left" />
+          </button>
+          {{start_label}} - {{end_label}}
+          <button
+            type="button"
+            style="color: grey;"
+            class="btn btn-link btn-lg"
+            :disabled="endIndex >= data.length"
+            v-on:click="incrementIndexes"
+          >
+            <span class="fa fa-arrow-right" />
+          </button>
+        </b-row>
+      </div>
       <energy-breakdown
         style="margin-top: 2%"
         :on_peak_consumption="energyTotals.on_peak_consumption"
@@ -42,9 +83,6 @@
     <b-col md="6">
       <consumption-bar-chart :data="data" />
       <generation-bar-chart :data="data" />
-    </b-col>
-    <b-col md="6">
-      <performance-chart-legend />
     </b-col>
   </b-row>
 </template> 
@@ -84,7 +122,10 @@ export default {
             .tz("America/New_York")
             .format("MM/DD/YYYY")
         )
-      }
+      },
+      // Indexes for small-screen pie chart iterating
+      startIndex: 0,
+      endIndex: 6
     };
   },
   props: {
@@ -148,6 +189,20 @@ export default {
         on_peak_generation,
         off_peak_generation
       };
+    },
+    start_label: function() {
+      return moment(this.data[this.startIndex].timestamp)
+        .tz("America/New_York")
+        .format("MM/DD/YYYY");
+    },
+    end_label: function() {
+      let index =
+        this.endIndex <= this.data.length
+          ? this.endIndex - 1
+          : this.data.length - 1;
+      return moment(this.data[index].timestamp)
+        .tz("America/New_York")
+        .format("MM/DD/YYYY");
     }
   },
   methods: {
@@ -160,6 +215,14 @@ export default {
       this.end_date = moment(value)
         .tz("America/New_York")
         .format("YYYY-MM-DD");
+    },
+    decrementIndexes() {
+      this.startIndex -= 6;
+      this.endIndex -= 6;
+    },
+    incrementIndexes() {
+      this.startIndex += 6;
+      this.endIndex += 6;
     }
   }
 };
