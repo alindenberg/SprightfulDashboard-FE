@@ -1,6 +1,6 @@
 <template>
   <b-row class="dashboard">
-    <b-col md="6">
+    <b-col lg="7">
       <!-- Header bar -->
       <b-row class="d-flex justify-content-between">
         <b-col sm="4">
@@ -11,7 +11,7 @@
             <datepicker
               style="width: 40%; color: black; margin-right: 2%"
               :format="'MM/dd/yyyy'"
-              :disabled-dates="disabled_dates"
+              :disabled-dates="start_datepicker_disabled_dates"
               @selected="start_date_changed"
               typeable="true"
               bootstrap-styling="true"
@@ -20,7 +20,7 @@
             <datepicker
               style="width: 40%; color: black"
               :format="'MM/dd/yyyy'"
-              :disabled-dates="disabled_dates"
+              :disabled-dates="end_datepicker_disabled_dates"
               @selected="end_date_changed"
               typeable="true"
               bootstrap-styling="true"
@@ -31,7 +31,7 @@
       </b-row>
       <!-- Below header bar w/ date selection -->
       <b-row class="d-none d-sm-flex">
-        <b-col xl="2" sm="3" v-for="(energyData, index) in data" :key="index">
+        <b-col xl="2" md="2" sm="3" v-for="(energyData, index) in data" :key="index">
           <performance-chart style="width: 100%; height: 100%" :index="index" :data="energyData" />
         </b-col>
       </b-row>
@@ -80,7 +80,7 @@
         :off_peak_generation="energyTotals.off_peak_generation"
       />
     </b-col>
-    <b-col md="6">
+    <b-col lg="5">
       <consumption-bar-chart :data="data" />
       <generation-bar-chart :data="data" />
     </b-col>
@@ -116,14 +116,6 @@ export default {
       billingCycle: null,
       start_date: null,
       end_date: null,
-      disabled_dates: {
-        // TODO - Disable "to" (up-to) when the user first joined Neurio
-        from: new Date(
-          moment()
-            .tz("America/New_York")
-            .format("MM/DD/YYYY")
-        )
-      },
       // Indexes for small-screen pie chart iterating
       startIndex: 0,
       endIndex: 6
@@ -140,26 +132,20 @@ export default {
   },
   created() {
     // Get Current Billing Cycle
-    const now = moment().tz("America/New_York");
-    this.billingCycle = {
-      start: now.subtract(28, "days").format("MM/DD/YYYY"),
-      end: now.add(28, "days").format("MM/DD/YYYY")
-    };
-    this.start_date = this.billingCycle.start;
-    this.end_date = this.billingCycle.end;
-
+    const billingCycle = this.getCurrentBillingCycle();
+    console.log("Billing cycle is ", billingCycle);
+    this.start_date = billingCycle.start;
+    this.end_date = billingCycle.end;
     // THEN load data from neurio (mocked)
     this.getNeurioData(this.start_date, this.end_date);
   },
   computed: {
     calendar_start_date: function() {
-      const date = new Date(
+      return new Date(
         moment(this.start_date)
           .tz("America/New_York")
           .format("MM/DD/YYYY")
       );
-      console.log("Calendar start date is ", date);
-      return date;
     },
     calendar_end_date: function() {
       return new Date(
@@ -181,6 +167,23 @@ export default {
       return moment(this.data[index].timestamp)
         .tz("America/New_York")
         .format("MM/DD/YYYY");
+    },
+    start_datepicker_disabled_dates: function() {
+      // TODO - Disable "to" (up-to) when the user first joined Neurio
+      return {
+        from: this.calendar_end_date
+      };
+    },
+    end_datepicker_disabled_dates: function() {
+      return {
+        // Don't allow end of time range to be before the beginning of time range selected
+        to: this.calendar_start_date,
+        from: new Date(
+          moment()
+            .tz("America/New_York")
+            .format("MM/DD/YYYY")
+        )
+      };
     }
   },
   methods: {
@@ -243,6 +246,15 @@ export default {
         on_peak_generation,
         off_peak_generation
       };
+    },
+    getCurrentBillingCycle() {
+      // Mocked
+      const now = moment().tz("America/New_York");
+      return {
+        start: now.subtract(28, "days").format("MM/DD/YYYY"),
+        end: now.add(28, "days").format("MM/DD/YYYY")
+      };
+      // axios.get(/location/{id}/billingCycles).then(logic to get current billing cycle)
     }
   }
 };
