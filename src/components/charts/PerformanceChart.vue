@@ -25,10 +25,21 @@ export default {
       return moment(this.data.timestamp)
         .tz("America/New_York")
         .format("MMM Do");
+    },
+    totalGeneration: function() {
+      return this.data.on_peak_generation + this.data.off_peak_generation;
+    },
+    onPeakConsumptionPercentage: function() {
+      return (
+        (this.data.on_peak_consumption /
+          (this.data.on_peak_consumption + this.data.off_peak_consumption)) *
+        100
+      );
     }
   },
   props: {
     index: Number,
+    generationGoal: Number,
     data: {
       on_peak_consumption: Number,
       off_peak_consumption: Number,
@@ -55,19 +66,22 @@ export default {
           datasets: [
             {
               data: [
-                this.data.on_peak_consumption.toFixed(2),
-                this.data.off_peak_consumption.toFixed(2)
+                this.onPeakConsumptionPercentage.toFixed(0),
+                (100 - this.onPeakConsumptionPercentage).toFixed(0)
               ],
-              backgroundColor: ["#ff0000", "#cc0000"],
+              backgroundColor: [
+                this.onPeakConsumptionPercentage > 75 ? "#ff0000" : "green",
+                "black"
+              ],
               labels: ["On-Peak Consumption", "Off-Peak Consumption"]
             },
             {
               data: [
-                this.data.on_peak_generation.toFixed(2),
-                this.data.off_peak_generation.toFixed(2)
+                this.totalGeneration.toFixed(0),
+                (this.generationGoal - this.totalGeneration).toFixed(0)
               ],
-              backgroundColor: ["#00ff00", "#00b300"],
-              labels: ["On-Peak Generation", "Off-Peak Generation"]
+              backgroundColor: ["#00ff00", "red"],
+              labels: ["Generation Achieved", "Remaining in Goal"]
             }
           ]
         },

@@ -31,8 +31,13 @@
       </b-row>
       <!-- Below header bar w/ date selection -->
       <b-row class="d-none d-sm-flex justify-content-center">
-        <b-col xl="2" lg="4" md="2" sm="3" v-for="(energyData, index) in data" :key="index">
-          <performance-chart style="width: 100%; height: 100%;" :index="index" :data="energyData" />
+        <b-col xl="2" lg="3" md="2" sm="3" v-for="(energyData, index) in data" :key="index">
+          <performance-chart
+            style="width: 100%; height: 100%;"
+            :index="index"
+            :data="energyData"
+            :generationGoal="generationGoal"
+          />
         </b-col>
       </b-row>
       <!-- Iterable pie charts on reduced screen size -->
@@ -47,6 +52,7 @@
               style="width: 100%; height: 100%"
               :index="index+100"
               :data="energyData"
+              :generationGoal="generationGoal"
             />
           </b-col>
         </b-row>
@@ -113,6 +119,7 @@ export default {
     return {
       data: [],
       energyTotals: {},
+      generationGoal: null,
       billingCycle: null,
       start_date: null,
       end_date: null,
@@ -131,13 +138,17 @@ export default {
     }
   },
   created() {
-    // Get Current Billing Cycle
+    // Will need to load location into memory to get billing cycle, generation goal, and sensorId
+
+    // Get Current Billing Cycle (will be from location)
     const billingCycle = this.getCurrentBillingCycle();
-    console.log("Billing cycle is ", billingCycle);
     this.start_date = billingCycle.start;
     this.end_date = billingCycle.end;
     // THEN load data from neurio (mocked)
     this.getNeurioData(this.start_date, this.end_date);
+
+    // number to be gotten from location object
+    this.generationGoal = 100;
   },
   computed: {
     calendar_start_date: function() {
@@ -215,8 +226,8 @@ export default {
       while (start_date.isSameOrBefore(end_date)) {
         let mock_data = {
           timestamp: start_date.format("MM/DD/YYYY"),
-          on_peak_generation: Math.random() * 100,
-          off_peak_generation: Math.random() * 100,
+          on_peak_generation: Math.random() * 50,
+          off_peak_generation: Math.random() * 50,
           on_peak_consumption: Math.random() * 100,
           off_peak_consumption: Math.random() * 100
         };
@@ -251,8 +262,8 @@ export default {
       // Mocked
       const now = moment().tz("America/New_York");
       return {
-        start: now.subtract(28, "days").format("MM/DD/YYYY"),
-        end: now.add(28, "days").format("MM/DD/YYYY")
+        start: now.subtract(27, "days").format("MM/DD/YYYY"),
+        end: now.add(27, "days").format("MM/DD/YYYY")
       };
       // axios.get(/location/{id}/billingCycles).then(logic to get current billing cycle)
     }

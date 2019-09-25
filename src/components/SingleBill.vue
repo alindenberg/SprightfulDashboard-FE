@@ -16,7 +16,12 @@
       <b-col md="8">
         <b-row class="d-none d-sm-flex">
           <b-col xl="2" sm="3" v-for="(data, index) in neurio_data" :key="index">
-            <performance-chart style="width: 100%; height: 100%" :index="index" :data="data" />
+            <performance-chart
+              style="width: 100%; height: 100%"
+              :index="index"
+              :data="data"
+              :generationGoal="generationGoal"
+            />
           </b-col>
         </b-row>
         <!-- Iterable pie charts on reduced screen size -->
@@ -27,7 +32,12 @@
               v-for="(data, index) in neurio_data.slice(startIndex, endIndex)"
               :key="index"
             >
-              <performance-chart style="width: 100%; height: 100%" :index="index+100" :data="data" />
+              <performance-chart
+                style="width: 100%; height: 100%"
+                :index="index+100"
+                :data="data"
+                :generationGoal="generationGoal"
+              />
             </b-col>
           </b-row>
           <b-row class="justify-content-center flex-nowrap align-items-center">
@@ -126,6 +136,7 @@ export default {
   data() {
     return {
       neurio_data: [],
+      generationGoal: 100,
       on_peak_generation: 0,
       off_peak_generation: 0,
       on_peak_consumption: 0,
