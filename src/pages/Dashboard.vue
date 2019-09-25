@@ -9,7 +9,7 @@
         <b-col sm="8">
           <b-row class="flex-nowrap justify-content-center">
             <datepicker
-              style="width: 60%; color: black"
+              style="width: 40%; color: black; margin-right: 2%"
               :format="'MM/dd/yyyy'"
               :disabled-dates="disabled_dates"
               @selected="start_date_changed"
@@ -18,7 +18,7 @@
               :value="calendar_start_date"
             ></datepicker>
             <datepicker
-              style="width: 60%; color: black"
+              style="width: 40%; color: black"
               :format="'MM/dd/yyyy'"
               :disabled-dates="disabled_dates"
               @selected="end_date_changed"
@@ -112,6 +112,7 @@ export default {
   data() {
     return {
       data: [],
+      energyTotals: {},
       billingCycle: null,
       start_date: null,
       end_date: null,
@@ -148,47 +149,24 @@ export default {
     this.end_date = this.billingCycle.end;
 
     // THEN load data from neurio (mocked)
-    let start_date = moment(this.start_date).tz("America/New_York");
-    let end_date = moment(this.end_date).tz("America/New_York");
-    while (start_date.isSameOrBefore(end_date)) {
-      let mock_data = {
-        timestamp: start_date.format("MM/DD/YYYY"),
-        on_peak_generation: Math.random() * 100,
-        off_peak_generation: Math.random() * 100,
-        on_peak_consumption: Math.random() * 100,
-        off_peak_consumption: Math.random() * 100
-      };
-      this.data.push(mock_data);
-      start_date.add(1, "days");
-    }
+    this.getNeurioData(this.start_date, this.end_date);
   },
   computed: {
     calendar_start_date: function() {
-      return new Date(this.start_date);
+      const date = new Date(
+        moment(this.start_date)
+          .tz("America/New_York")
+          .format("MM/DD/YYYY")
+      );
+      console.log("Calendar start date is ", date);
+      return date;
     },
     calendar_end_date: function() {
-      return new Date(this.end_date);
-    },
-    energyTotals: function() {
-      let on_peak_consumption = 0;
-      let off_peak_consumption = 0;
-      let on_peak_generation = 0;
-      let off_peak_generation = 0;
-
-      for (let i = 0; i < this.data.length; i++) {
-        const energyData = this.data[i];
-        on_peak_consumption += energyData.on_peak_consumption;
-        off_peak_consumption += energyData.off_peak_consumption;
-        on_peak_generation += energyData.on_peak_generation;
-        off_peak_generation += energyData.off_peak_generation;
-      }
-
-      return {
-        on_peak_consumption,
-        off_peak_consumption,
-        on_peak_generation,
-        off_peak_generation
-      };
+      return new Date(
+        moment(this.end_date)
+          .tz("America/New_York")
+          .format("MM/DD/YYYY")
+      );
     },
     start_label: function() {
       return moment(this.data[this.startIndex].timestamp)
@@ -210,11 +188,13 @@ export default {
       this.start_date = moment(value)
         .tz("America/New_York")
         .format("YYYY-MM-DD");
+      this.getNeurioData(this.start_date, this.end_date);
     },
     end_date_changed(value) {
       this.end_date = moment(value)
         .tz("America/New_York")
         .format("YYYY-MM-DD");
+      this.getNeurioData(this.start_date, this.end_date);
     },
     decrementIndexes() {
       this.startIndex -= 6;
@@ -223,6 +203,46 @@ export default {
     incrementIndexes() {
       this.startIndex += 6;
       this.endIndex += 6;
+    },
+    getNeurioData(start, end) {
+      //mock data fetching for now
+      this.data = [];
+      let start_date = moment(start).tz("America/New_York");
+      let end_date = moment(end).tz("America/New_York");
+      while (start_date.isSameOrBefore(end_date)) {
+        let mock_data = {
+          timestamp: start_date.format("MM/DD/YYYY"),
+          on_peak_generation: Math.random() * 100,
+          off_peak_generation: Math.random() * 100,
+          on_peak_consumption: Math.random() * 100,
+          off_peak_consumption: Math.random() * 100
+        };
+        this.data.push(mock_data);
+        start_date.add(1, "days");
+      }
+      this.getEnergyTotals(this.data);
+      //axios.get(...)
+    },
+    getEnergyTotals(data) {
+      let on_peak_consumption = 0;
+      let off_peak_consumption = 0;
+      let on_peak_generation = 0;
+      let off_peak_generation = 0;
+
+      for (let i = 0; i < data.length; i++) {
+        const energyData = data[i];
+        on_peak_consumption += energyData.on_peak_consumption;
+        off_peak_consumption += energyData.off_peak_consumption;
+        on_peak_generation += energyData.on_peak_generation;
+        off_peak_generation += energyData.off_peak_generation;
+      }
+
+      this.energyTotals = {
+        on_peak_consumption,
+        off_peak_consumption,
+        on_peak_generation,
+        off_peak_generation
+      };
     }
   }
 };

@@ -24,11 +24,8 @@ export default {
     this.createGraph();
   },
   watch: {
-    data: function(newData, oldData) {
-      console.log(
-        `Triggering watch for new data ${newData} and swapping old data ${oldData}`
-      );
-      this.data = newData;
+    data: function() {
+      this.getChartValues();
       this.chart.destroy();
       this.createGraph();
     }
