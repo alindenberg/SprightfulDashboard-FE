@@ -32,12 +32,14 @@
       <!-- Below header bar w/ date selection -->
       <b-row class="d-none d-sm-flex justify-content-center">
         <b-col xl="2" lg="3" md="2" sm="3" v-for="(energyData, index) in data" :key="index">
-          <performance-chart
-            style="width: 100%; height: 100%;"
-            :index="index"
-            :data="energyData"
-            :generationGoal="generationGoal"
-          />
+          <div v-on:click="goToDay(energyData)">
+            <performance-chart
+              style="width: 100%; height: 100%;"
+              :index="index"
+              :data="energyData"
+              :generationGoal="generationGoal"
+            />
+          </div>
         </b-col>
       </b-row>
       <!-- Iterable pie charts on reduced screen size -->
@@ -48,12 +50,14 @@
             v-for="(energyData, index) in data.slice(startIndex, endIndex)"
             :key="index"
           >
-            <performance-chart
-              style="width: 100%; height: 100%"
-              :index="index+100"
-              :data="energyData"
-              :generationGoal="generationGoal"
-            />
+            <div v-on:click="goToDay(energyData)">
+              <performance-chart
+                style="width: 100%; height: 100%"
+                :index="index+100"
+                :data="energyData"
+                :generationGoal="generationGoal"
+              />
+            </div>
           </b-col>
         </b-row>
         <b-row class="justify-content-center flex-nowrap align-items-center">
@@ -266,6 +270,12 @@ export default {
         end: now.add(27, "days").format("MM/DD/YYYY")
       };
       // axios.get(/location/{id}/billingCycles).then(logic to get current billing cycle)
+    },
+    goToDay(energyData) {
+      this.$router.push({
+        path: "/day",
+        query: { date: energyData.timestamp }
+      });
     }
   }
 };

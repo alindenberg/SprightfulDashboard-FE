@@ -9,13 +9,14 @@ import App from './App.vue'
 import Dashboard from './pages/Dashboard'
 import Controls from './pages/Controls'
 import Bills from './pages/Bills'
-
+import DayView from './pages/DayView'
 Vue.config.productionTip = false
 
 const routes = [
   { path: "/", component: Dashboard },
   { path: "/controls", component: Controls },
-  { path: "/bills", component: Bills }
+  { path: "/bills", component: Bills },
+  { path: "/day", component: DayView }
 ]
 
 const router = new VueRouter({

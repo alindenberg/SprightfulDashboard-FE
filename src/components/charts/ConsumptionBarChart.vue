@@ -46,7 +46,7 @@ export default {
       this.chart = new Chart(ctx, {
         type: "bar",
         data: {
-          labels: this.labels ? this.labels : this.hourLabels,
+          labels: this.labels,
           datasets: [
             {
               data: this.on_peak_data,
