@@ -40,4 +40,7 @@ a {
 .dropdown-item.disabled {
   color: grey !important;
 }
+.active {
+  color: grey !important;
+}
 </style>
