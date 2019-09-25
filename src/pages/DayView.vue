@@ -42,6 +42,7 @@ export default {
   },
   mounted() {
     this.date = this.$route.query.date;
+    console.log("mounting with date ", this.date);
     // Regardless if we pass data in, we need to get hourly data from neurio for bar charts.
     // query for that here - assuming we pass in data that's day-level
     this.getHourlyData();

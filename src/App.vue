@@ -5,7 +5,7 @@
   </head>
   <nav-bar v-on:LocationChanged="locationChanged" :locationIndex="locationIndex" />
   <b-container fluid id="app" style="margin-top: 5px; margin-bottom: 5%">
-    <keep-alive>
+    <keep-alive exclude="DayView">
       <router-view :locationIndex="locationIndex"></router-view>
     </keep-alive>
   </b-container>
