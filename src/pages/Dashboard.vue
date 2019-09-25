@@ -1,6 +1,6 @@
 <template>
   <b-row class="dashboard">
-    <b-col lg="7">
+    <b-col lg="6">
       <!-- Header bar -->
       <b-row class="d-flex justify-content-between">
         <b-col sm="4">
@@ -30,9 +30,9 @@
         </b-col>
       </b-row>
       <!-- Below header bar w/ date selection -->
-      <b-row class="d-none d-sm-flex">
-        <b-col xl="2" md="2" sm="3" v-for="(energyData, index) in data" :key="index">
-          <performance-chart style="width: 100%; height: 100%" :index="index" :data="energyData" />
+      <b-row class="d-none d-sm-flex justify-content-center">
+        <b-col xl="2" lg="4" md="2" sm="3" v-for="(energyData, index) in data" :key="index">
+          <performance-chart style="width: 100%; height: 100%;" :index="index" :data="energyData" />
         </b-col>
       </b-row>
       <!-- Iterable pie charts on reduced screen size -->
@@ -80,7 +80,7 @@
         :off_peak_generation="energyTotals.off_peak_generation"
       />
     </b-col>
-    <b-col lg="5">
+    <b-col lg="6">
       <consumption-bar-chart :data="data" />
       <generation-bar-chart :data="data" />
     </b-col>
