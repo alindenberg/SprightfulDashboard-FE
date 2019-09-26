@@ -1,9 +1,9 @@
 <template>
-  <div class="card">
-    <div class="card-header">
+  <b-row>
+    <b-col class="col-12" style="margin-top: 1%">
       <h3 style="float: left">Ecobee Climates</h3>
-    </div>
-    <b-row class="card-body justify-content-center">
+    </b-col>
+    <b-col class="justify-content-center" style="margin-bottom: 2%">
       <b-row class="w-100 justify-content-center align-items-center">
         <h4 style="margin-right: 5%">Home:</h4>
         <b-row>
@@ -88,8 +88,8 @@
           <span class="fa fa-check" />
         </button>
       </b-row>
-    </b-row>
-  </div>
+    </b-col>
+  </b-row>
 </template>
 <script>
 export default {

@@ -1,29 +1,27 @@
 <template>
-  <div class="card">
-    <div class="card-header">
+  <b-row>
+    <b-col class="col-12" style="margin-top: 1%">
       <h3 style="float: left">Contact us</h3>
-    </div>
-    <b-row class="card-body">
-      <b-col>
-        <div style="display: block; margin-bottom: 2%">
-          <textarea
-            id="textarea"
-            placeholder="Reach out to us and let us know what we could be doing better!"
-            class="form-control"
-            aria-label="With textarea"
-          ></textarea>
-          <button
-            style="margin-top: 2%"
-            type="submit"
-            v-on:click="submit"
-            class="btn btn-primary"
-          >Submit</button>
-        </div>
-        <label style="color: red" v-if="error">Error: {{error}}</label>
-        <label v-if="message">{{message}}</label>
-      </b-col>
-    </b-row>
-  </div>
+    </b-col>
+    <b-col style="margin-top:2%; margin-bottom: 2%">
+      <div style="display: block;">
+        <textarea
+          id="textarea"
+          placeholder="Reach out to us and let us know what we could be doing better!"
+          class="form-control"
+          aria-label="With textarea"
+        ></textarea>
+        <button
+          style="margin-top: 2%"
+          type="submit"
+          v-on:click="submit"
+          class="btn btn-primary"
+        >Submit</button>
+      </div>
+      <label style="color: red" v-if="error">Error: {{error}}</label>
+      <label v-if="message">{{message}}</label>
+    </b-col>
+  </b-row>
 </template>
 <script>
 export default {
@@ -45,6 +43,7 @@ export default {
       }
     },
     display_message(msg) {
+      this.error = null;
       this.message = msg;
       let vm = this;
       setTimeout(function() {
@@ -52,6 +51,7 @@ export default {
       }, 4000);
     },
     display_error(err) {
+      this.message = null;
       this.error = err;
       let vm = this;
       setTimeout(function() {
