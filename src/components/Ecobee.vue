@@ -1,34 +1,81 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <h3 style="float: left">Ecobee</h3>
+      <h3 style="float: left">Ecobee Climates</h3>
     </div>
     <b-row class="card-body justify-content-center">
-      <b-row class="flex-nowrap">
-        <button
-          type="button"
-          style="color: grey"
-          class="btn btn-link btn-lg"
-          v-on:click="display_temperature--"
-        >
-          <span class="fa fa-minus" />
-        </button>
-        <h1>{{display_temperature}}</h1>
-        <button
-          type="button"
-          style="color: grey"
-          class="btn btn-link btn-lg"
-          v-on:click="display_temperature++"
-        >
-          <span class="fa fa-plus" />
-        </button>
+      <b-row class="w-100 justify-content-center align-items-center">
+        <h4 style="margin-right: 5%">Home:</h4>
+        <b-row>
+          <button
+            type="button"
+            style="color: grey"
+            class="btn btn-link btn-lg"
+            v-on:click="home_temperature--"
+          >
+            <span class="fa fa-minus" />
+          </button>
+          <h1>{{home_temperature}}</h1>
+          <button
+            type="button"
+            style="color: grey"
+            class="btn btn-link btn-lg"
+            v-on:click="home_temperature++"
+          >
+            <span class="fa fa-plus" />
+          </button>
+        </b-row>
       </b-row>
-      <b-row v-if="display_temperature != ecobee_temperature" class="w-100 justify-content-center">
+      <b-row class="w-100 justify-content-center align-items-center">
+        <h4 style="margin-right: 5%">Away:</h4>
+        <b-row>
+          <button
+            type="button"
+            style="color: grey"
+            class="btn btn-link btn-lg"
+            v-on:click="away_temperature--"
+          >
+            <span class="fa fa-minus" />
+          </button>
+          <h1>{{away_temperature}}</h1>
+          <button
+            type="button"
+            style="color: grey"
+            class="btn btn-link btn-lg"
+            v-on:click="away_temperature++"
+          >
+            <span class="fa fa-plus" />
+          </button>
+        </b-row>
+      </b-row>
+      <b-row class="w-100 justify-content-center align-items-center">
+        <h4 style="margin-right: 5%">Sleep:</h4>
+        <b-row>
+          <button
+            type="button"
+            style="color: grey"
+            class="btn btn-link btn-lg"
+            v-on:click="sleep_temperature--"
+          >
+            <span class="fa fa-minus" />
+          </button>
+          <h1>{{sleep_temperature}}</h1>
+          <button
+            type="button"
+            style="color: grey"
+            class="btn btn-link btn-lg"
+            v-on:click="sleep_temperature++"
+          >
+            <span class="fa fa-plus" />
+          </button>
+        </b-row>
+      </b-row>
+      <b-row v-if="changesMade" class="w-100 justify-content-center">
         <button
           type="button"
           style="color: red"
           class="btn btn-link btn-lg"
-          v-on:click="display_temperature = ecobee_temperature"
+          v-on:click="removeChanges"
         >
           <span class="fa fa-times" />
         </button>
@@ -36,7 +83,7 @@
           type="button"
           style="color: green"
           class="btn btn-link btn-lg"
-          v-on:click="save_temperature"
+          v-on:click="saveChanges"
         >
           <span class="fa fa-check" />
         </button>
@@ -49,16 +96,33 @@ export default {
   name: "EcobeeModule",
   data() {
     return {
-      ecobee_temperature: 78,
-      display_temperature: 78
+      home_ecobee_temperature: 78,
+      home_temperature: 78,
+      away_ecobee_temperature: 80,
+      away_temperature: 80,
+      sleep_ecobee_temperature: 72,
+      sleep_temperature: 72
     };
   },
-  methods: {
-    save_temperature() {
-      console.log(
-        `Updating ecobee temperature to ${this.display_temperature} from ${this.ecobee_temperature}`
+  computed: {
+    changesMade: function() {
+      return (
+        this.home_ecobee_temperature != this.home_temperature ||
+        this.away_ecobee_temperature != this.away_temperature ||
+        this.sleep_ecobee_temperature != this.sleep_temperature
       );
-      this.ecobee_temperature = this.display_temperature;
+    }
+  },
+  methods: {
+    saveChanges() {
+      this.home_ecobee_temperature = this.home_temperature;
+      this.sleep_ecobee_temperature = this.sleep_temperature;
+      this.away_ecobee_temperature = this.away_temperature;
+    },
+    removeChanges() {
+      this.home_temperature = this.home_ecobee_temperature;
+      this.away_temperature = this.away_ecobee_temperature;
+      this.sleep_temperature = this.sleep_ecobee_temperature;
     }
   }
 };
