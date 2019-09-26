@@ -107,4 +107,7 @@ export default {
 };
 </script>
 <style scoped>
+canvas {
+  cursor: pointer;
+}
 </style>
