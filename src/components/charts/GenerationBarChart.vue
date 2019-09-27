@@ -8,16 +8,27 @@ import Chart from "chart.js";
 export default {
   name: "BarChart",
   data() {
+    const vm = this;
     return {
       chart: null,
       on_peak_data: [],
       off_peak_data: [],
-      labels: []
+      labels: [],
+
+      callbacks: {
+        label(tooltipItem) {
+          if (vm.displayKwh) {
+            return tooltipItem.value.split(".")[0] + " kWh";
+          }
+          return `$${tooltipItem.value}`;
+        }
+      }
     };
   },
   props: {
     data: Array,
-    title: String
+    title: String,
+    displayKwh: Boolean
   },
   mounted() {
     this.getChartValues();
@@ -28,6 +39,11 @@ export default {
       this.getChartValues();
       this.chart.destroy();
       this.createGraph();
+    },
+    displayKwh: function() {
+      this.getChartValues();
+      this.chart.destroy();
+      this.createGraph();
     }
   },
   methods: {
@@ -35,10 +51,18 @@ export default {
       this.on_peak_data = [];
       this.off_peak_data = [];
       this.labels = [];
-      for (let i = 0; i < this.data.length; i++) {
-        this.on_peak_data.push(this.data[i].on_peak_consumption);
-        this.off_peak_data.push(this.data[i].off_peak_consumption);
-        this.labels.push(this.data[i].timestamp);
+      if (this.displayKwh) {
+        for (let i = 0; i < this.data.length; i++) {
+          this.on_peak_data.push(this.data[i].on_peak.generation_kwh);
+          this.off_peak_data.push(this.data[i].off_peak.generation_kwh);
+          this.labels.push(this.data[i].timestamp);
+        }
+      } else {
+        for (let i = 0; i < this.data.length; i++) {
+          this.on_peak_data.push(this.data[i].on_peak.generation_savings);
+          this.off_peak_data.push(this.data[i].off_peak.generation_savings);
+          this.labels.push(this.data[i].timestamp);
+        }
       }
     },
     createGraph() {
@@ -46,7 +70,7 @@ export default {
       this.chart = new Chart(ctx, {
         type: "bar",
         data: {
-          labels: this.labels ? this.labels : this.hourLabels,
+          labels: this.labels,
           datasets: [
             {
               data: this.on_peak_data,
@@ -86,7 +110,9 @@ export default {
                 stacked: true,
                 scaleLabel: {
                   display: true,
-                  labelString: "Kilowatt-Hours",
+                  labelString: this.displayKwh
+                    ? "Kilowatt-Hours"
+                    : "Savings ($)",
                   fontColor: "#f4f4f4"
                 },
                 ticks: {
@@ -97,11 +123,7 @@ export default {
             ]
           },
           tooltips: {
-            callbacks: {
-              label: function(tooltipItem, data) {
-                return tooltipItem.value + " kWh";
-              }
-            }
+            callbacks: this.callbacks
           }
         }
       });

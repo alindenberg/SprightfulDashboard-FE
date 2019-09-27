@@ -69,10 +69,18 @@
       </b-col>
       <b-col md="4">
         <energy-breakdown
-          :on_peak_consumption="on_peak_consumption"
-          :off_peak_consumption="off_peak_consumption"
-          :on_peak_generation="on_peak_generation"
-          :off_peak_generation="off_peak_generation"
+          v-if="chartDisplay == 'kwh'"
+          :on_peak_consumption="energyTotals.on_peak_consumption"
+          :off_peak_consumption="energyTotals.off_peak_consumption"
+          :on_peak_generation="energyTotals.on_peak_generation"
+          :off_peak_generation="energyTotals.off_peak_generation"
+        />
+        <savings-breakdown
+          v-if="chartDisplay == 'cost'"
+          :on_peak_consumption_cost="savingTotals.on_peak_consumption_cost"
+          :off_peak_consumption_cost="savingTotals.off_peak_consumption_cost"
+          :on_peak_generation_savings="savingTotals.on_peak_generation_savings"
+          :off_peak_generation_savings="savingTotals.off_peak_generation_savings"
         />
         <!-- Bill breakdown table -->
         <table class="table table-bordered">
@@ -106,24 +114,32 @@
           </tbody>
         </table>
         <!-- End bill breakdown table -->
-        <performance-chart-legend style="margin-top 3%; margin-bottom: 3%" />
       </b-col>
     </b-row>
     <!-- </b-col> -->
-    <b-row class="d-none d-sm-flex">
+    <b-row>
       <b-col md="6">
-        <generation-bar-chart :data="neurio_data" />
+        <generation-bar-chart :data="neurio_data" :displayKwh="chartDisplay == 'kwh'" />
       </b-col>
       <b-col md="6">
-        <consumption-bar-chart :title="'Consumption'" :data="neurio_data" />
+        <consumption-bar-chart :data="neurio_data" :displayKwh="chartDisplay == 'kwh'" />
       </b-col>
+      <b-row class="w-100 justify-content-center">
+        <b-form-radio
+          v-model="chartDisplay"
+          style="margin-right: 2%"
+          name="some-radios"
+          value="kwh"
+        >Kilowatt-Hours</b-form-radio>
+        <b-form-radio v-model="chartDisplay" name="some-radios" value="cost">Cost</b-form-radio>
+      </b-row>
     </b-row>
   </b-col>
 </template>
 <script>
 import EnergyBreakdown from "./EnergyBreakdown";
+import SavingsBreakdown from "./SavingsBreakdown";
 import PerformanceChart from "./charts/PerformanceChart";
-import PerformanceChartLegend from "./charts/PerformanceChartLegend";
 import ConsumptionBarChart from "./charts/ConsumptionBarChart";
 import GenerationBarChart from "./charts/GenerationBarChart";
 const moment = require("moment-timezone");
@@ -132,8 +148,8 @@ export default {
   name: "SingleBill",
   components: {
     "energy-breakdown": EnergyBreakdown,
+    "savings-breakdown": SavingsBreakdown,
     "performance-chart": PerformanceChart,
-    "performance-chart-legend": PerformanceChartLegend,
     "generation-bar-chart": GenerationBarChart,
     "consumption-bar-chart": ConsumptionBarChart
   },
@@ -141,14 +157,11 @@ export default {
     return {
       neurio_data: [],
       generationGoal: 100,
-      on_peak_generation: 0,
-      off_peak_generation: 0,
-      on_peak_consumption: 0,
-      off_peak_consumption: 0,
-      generation_chart_data: null,
-      consumption_chart_data: null,
+      energyTotals: {},
+      savingTotals: {},
       startIndex: 0,
-      endIndex: 6
+      endIndex: 6,
+      chartDisplay: "cost"
     };
   },
   props: {
@@ -159,14 +172,6 @@ export default {
     }
   },
   computed: {
-    energy_totals: function() {
-      return {
-        on_peak_generation: this.on_peak_generation,
-        off_peak_generation: this.off_peak_generation,
-        on_peak_consumption: this.on_peak_consumption,
-        off_peak_consumption: this.off_peak_consumption
-      };
-    },
     start_label: function() {
       return this.neurio_data[this.startIndex].timestamp;
     },
@@ -194,6 +199,46 @@ export default {
     },
     goToDay(date) {
       this.$router.push({ path: "/day", query: { date: date } });
+    },
+    getTotals(data) {
+      let on_peak_consumption = 0;
+      let off_peak_consumption = 0;
+      let on_peak_generation = 0;
+      let off_peak_generation = 0;
+
+      let on_peak_consumption_cost = 0;
+      let off_peak_consumption_cost = 0;
+      let on_peak_generation_savings = 0;
+      let off_peak_generation_savings = 0;
+
+      for (let i = 0; i < data.length; i++) {
+        const obj = data[i];
+        // Energy totals
+        on_peak_consumption += obj.on_peak.consumption_kwh;
+        off_peak_consumption += obj.off_peak.consumption_kwh;
+        on_peak_generation += obj.on_peak.generation_kwh;
+        off_peak_generation += obj.off_peak.generation_kwh;
+
+        // Saving totals
+        on_peak_consumption_cost = obj.on_peak.consumption_cost;
+        off_peak_consumption_cost = obj.off_peak.consumption_cost;
+        on_peak_generation_savings = obj.on_peak.generation_savings;
+        off_peak_generation_savings = obj.off_peak.generation_savings;
+      }
+
+      this.energyTotals = {
+        on_peak_consumption,
+        off_peak_consumption,
+        on_peak_generation,
+        off_peak_generation
+      };
+
+      this.savingTotals = {
+        on_peak_consumption_cost,
+        off_peak_consumption_cost,
+        on_peak_generation_savings,
+        off_peak_generation_savings
+      };
     }
   },
   created() {
@@ -206,26 +251,24 @@ export default {
     while (start_date.isBefore(end_date)) {
       let mock_data = {
         timestamp: start_date.format("MM/DD/YYYY"),
-        on_peak_generation: Math.random() * 100,
-        off_peak_generation: Math.random() * 100,
-        on_peak_consumption: Math.random() * 100,
-        off_peak_consumption: Math.random() * 100
+        on_peak: {
+          generation_kwh: Math.random() * 50,
+          generation_savings: Math.random() * 10,
+          consumption_kwh: Math.random() * 100,
+          consumption_cost: Math.random() * 10
+        },
+        off_peak: {
+          generation_kwh: Math.random() * 50,
+          generation_savings: Math.random() * 10,
+          consumption_kwh: Math.random() * 100,
+          consumption_cost: Math.random() * 10
+        }
       };
       this.neurio_data.push(mock_data);
       start_date.add(1, "days");
     }
-    // console.log("Mocked neurio data for single bill is ", this.neurio_data);
-    // Now manipulate array we would get back from API into generation arrays, consumption arrays, and totals
-    let chart_labels = [];
-    let generation_chart_values = [];
-    let consumption_chart_values = [];
-    for (let i = 0; i < this.neurio_data.length; i++) {
-      // Totals for energy breakdown component & pie chart
-      this.on_peak_generation += this.neurio_data[i].on_peak_generation;
-      this.off_peak_generation += this.neurio_data[i].off_peak_generation;
-      this.on_peak_consumption += this.neurio_data[i].on_peak_consumption;
-      this.off_peak_consumption += this.neurio_data[i].off_peak_consumption;
-    }
+
+    this.getTotals(this.neurio_data);
   }
 };
 </script>

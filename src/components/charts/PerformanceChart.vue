@@ -27,12 +27,15 @@ export default {
         .format("MMM Do");
     },
     totalGeneration: function() {
-      return this.data.on_peak_generation + this.data.off_peak_generation;
+      return (
+        this.data.on_peak.generation_kwh + this.data.off_peak.generation_kwh
+      );
     },
     onPeakConsumptionPercentage: function() {
       return (
-        (this.data.on_peak_consumption /
-          (this.data.on_peak_consumption + this.data.off_peak_consumption)) *
+        (this.data.on_peak.consumption_kwh /
+          (this.data.on_peak.consumption_kwh +
+            this.data.off_peak.consumption_kwh)) *
         100
       );
     }
@@ -41,10 +44,18 @@ export default {
     index: Number,
     generationGoal: Number,
     data: {
-      on_peak_consumption: Number,
-      off_peak_consumption: Number,
-      on_peak_generation: Number,
-      off_peak_generation: Number,
+      on_peak: {
+        consumption_kwh: Number,
+        consumption_cost: Number,
+        generation_kwh: Number,
+        generation_cost: Number
+      },
+      off_peak: {
+        consumption_kwh: Number,
+        consumption_cost: Number,
+        generation_kwh: Number,
+        generation_cost: Number
+      },
       timestamp: String
     }
   },

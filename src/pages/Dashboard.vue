@@ -83,16 +83,36 @@
         </b-row>
       </div>
       <energy-breakdown
+        v-if="chartDisplay == 'kwh'"
         style="margin-top: 2%"
         :on_peak_consumption="energyTotals.on_peak_consumption"
         :off_peak_consumption="energyTotals.off_peak_consumption"
         :on_peak_generation="energyTotals.on_peak_generation"
         :off_peak_generation="energyTotals.off_peak_generation"
       />
+      <savings-breakdown
+        v-if="chartDisplay == 'cost'"
+        style="margin-top: 2%"
+        :on_peak_consumption_cost="savingTotals.on_peak_consumption_cost"
+        :off_peak_consumption_cost="savingTotals.off_peak_consumption_cost"
+        :on_peak_generation_savings="savingTotals.on_peak_generation_savings"
+        :off_peak_generation_savings="savingTotals.off_peak_generation_savings"
+      />
     </b-col>
     <b-col lg="6">
-      <consumption-bar-chart :data="data" />
-      <generation-bar-chart :data="data" />
+      <consumption-bar-chart :data="data" :displayKwh="chartDisplay == 'kwh'" />
+      <generation-bar-chart :data="data" :displayKwh="chartDisplay == 'kwh'" />
+      <b-row class="justify-content-center">
+        <!-- <b-form-group class="d-flex flex-row"> -->
+        <b-form-radio
+          v-model="chartDisplay"
+          style="margin-right: 2%"
+          name="some-radios"
+          value="kwh"
+        >Kilowatt-Hours</b-form-radio>
+        <b-form-radio v-model="chartDisplay" name="some-radios" value="cost">Cost</b-form-radio>
+        <!-- </b-form-group> -->
+      </b-row>
     </b-col>
   </b-row>
 </template> 
@@ -101,8 +121,8 @@
 import axios from "axios";
 import datepicker from "vuejs-datepicker";
 import PerformanceChart from "../components/charts/PerformanceChart";
-import PerformanceChartLegend from "../components/charts/PerformanceChartLegend";
 import EnergyBreakdown from "../components/EnergyBreakdown";
+import SavingsBreakdwon from "../components/SavingsBreakdown";
 import GenerationBarChart from "../components/charts/GenerationBarChart";
 import ConsumptionBarChart from "../components/charts/ConsumptionBarChart";
 import { mdbIcon } from "mdbvue";
@@ -114,8 +134,8 @@ export default {
     datepicker,
     mdbIcon,
     "energy-breakdown": EnergyBreakdown,
+    "savings-breakdown": SavingsBreakdwon,
     "performance-chart": PerformanceChart,
-    "performance-chart-legend": PerformanceChartLegend,
     "generation-bar-chart": GenerationBarChart,
     "consumption-bar-chart": ConsumptionBarChart
   },
@@ -123,13 +143,15 @@ export default {
     return {
       data: [],
       energyTotals: {},
+      savingTotals: {},
       generationGoal: null,
       billingCycle: null,
       start_date: null,
       end_date: null,
       // Indexes for small-screen pie chart iterating
       startIndex: 0,
-      endIndex: 6
+      endIndex: 6,
+      chartDisplay: "cost"
     };
   },
   props: {
@@ -184,8 +206,10 @@ export default {
         .format("MM/DD/YYYY");
     },
     start_datepicker_disabled_dates: function() {
-      // TODO - Disable "to" (up-to) when the user first joined Neurio
+      // TODO - Disable "to" 30(?) days behind end_datepicker date so that we dont
+      // go overboard with neurio requests
       return {
+        // to: new Date(moment(this.end_date).tz('America/New_York').subtract(60, 'days').format('MM/DD/YYYY')
         from: this.calendar_end_date
       };
     },
@@ -230,29 +254,49 @@ export default {
       while (start_date.isSameOrBefore(end_date)) {
         let mock_data = {
           timestamp: start_date.format("MM/DD/YYYY"),
-          on_peak_generation: Math.random() * 50,
-          off_peak_generation: Math.random() * 50,
-          on_peak_consumption: Math.random() * 100,
-          off_peak_consumption: Math.random() * 100
+          on_peak: {
+            generation_kwh: Math.random() * 50,
+            generation_savings: Math.random() * 10,
+            consumption_kwh: Math.random() * 100,
+            consumption_cost: Math.random() * 10
+          },
+          off_peak: {
+            generation_kwh: Math.random() * 50,
+            generation_savings: Math.random() * 10,
+            consumption_kwh: Math.random() * 100,
+            consumption_cost: Math.random() * 10
+          }
         };
         this.data.push(mock_data);
         start_date.add(1, "days");
       }
-      this.getEnergyTotals(this.data);
+      this.getTotals(this.data);
       //axios.get(...)
     },
-    getEnergyTotals(data) {
+    getTotals(data) {
       let on_peak_consumption = 0;
       let off_peak_consumption = 0;
       let on_peak_generation = 0;
       let off_peak_generation = 0;
 
+      let on_peak_consumption_cost = 0;
+      let off_peak_consumption_cost = 0;
+      let on_peak_generation_savings = 0;
+      let off_peak_generation_savings = 0;
+
       for (let i = 0; i < data.length; i++) {
-        const energyData = data[i];
-        on_peak_consumption += energyData.on_peak_consumption;
-        off_peak_consumption += energyData.off_peak_consumption;
-        on_peak_generation += energyData.on_peak_generation;
-        off_peak_generation += energyData.off_peak_generation;
+        const obj = data[i];
+        // Energy totals
+        on_peak_consumption += obj.on_peak.consumption_kwh;
+        off_peak_consumption += obj.off_peak.consumption_kwh;
+        on_peak_generation += obj.on_peak.generation_kwh;
+        off_peak_generation += obj.off_peak.generation_kwh;
+
+        // Saving totals
+        on_peak_consumption_cost = obj.on_peak.consumption_cost;
+        off_peak_consumption_cost = obj.off_peak.consumption_cost;
+        on_peak_generation_savings = obj.on_peak.generation_savings;
+        off_peak_generation_savings = obj.off_peak.generation_savings;
       }
 
       this.energyTotals = {
@@ -260,6 +304,13 @@ export default {
         off_peak_consumption,
         on_peak_generation,
         off_peak_generation
+      };
+
+      this.savingTotals = {
+        on_peak_consumption_cost,
+        off_peak_consumption_cost,
+        on_peak_generation_savings,
+        off_peak_generation_savings
       };
     },
     getCurrentBillingCycle() {

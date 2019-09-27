@@ -5,16 +5,34 @@
       <b-col lg="6">
         <performance-chart :data="energyTotals" :generationGoal="generationGoal" />
         <energy-breakdown
+          v-if="chartDisplay == 'kwh'"
           style="margin-top: 5%"
-          :on_peak_consumption="energyTotals.on_peak_consumption"
-          :off_peak_consumption="energyTotals.off_peak_consumption"
-          :on_peak_generation="energyTotals.on_peak_generation"
-          :off_peak_generation="energyTotals.off_peak_generation"
+          :on_peak_consumption="energyTotals.on_peak.consumption_kwh"
+          :off_peak_consumption="energyTotals.off_peak.consumption_kwh"
+          :on_peak_generation="energyTotals.on_peak.generation_kwh"
+          :off_peak_generation="energyTotals.off_peak.generation_kwh"
+        />
+        <savings-breakdown
+          v-if="chartDisplay == 'cost'"
+          style="margin-top: 5%"
+          :on_peak_consumption_cost="savingTotals.on_peak_consumption_cost"
+          :off_peak_consumption_cost="savingTotals.off_peak_consumption_cost"
+          :on_peak_generation_savings="savingTotals.on_peak_generation_savings"
+          :off_peak_generation_savings="savingTotals.off_peak_generation_savings"
         />
       </b-col>
       <b-col lg="6">
-        <consumption-bar-chart :data="hourlyData" />
-        <generation-bar-chart :data="hourlyData" />
+        <consumption-bar-chart :data="hourlyData" :displayKwh="chartDisplay == 'kwh'" />
+        <generation-bar-chart :data="hourlyData" :displayKwh="chartDisplay == 'kwh'" />
+        <b-row class="w-100 justify-content-center">
+          <b-form-radio
+            v-model="chartDisplay"
+            style="margin-right: 2%"
+            name="some-radios"
+            value="kwh"
+          >Kilowatt-Hours</b-form-radio>
+          <b-form-radio v-model="chartDisplay" name="some-radios" value="cost">Cost</b-form-radio>
+        </b-row>
       </b-col>
     </b-row>
   </div>
@@ -24,11 +42,13 @@ import PerformanceChart from "../components/charts/PerformanceChart";
 import ConsumptionBarChart from "../components/charts/ConsumptionBarChart";
 import GenerationBarChart from "../components/charts/GenerationBarChart";
 import EnergyBreakdown from "../components/EnergyBreakdown";
+import SavingsBreakdown from "../components/SavingsBreakdown";
 export default {
   name: "DayView",
   components: {
     "performance-chart": PerformanceChart,
     "energy-breakdown": EnergyBreakdown,
+    "savings-breakdown": SavingsBreakdown,
     "consumption-bar-chart": ConsumptionBarChart,
     "generation-bar-chart": GenerationBarChart
   },
@@ -37,24 +57,19 @@ export default {
       generationGoal: 100,
       date: null,
       hourlyData: [],
-      energyTotals: null
+      energyTotals: {},
+      savingTotals: {},
+      chartDisplay: "cost"
     };
   },
-  mounted() {
+  created() {
     this.date = this.$route.query.date;
-    console.log("mounting with date ", this.date);
     // Regardless if we pass data in, we need to get hourly data from neurio for bar charts.
     // query for that here - assuming we pass in data that's day-level
     this.getHourlyData();
   },
   methods: {
     getHourlyData() {
-      let energyTotals = {
-        on_peak_generation: 0,
-        off_peak_generation: 0,
-        on_peak_consumption: 0,
-        off_peak_consumption: 0
-      };
       // mock getting of hourly data
       const hourLabels = [
         "12:00am",
@@ -85,21 +100,67 @@ export default {
       for (let i = 0; i < hourLabels.length; i++) {
         let mock_data = {
           timestamp: hourLabels[i],
-          on_peak_generation: Math.random() * 50,
-          off_peak_generation: Math.random() * 50,
-          on_peak_consumption: Math.random() * 100,
-          off_peak_consumption: Math.random() * 100
+          on_peak: {
+            generation_kwh: Math.random() * 50,
+            generation_savings: Math.random() * 10,
+            consumption_kwh: Math.random() * 100,
+            consumption_cost: Math.random() * 10
+          },
+          off_peak: {
+            generation_kwh: Math.random() * 50,
+            generation_savings: Math.random() * 10,
+            consumption_kwh: Math.random() * 100,
+            consumption_cost: Math.random() * 10
+          }
         };
         // push data to hourly array
         this.hourlyData.push(mock_data);
-        // add data to totals object
-        energyTotals.on_peak_generation += mock_data.on_peak_generation;
-        energyTotals.on_peak_consumption += mock_data.on_peak_consumption;
-        energyTotals.off_peak_generation += mock_data.off_peak_generation;
-        energyTotals.off_peak_consumption += mock_data.off_peak_consumption;
+      }
+      this.getTotals(this.hourlyData);
+    },
+    getTotals(data) {
+      let on_peak_consumption = 0;
+      let off_peak_consumption = 0;
+      let on_peak_generation = 0;
+      let off_peak_generation = 0;
+
+      let on_peak_consumption_cost = 0;
+      let off_peak_consumption_cost = 0;
+      let on_peak_generation_savings = 0;
+      let off_peak_generation_savings = 0;
+
+      for (let i = 0; i < data.length; i++) {
+        const obj = data[i];
+        // Energy totals
+        on_peak_consumption += obj.on_peak.consumption_kwh;
+        off_peak_consumption += obj.off_peak.consumption_kwh;
+        on_peak_generation += obj.on_peak.generation_kwh;
+        off_peak_generation += obj.off_peak.generation_kwh;
+
+        // Saving totals
+        on_peak_consumption_cost = obj.on_peak.consumption_cost;
+        off_peak_consumption_cost = obj.off_peak.consumption_cost;
+        on_peak_generation_savings = obj.on_peak.generation_savings;
+        off_peak_generation_savings = obj.off_peak.generation_savings;
       }
 
-      this.energyTotals = energyTotals;
+      this.energyTotals = {
+        on_peak: {
+          consumption_kwh: on_peak_consumption,
+          generation_kwh: on_peak_generation
+        },
+        off_peak: {
+          consumption_kwh: off_peak_consumption,
+          generation_kwh: off_peak_generation
+        }
+      };
+
+      this.savingTotals = {
+        on_peak_consumption_cost,
+        off_peak_consumption_cost,
+        on_peak_generation_savings,
+        off_peak_generation_savings
+      };
     }
   }
 };
