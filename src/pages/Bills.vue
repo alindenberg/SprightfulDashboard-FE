@@ -15,6 +15,7 @@
             <b-col sm="9" class="d-flex flex-column align-items-sm-start">
               <h3>{{bill.month}}</h3>
               <label
+                style="cursor: pointer"
                 class="text-nowrap"
               >{{formatDate(bill.start_date)}} - {{formatDate(bill.end_date)}}</label>
             </b-col>
