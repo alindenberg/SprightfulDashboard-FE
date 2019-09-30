@@ -4,7 +4,7 @@
       <h3 style="float: left">Ecobee Climates</h3>
     </b-col>
     <b-col class="justify-content-center" style="margin-bottom: 2%">
-      <b-row class="w-100 justify-content-center align-items-center">
+      <b-row class="justify-content-center align-items-center">
         <h4 style="margin-right: 5%">Home:</h4>
         <b-row>
           <button
@@ -26,7 +26,7 @@
           </button>
         </b-row>
       </b-row>
-      <b-row class="w-100 justify-content-center align-items-center">
+      <b-row class="justify-content-center align-items-center">
         <h4 style="margin-right: 5%">Away:</h4>
         <b-row>
           <button
@@ -48,7 +48,7 @@
           </button>
         </b-row>
       </b-row>
-      <b-row class="w-100 justify-content-center align-items-center">
+      <b-row class="justify-content-center align-items-center">
         <h4 style="margin-right: 5%">Sleep:</h4>
         <b-row>
           <button
@@ -70,7 +70,7 @@
           </button>
         </b-row>
       </b-row>
-      <b-row v-if="changesMade" class="w-100 justify-content-center">
+      <b-row v-if="changesMade" class="justify-content-center" style="background-color: yellow">
         <button
           type="button"
           style="color: red"
