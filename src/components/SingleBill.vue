@@ -124,7 +124,7 @@
       <b-col md="6">
         <consumption-bar-chart :data="neurio_data" :displayKwh="chartDisplay == 'kwh'" />
       </b-col>
-      <b-row class="w-100 justify-content-center">
+      <b-col sm="12" class="d-flex justify-content-center">
         <b-form-radio
           v-model="chartDisplay"
           style="margin-right: 2%"
@@ -132,7 +132,7 @@
           value="kwh"
         >Kilowatt-Hours</b-form-radio>
         <b-form-radio v-model="chartDisplay" name="some-radios" value="cost">Cost</b-form-radio>
-      </b-row>
+      </b-col>
     </b-row>
   </b-col>
 </template>

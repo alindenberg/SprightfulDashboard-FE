@@ -31,22 +31,33 @@
       </div>
     </b-col>
     <!-- Change email -->
-    <b-col v-if="changeEmail">
-      <b-row class="align-items-center justify-content-center">
-        <input style="width: 60%" type="text" id="email_input" placeholder="New Email" />
-      </b-row>
+    <b-col v-if="changeEmail" class="d-flex flex-column align-items-center">
+      <input
+        style="width: 60%"
+        type="text"
+        id="email_input"
+        class="form-control"
+        placeholder="New Email"
+      />
       <b-row class="align-items-center justify-content-center">
         <button type="button" class="btn btn-lg btn-link" v-on:click="saveEmail">Save</button>
         <button type="button" class="btn btn-lg btn-link" v-on:click="changeEmail=false">Cancel</button>
       </b-row>
     </b-col>
     <!-- Change Password -->
-    <b-col v-if="changePassword">
-      <input style="width: 60%" type="password" id="password_input" placeholder="New Password" />
+    <b-col v-if="changePassword" class="d-flex flex-column align-items-center">
+      <input
+        style="width: 60%"
+        type="password"
+        id="password_input"
+        placeholder="New Password"
+        class="form-control"
+      />
       <input
         style="width: 60%; margin-top: 2%"
         type="password"
         id="confirm_password_input"
+        class="form-control"
         placeholder="Confirm Password"
       />
       <b-row class="align-items-center justify-content-center">

@@ -6,10 +6,8 @@
     <b-col style="margin-top:2%; margin-bottom: 2%">
       <div style="display: block;">
         <textarea
-          id="textarea"
           placeholder="Reach out to us and let us know what we could be doing better!"
           class="form-control"
-          aria-label="With textarea"
         ></textarea>
         <button
           style="margin-top: 2%"

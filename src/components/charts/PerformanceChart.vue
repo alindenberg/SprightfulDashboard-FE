@@ -118,7 +118,8 @@ export default {
 };
 </script>
 <style scoped>
-canvas {
+canvas,
+label {
   cursor: pointer;
 }
 </style>

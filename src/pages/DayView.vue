@@ -24,7 +24,7 @@
       <b-col lg="6">
         <consumption-bar-chart :data="hourlyData" :displayKwh="chartDisplay == 'kwh'" />
         <generation-bar-chart :data="hourlyData" :displayKwh="chartDisplay == 'kwh'" />
-        <b-row class="w-100 justify-content-center">
+        <b-row class="justify-content-center">
           <b-form-radio
             v-model="chartDisplay"
             style="margin-right: 2%"
