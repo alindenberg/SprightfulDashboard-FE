@@ -40,7 +40,7 @@ export default {
   text-align: center;
   margin-top: 60px;
 }
-body {
+html {
   background-color: #131313;
   color: #f4f4f4;
 }
