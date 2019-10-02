@@ -64,7 +64,9 @@ export default {
   },
   methods: {
     redrawGraph() {
-      this.myChart.destroy();
+      if (this.myChart != null) {
+        this.myChart.destroy();
+      }
       this.createPerformanceGraph();
     },
     createPerformanceGraph() {

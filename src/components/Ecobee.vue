@@ -70,7 +70,7 @@
           </button>
         </b-row>
       </b-row>
-      <b-row v-if="changesMade" class="justify-content-center" style="background-color: yellow">
+      <b-row v-if="changesMade" class="justify-content-center">
         <button
           type="button"
           style="color: red"

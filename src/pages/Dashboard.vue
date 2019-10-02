@@ -163,7 +163,7 @@ export default {
       //TODO - load new location index data
     }
   },
-  created() {
+  async created() {
     // Will need to load location into memory to get billing cycle, generation goal, and sensorId
 
     // Get Current Billing Cycle (will be from location)
@@ -246,7 +246,7 @@ export default {
       this.startIndex += 6;
       this.endIndex += 6;
     },
-    getNeurioData(start, end) {
+    async getNeurioData(start, end) {
       //mock data fetching for now
       this.data = [];
       let start_date = moment(start).tz("America/New_York");
@@ -271,7 +271,20 @@ export default {
         start_date.add(1, "days");
       }
       this.getTotals(this.data);
-      //axios.get(...)
+      // console.log("API URL ", process.env.VUE_APP_API_URL);
+      // await axios
+      //   .get(
+      //     `${process.env.VUE_APP_API_URL}/locations/f8128cc4-6c70-4458-9f1f-b1d185f3014e/energy_info?start=${start_date.toISOString()}&end=${end_date.toISOString()}`
+      //   )
+      //   .then(data => {
+      //     console.log("data we get from backend ", data.data);
+      //     this.data = data.data;
+      //     this.getTotals(data.data);
+      //   })
+      //   .catch(err => {
+      //     console.log("Error fetching dashboard data", err);
+      //     this.data = [];
+      //   });
     },
     getTotals(data) {
       let on_peak_consumption = 0;
@@ -286,6 +299,7 @@ export default {
 
       for (let i = 0; i < data.length; i++) {
         const obj = data[i];
+        console.log("Adding gen savings ", obj.on_peak.generation_savings);
         // Energy totals
         on_peak_consumption += obj.on_peak.consumption_kwh;
         off_peak_consumption += obj.off_peak.consumption_kwh;
@@ -293,10 +307,10 @@ export default {
         off_peak_generation += obj.off_peak.generation_kwh;
 
         // Saving totals
-        on_peak_consumption_cost = obj.on_peak.consumption_cost;
-        off_peak_consumption_cost = obj.off_peak.consumption_cost;
-        on_peak_generation_savings = obj.on_peak.generation_savings;
-        off_peak_generation_savings = obj.off_peak.generation_savings;
+        on_peak_consumption_cost += obj.on_peak.consumption_cost;
+        off_peak_consumption_cost += obj.off_peak.consumption_cost;
+        on_peak_generation_savings += obj.on_peak.generation_savings;
+        off_peak_generation_savings += obj.off_peak.generation_savings;
       }
 
       this.energyTotals = {
@@ -312,6 +326,8 @@ export default {
         on_peak_generation_savings,
         off_peak_generation_savings
       };
+
+      console.log("This savings total is ", this.savingTotals);
     },
     getCurrentBillingCycle() {
       // Mocked

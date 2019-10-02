@@ -38,6 +38,8 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+const moment = require("moment-timezone");
 import PerformanceChart from "../components/charts/PerformanceChart";
 import ConsumptionBarChart from "../components/charts/ConsumptionBarChart";
 import GenerationBarChart from "../components/charts/GenerationBarChart";
@@ -62,14 +64,14 @@ export default {
       chartDisplay: "cost"
     };
   },
-  created() {
+  async created() {
     this.date = this.$route.query.date;
     // Regardless if we pass data in, we need to get hourly data from neurio for bar charts.
     // query for that here - assuming we pass in data that's day-level
     this.getHourlyData();
   },
   methods: {
-    getHourlyData() {
+    async getHourlyData() {
       // mock getting of hourly data
       const hourLabels = [
         "12:00am",
@@ -116,7 +118,21 @@ export default {
         // push data to hourly array
         this.hourlyData.push(mock_data);
       }
-      this.getTotals(this.hourlyData);
+
+      // Actually hit backend for data
+      // let start = moment(this.date).tz("America/New_York");
+      // const start_string = start.toISOString();
+      // let end = start.add(1, "days");
+      // const end_string = end.toISOString();
+      // await axios
+      //   .get(
+      //     `${process.env.VUE_APP_API_URL}/locations/f8128cc4-6c70-4458-9f1f-b1d185f3014e/energy_info?start=${start_string}&end=${end_string}`
+      //   )
+      //   .then(data => {
+      //     console.log("Day data we get back is ", data.data);
+      //     this.hourlyData = data.data;
+      //     this.getTotals(data.data);
+      //   });
     },
     getTotals(data) {
       let on_peak_consumption = 0;
@@ -138,10 +154,10 @@ export default {
         off_peak_generation += obj.off_peak.generation_kwh;
 
         // Saving totals
-        on_peak_consumption_cost = obj.on_peak.consumption_cost;
-        off_peak_consumption_cost = obj.off_peak.consumption_cost;
-        on_peak_generation_savings = obj.on_peak.generation_savings;
-        off_peak_generation_savings = obj.off_peak.generation_savings;
+        on_peak_consumption_cost += obj.on_peak.consumption_cost;
+        off_peak_consumption_cost += obj.off_peak.consumption_cost;
+        on_peak_generation_savings += obj.on_peak.generation_savings;
+        off_peak_generation_savings += obj.off_peak.generation_savings;
       }
 
       this.energyTotals = {
