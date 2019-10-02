@@ -6,7 +6,12 @@
       <b-nav-item :active="$route.path == '/controls'" to="/controls">Controls</b-nav-item>
     </b-navbar-nav>
     <b-navbar-nav>
-      <b-nav-item-dropdown right :text="locations[locationIndex]" toggle-class="link_span">
+      <b-nav-item-dropdown
+        v-if="locations.length > 1"
+        right
+        :text="locations[locationIndex]"
+        toggle-class="link_span"
+      >
         <b-dropdown-item
           v-on:click="$emit('LocationChanged', index)"
           :disabled="locationIndex == index"
@@ -14,6 +19,8 @@
           :key="index"
         >{{location}}</b-dropdown-item>
       </b-nav-item-dropdown>
+      <b-nav-item :active="true" v-if="locations.length == 1">{{locations[0]}}</b-nav-item>
+      <b-nav-item v-on:click="removeJwt" to="/login">Logout</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
@@ -22,11 +29,16 @@ export default {
   name: "Navbar",
   data() {
     return {
-      locations: ["Weston Home", "Gainesville Home"]
+      locations: ["Weston Home"]
     };
   },
   props: {
     locationIndex: Number
+  },
+  methods: {
+    removeJwt() {
+      localStorage.removeItem("token");
+    }
   }
 };
 </script>
