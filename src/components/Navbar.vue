@@ -9,17 +9,17 @@
       <b-nav-item-dropdown
         v-if="locations.length > 1"
         right
-        :text="locations[locationIndex]"
+        :text="locations[locationIndex].name"
         toggle-class="link_span"
       >
         <b-dropdown-item
-          v-on:click="$emit('LocationChanged', index)"
-          :disabled="locationIndex == index"
-          v-for="(location, index) in locations"
-          :key="index"
-        >{{location}}</b-dropdown-item>
+          v-on:click="$emit('LocationChanged', location.id)"
+          :disabled="location.id == locationId"
+          v-for="location in locations"
+          :key="location.id"
+        >{{location.name}}</b-dropdown-item>
       </b-nav-item-dropdown>
-      <b-nav-item :active="true" v-if="locations.length == 1">{{locations[0]}}</b-nav-item>
+      <b-nav-item :active="true" v-if="locations.length == 1">{{locations[0].name}}</b-nav-item>
       <b-nav-item v-on:click="removeJwt" to="/login">Logout</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
@@ -27,17 +27,34 @@
 <script>
 export default {
   name: "Navbar",
-  data() {
-    return {
-      locations: ["Weston Home"]
-    };
-  },
   props: {
-    locationIndex: Number
+    locationId: String,
+    locations: Array
   },
   methods: {
     removeJwt() {
       localStorage.removeItem("token");
+    }
+  },
+  watch: {
+    locations: function() {
+      console.log("Locations updated to ", this.locations);
+    },
+    locationId: function() {
+      console.log("Location id updated to ", this.locationId);
+    }
+  },
+  created() {
+    console.log("Locations are ", this.locations);
+  },
+  computed: {
+    locationIndex: function() {
+      for (let i = 0; i < this.locations.length; i++) {
+        if (this.locationId == this.locations[i].id) {
+          return i;
+        }
+      }
+      return 0;
     }
   }
 };

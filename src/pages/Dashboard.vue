@@ -155,26 +155,16 @@ export default {
     };
   },
   props: {
-    locationIndex: Number
+    locationId: String,
+    userId: String
   },
   watch: {
-    locationIndex: function() {
-      console.log("Dashboard page location index changed ", this.locationIndex);
-      //TODO - load new location index data
+    locationId: function() {
+      this.loadEnergyInfo(this.locationId);
+    },
+    userId: function() {
+      console.log("Dashboard page user id changed ", this.userId);
     }
-  },
-  async created() {
-    // Will need to load location into memory to get billing cycle, generation goal, and sensorId
-
-    // Get Current Billing Cycle (will be from location)
-    const billingCycle = this.getCurrentBillingCycle();
-    this.start_date = billingCycle.start;
-    this.end_date = billingCycle.end;
-    // THEN load data from neurio (mocked)
-    this.getNeurioData(this.start_date, this.end_date);
-
-    // number to be gotten from location object
-    this.generationGoal = 100;
   },
   computed: {
     calendar_start_date: function() {
@@ -246,6 +236,38 @@ export default {
       this.startIndex += 6;
       this.endIndex += 6;
     },
+    loadEnergyInfo(locationId) {
+      console.log("loading energy info");
+      // Get Current Billing Cycle (will be from location)
+      const billingCycle = this.getCurrentBillingCycle();
+      this.start_date = billingCycle.start;
+      this.end_date = billingCycle.end;
+
+      const start = moment(this.start_date)
+        .tz("America/New_York")
+        .toISOString();
+      const end = moment(this.end_date)
+        .tz("America/New_York")
+        .toISOString();
+      // Get energy data for current billing cycle
+      axios
+        .get(
+          `${process.env.VUE_APP_API_URL}/locations/${locationId}/energy_info?start=${start}&end=${end}`
+        )
+        .then(res => {
+          console.log("Location energy data ", res.data);
+          const energy_data = res.data;
+          this.data = energy_data;
+          this.getTotals(this.data);
+        });
+      // Get current billing cycle and generation goal from location object
+      // axios
+      //   .get(`${process.env.VUE_APP_API_URL}/locations/${locationId}`)
+      //   .then(location => {
+      //     this.generationGoal = location.generationGoal;
+      //   });
+      this.generationGoal = 100;
+    },
     async getNeurioData(start, end) {
       //mock data fetching for now
       this.data = [];
@@ -299,7 +321,7 @@ export default {
 
       for (let i = 0; i < data.length; i++) {
         const obj = data[i];
-        console.log("Adding gen savings ", obj.on_peak.generation_savings);
+
         // Energy totals
         on_peak_consumption += obj.on_peak.consumption_kwh;
         off_peak_consumption += obj.off_peak.consumption_kwh;
@@ -326,8 +348,6 @@ export default {
         on_peak_generation_savings,
         off_peak_generation_savings
       };
-
-      console.log("This savings total is ", this.savingTotals);
     },
     getCurrentBillingCycle() {
       // Mocked

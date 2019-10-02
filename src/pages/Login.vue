@@ -52,10 +52,12 @@ export default {
           password: this.password
         })
         .then(response => {
-          const token = response.data.access_token;
+          const token = response.data.jwt;
           // default axios header for authorization
-          axios.defaults.headers.common["access-token"] = token;
+          axios.defaults.headers.common["jwt"] = token;
+          // Set globals
           localStorage.setItem("token", token);
+          this.$emit("userIdChanged", response.data.user_id);
           this.$router.push("/");
         })
         .catch(err => {

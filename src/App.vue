@@ -3,16 +3,17 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   </head>
-  <nav-bar v-on:LocationChanged="locationChanged" :locationIndex="locationIndex" />
+  <nav-bar v-on:LocationChanged="locationChanged" :locations="locations" :locationId="locationId" />
   <b-container fluid id="app" style="margin-top: 5px; margin-bottom: 5%">
     <keep-alive exclude="DayView">
-      <router-view :locationIndex="locationIndex"></router-view>
+      <router-view v-on:userIdChanged="userIdChanged" :userId="userId" :locationId="locationId"></router-view>
     </keep-alive>
   </b-container>
 </html>
 </template>
 
 <script>
+import axios from "axios";
 import Navbar from "./components/Navbar";
 export default {
   name: "app",
@@ -21,12 +22,33 @@ export default {
   },
   data() {
     return {
-      locationIndex: 0
+      userId: null,
+      locations: [],
+      locationId: null
     };
   },
   methods: {
-    locationChanged(index) {
-      this.locationIndex = index;
+    locationChanged(id) {
+      console.log("new id ", id);
+      this.locationId = id;
+    },
+    userIdChanged(userId) {
+      axios
+        .get(`${process.env.VUE_APP_API_URL}/locations?userId=${userId}`)
+        .then(res => {
+          // format locations to pass to navbar in object that holds (id, name)
+          let formattedLocations = [];
+          for (let i = 0; i < res.data.length; i++) {
+            formattedLocations.push({
+              id: res.data[i].location_id,
+              name: res.data[i].name
+            });
+          }
+          this.locations = formattedLocations;
+          this.locationId =
+            this.locations.length > 0 ? this.locations[0].id : null;
+        });
+      this.userId = userId;
     }
   }
 };
