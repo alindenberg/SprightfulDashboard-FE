@@ -39,6 +39,12 @@ export default {
     on_peak_generation_savings: Number,
     off_peak_generation_savings: Number
   },
+  watch: {
+    // on_peak_consumption_cost: function() {},
+    // off_peak_consumption_cost: function() {},
+    // on_peak_generation_savings: function() {},
+    // off_peak_generation_savings: function() {}
+  },
   computed: {
     total_generation_savings: function() {
       return this.on_peak_generation_savings + this.off_peak_generation_savings;

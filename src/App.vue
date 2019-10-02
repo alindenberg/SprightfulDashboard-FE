@@ -29,7 +29,6 @@ export default {
   },
   methods: {
     locationChanged(id) {
-      console.log("new id ", id);
       this.locationId = id;
     },
     userIdChanged(userId) {

@@ -86,14 +86,14 @@ export default {
                 this.onPeakConsumptionPercentage > 75 ? "#ff0000" : "green",
                 "black"
               ],
-              labels: ["On-Peak Consumption", "Off-Peak Consumption"]
+              labels: ["On-Peak Consumption %", "Off-Peak Consumption %"]
             },
             {
               data: [
                 this.totalGeneration.toFixed(0),
                 (this.generationGoal - this.totalGeneration).toFixed(0)
               ],
-              backgroundColor: ["#00ff00", "red"],
+              backgroundColor: ["#00ff00", "grey"],
               labels: ["Generation Achieved", "Remaining in Goal"]
             }
           ]

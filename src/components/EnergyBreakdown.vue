@@ -50,7 +50,7 @@
 </template>
 <script>
 export default {
-  name: "PerformanceBreakdown",
+  name: "EnergyBreakdown",
   props: {
     on_peak_consumption: Number,
     off_peak_consumption: Number,
