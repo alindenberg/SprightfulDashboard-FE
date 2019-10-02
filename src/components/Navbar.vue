@@ -1,5 +1,5 @@
 <template>
-  <b-navbar class="justify-content-between">
+  <b-navbar v-if="$route.path != '/login'" class="justify-content-between">
     <b-navbar-nav>
       <b-nav-item :active="$route.path =='/'" to="/">Home</b-nav-item>
       <b-nav-item :active="$route.path == '/bills'" to="/bills">Bills</b-nav-item>
