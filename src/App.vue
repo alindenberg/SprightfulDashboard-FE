@@ -3,11 +3,14 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   </head>
-  <nav-bar v-on:LocationChanged="locationChanged" :locations="locations" :locationId="locationId" />
+  <nav-bar
+    v-if="$route.path != '/login'"
+    v-on:LocationChanged="locationChanged"
+    :locations="locations"
+    :locationId="locationId"
+  />
   <b-container fluid id="app" style="margin-top: 5px; margin-bottom: 5%">
-    <keep-alive exclude="DayView">
-      <router-view v-on:userIdChanged="userIdChanged" :userId="userId" :locationId="locationId"></router-view>
-    </keep-alive>
+    <router-view :locationId="locationId" v-on:loggedIn="getUserLocations"></router-view>
   </b-container>
 </html>
 </template>
@@ -22,16 +25,30 @@ export default {
   },
   data() {
     return {
-      userId: null,
       locations: [],
       locationId: null
     };
+  },
+  created() {
+    // This is to happen when the page is refreshed during an
+    // active session. We will still load data.
+    if (
+      this.$session.exists() &&
+      this.$session.get("userId") &&
+      this.$session.get("jwt")
+    ) {
+      axios.defaults.headers.common["jwt"] = this.$session.get("jwt");
+      this.getUserLocations(this.$session.get("userId"));
+    } else {
+      this.$session.destroy();
+      this.$router.push("/login");
+    }
   },
   methods: {
     locationChanged(id) {
       this.locationId = id;
     },
-    userIdChanged(userId) {
+    getUserLocations(userId) {
       axios
         .get(`${process.env.VUE_APP_API_URL}/locations?userId=${userId}`)
         .then(res => {
@@ -46,8 +63,9 @@ export default {
           this.locations = formattedLocations;
           this.locationId =
             this.locations.length > 0 ? this.locations[0].id : null;
+
+          this.$router.push("/");
         });
-      this.userId = userId;
     }
   }
 };

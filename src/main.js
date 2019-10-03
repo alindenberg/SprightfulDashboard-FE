@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VueSession from 'vue-session'
 // Bootstrap
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -26,17 +27,7 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.path == "/login") {
-    next()
-  }
-  else if (localStorage.getItem('token') == null) {
-    next('/login')
-  } else {
-    next()
-  }
-})
-
+Vue.use(VueSession, { persist: true })
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
 

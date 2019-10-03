@@ -1,5 +1,5 @@
 <template>
-  <b-navbar v-if="$route.path != '/login'" class="justify-content-between">
+  <b-navbar class="justify-content-between">
     <b-navbar-nav>
       <b-nav-item :active="$route.path =='/'" to="/">Home</b-nav-item>
       <b-nav-item :active="$route.path == '/bills'" to="/bills">Bills</b-nav-item>
@@ -20,11 +20,12 @@
         >{{location.name}}</b-dropdown-item>
       </b-nav-item-dropdown>
       <b-nav-item :active="true" v-if="locations.length == 1">{{locations[0].name}}</b-nav-item>
-      <b-nav-item v-on:click="removeJwt" to="/login">Logout</b-nav-item>
+      <b-nav-item v-on:click="endSession" to="/login">Logout</b-nav-item>
     </b-navbar-nav>
   </b-navbar>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "Navbar",
   props: {
@@ -32,8 +33,9 @@ export default {
     locations: Array
   },
   methods: {
-    removeJwt() {
-      localStorage.removeItem("token");
+    endSession() {
+      this.$session.destroy();
+      this.$router.push("/login");
     }
   },
   watch: {

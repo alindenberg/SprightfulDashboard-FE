@@ -103,15 +103,13 @@
       <consumption-bar-chart :data="data" :displayKwh="chartDisplay == 'kwh'" />
       <generation-bar-chart :data="data" :displayKwh="chartDisplay == 'kwh'" />
       <b-row class="justify-content-center">
-        <!-- <b-form-group class="d-flex flex-row"> -->
-        <b-form-radio
+        <b-form-radio-group
           v-model="chartDisplay"
-          style="margin-right: 2%"
-          name="some-radios"
-          value="kwh"
-        >Kilowatt-Hours</b-form-radio>
-        <b-form-radio v-model="chartDisplay" name="some-radios" value="cost">Cost</b-form-radio>
-        <!-- </b-form-group> -->
+          class="w-100 d-flex flex-row justify-content-center"
+        >
+          <b-form-radio style="margin-right: 2%" value="kwh">Kilowatt-Hours</b-form-radio>
+          <b-form-radio value="cost">Cost</b-form-radio>
+        </b-form-radio-group>
       </b-row>
     </b-col>
   </b-row>
@@ -155,15 +153,11 @@ export default {
     };
   },
   props: {
-    locationId: String,
-    userId: String
+    locationId: String
   },
   watch: {
     locationId: function() {
       this.loadEnergyInfo(this.locationId);
-    },
-    userId: function() {
-      console.log("Dashboard page user id changed ", this.userId);
     }
   },
   computed: {
@@ -237,7 +231,7 @@ export default {
       this.endIndex += 6;
     },
     loadEnergyInfo(locationId) {
-      console.log("loading energy info");
+      console.log("loading energy info for id ", locationId);
       // Get Current Billing Cycle (will be from location)
       const billingCycle = this.getCurrentBillingCycle();
       this.start_date = billingCycle.start;
@@ -255,7 +249,6 @@ export default {
           `${process.env.VUE_APP_API_URL}/locations/${locationId}/energy_info?start=${start}&end=${end}`
         )
         .then(res => {
-          console.log("Location energy data ", res.data);
           const energy_data = res.data;
           this.data = energy_data;
           this.getTotals(this.data);
