@@ -55,10 +55,12 @@ export default {
           const token = response.data.jwt;
           // default axios header for authorization
           axios.defaults.headers.common["jwt"] = token;
-          // Set globals
-          localStorage.setItem("token", token);
-          this.$emit("userIdChanged", response.data.user_id);
-          this.$router.push("/");
+          // Start session
+          this.$session.start();
+          this.$session.set("jwt", token);
+          this.$session.set("userId", response.data.user_id);
+          // emit logged in event, app will load location data and route to dashboard
+          this.$emit("loggedIn", response.data.user_id);
         })
         .catch(err => {
           console.log("Login error ", err);
