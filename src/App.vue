@@ -57,7 +57,8 @@ export default {
           for (let i = 0; i < res.data.length; i++) {
             formattedLocations.push({
               id: res.data[i].location_id,
-              name: res.data[i].name
+              name: res.data[i].name,
+              is_ssp: res.data[i].is_ssp
             });
           }
           this.locations = formattedLocations;
@@ -67,6 +68,7 @@ export default {
         .catch(err => {
           if (err.response.status == 401) {
             this.$session.destroy();
+            this.$router.push("/login");
           }
         });
     }

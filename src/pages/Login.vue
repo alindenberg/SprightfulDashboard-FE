@@ -52,7 +52,6 @@ export default {
           password: this.password
         })
         .then(response => {
-          console.log("Got response from loggin in");
           const token = response.data.jwt;
           // default axios header for authorization
           axios.defaults.headers.common["jwt"] = token;
@@ -61,12 +60,10 @@ export default {
           this.$session.set("jwt", token);
           this.$session.set("userId", response.data.user_id);
           // emit logged in event, app will load location data and route to dashboard
-          console.log("Emitting logged in event");
           this.$emit("loggedIn", response.data.user_id);
-          this.$router.push("/controls");
+          this.$router.push("/");
         })
         .catch(err => {
-          console.log("Login error ", err);
           if (err.response != undefined) {
             this.error = err.response.data.error;
           } else {

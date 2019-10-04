@@ -1,7 +1,5 @@
 <template>
   <b-row class="d-flex justify-content-center">
-    <!-- <b-col md="2" lg="3">
-    </b-col>-->
     <b-col md="8" lg="6" v-if="selected_bill == null">
       <b-list-group>
         <b-list-group-item
@@ -50,24 +48,35 @@ export default {
   },
   data() {
     return {
+      location: null,
       bills: [],
       selected_bill: null
     };
   },
   props: {
-    locationIndex: Number
+    locationId: Number
   },
   watch: {
-    locationIndex: function() {
-      console.log("Bills page location index changed ", this.locationIndex);
+    locationId: function() {
+      loadLocation();
       //TODO - Load new location bills
     }
   },
   created() {
+    if (this.locationId) {
+      loadLocation();
+    }
     this.bills = require("../mock/Bills").Bills;
     // TODO - Load actual bill data
   },
   methods: {
+    loadLocation() {
+      axios
+        .get(`${process.env.VUE_APP_API_URL}/locations/${this.locationId}`)
+        .then(res => {
+          this.location = res.data;
+        });
+    },
     formatDate(date) {
       return moment(date)
         .tz("America/New_York")

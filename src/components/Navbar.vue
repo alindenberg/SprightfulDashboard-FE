@@ -2,7 +2,11 @@
   <b-navbar class="justify-content-between">
     <b-navbar-nav>
       <b-nav-item :active="$route.path =='/'" to="/">Home</b-nav-item>
-      <b-nav-item :active="$route.path == '/bills'" to="/bills">Bills</b-nav-item>
+      <b-nav-item
+        v-if="locations[locationIndex].is_ssp"
+        :active="$route.path == '/bills'"
+        to="/bills"
+      >Bills</b-nav-item>
       <b-nav-item :active="$route.path == '/controls'" to="/controls">Controls</b-nav-item>
     </b-navbar-nav>
     <b-navbar-nav>
