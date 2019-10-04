@@ -27,7 +27,7 @@ const router = new VueRouter({
   routes
 })
 
-Vue.use(VueSession, { persist: true })
+Vue.use(VueSession)
 Vue.use(BootstrapVue)
 Vue.use(VueRouter)
 

@@ -3,13 +3,14 @@
     <b-col md="10" lg="8" xl="6">
       <ecobee class="control_div" />
       <!-- Account card -->
-      <account class="control_div" />
+      <account :email="user.email" class="control_div" />
       <!-- Contact card -->
       <contact class="control_div" />
     </b-col>
   </b-row>
 </template>
 <script>
+import axios from "axios";
 import AccountComponent from "../components/AccountSettings";
 import EcobeeComponent from "../components/Ecobee";
 import ContactComponent from "../components/Contact";
@@ -19,6 +20,39 @@ export default {
     ecobee: EcobeeComponent,
     account: AccountComponent,
     contact: ContactComponent
+  },
+  props: {
+    locationId: String
+  },
+  data() {
+    return {
+      user: null
+    };
+  },
+  created() {
+    const userId = this.$session.get("userId");
+    axios.get(`${process.env.VUE_APP_API_URL}/users/${userId}`).then(res => {
+      this.user = res.data;
+    });
+    if (this.locationId != null) {
+      this.loadLocationData();
+    }
+  },
+  watch: {
+    locationId: function() {
+      console.log("Location id in controls is now ", this.locationId);
+      this.loadLocationData();
+    }
+  },
+  methods: {
+    loadLocationData() {
+      axios
+        .get(`${process.env.VUE_APP_API_URL}/locations/${this.locationId}`)
+        .then(res => {
+          console.log("Location response is ", res.data);
+          this.location = res.data;
+        });
+    }
   }
 };
 </script>

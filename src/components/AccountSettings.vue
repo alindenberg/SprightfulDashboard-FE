@@ -1,7 +1,9 @@
 <template>
   <b-row>
-    <b-col class="col-12" style="margin-top: 1%">
-      <h3 style="float: left">Account</h3>
+    <b-col class="col-12">
+      <h3 style="float: left; margin-top: 1%">Account</h3>
+    </b-col>
+    <b-col class="col-12">
       <h6 style="color: red" v-if="errorMessage != null">
         Error:
         <i>{{errorMessage}}</i>
@@ -11,7 +13,7 @@
       </h6>
     </b-col>
     <b-col
-      v-if="!(changeEmail || changePassword)"
+      v-if="!(changeEmail || changePassword) && email != null"
       class="d-flex flex-column align-items-center"
       style="margin-bottom: 2%"
     >
@@ -28,7 +30,20 @@
             v-on:click="changePassword = true"
           >Change Password</button>
         </b-row>
+        <!-- location list -->
+        <b-row
+          class="align-items-center justify-content-between text-nowrap"
+          v-for="location in locations"
+          :key="location.location_id"
+        >
+          <span>{{location.name}}</span>
+          <button type="button" class="btn btn-link">Edit Location</button>
+        </b-row>
       </div>
+    </b-col>
+    <!-- Loading -->
+    <b-col class="d-flex flex-column align-items-center" v-if="email == null">
+      <h2>Loading...</h2>
     </b-col>
     <!-- Change email -->
     <b-col v-if="changeEmail" class="d-flex flex-column align-items-center">
@@ -68,16 +83,34 @@
   </b-row>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "AccountSettings",
   data() {
     return {
-      email: "garygoat@gmail.com",
+      locations: [],
       changeEmail: false,
       changePassword: false,
       errorMessage: null,
       successMessage: null
     };
+  },
+  props: {
+    email: String
+  },
+  watch: {
+    email: function() {}
+  },
+  created() {
+    axios
+      .get(
+        `${process.env.VUE_APP_API_URL}/locations?userId=${this.$session.get(
+          "userId"
+        )}`
+      )
+      .then(res => {
+        this.locations = res.data;
+      });
   },
   methods: {
     saveEmail() {
@@ -90,9 +123,25 @@ export default {
 
       if (validEmail) {
         // logic to update email
-        this.email = email;
-        this.setSuccessMessage("Successfully updated email");
-        this.changeEmail = false;
+        axios
+          .put(
+            `${process.env.VUE_APP_API_URL}/users/${this.$session.get(
+              "userId"
+            )}/email`,
+            {
+              email: email
+            }
+          )
+          .then(res => {
+            if (res.status == 200) {
+              this.setSuccessMessage("Successfully updated email");
+              this.email = email;
+              this.changeEmail = false;
+            }
+          })
+          .catch(err => {
+            this.setErrorMessage(`Error changing email: ${err}`);
+          });
       } else {
         this.setErrorMessage("Invalid email entered!");
       }

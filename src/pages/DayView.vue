@@ -81,65 +81,66 @@ export default {
   methods: {
     async getHourlyData() {
       // mock getting of hourly data
-      // const hourLabels = [
-      //   "12:00am",
-      //   "1:00am",
-      //   "2:00am",
-      //   "3:00am",
-      //   "4:00am",
-      //   "5:00am",
-      //   "6:00am",
-      //   "7:00am",
-      //   "8:00am",
-      //   "9:00am",
-      //   "10:00am",
-      //   "11:00am",
-      //   "12:00pm",
-      //   "1:00pm",
-      //   "2:00pm",
-      //   "3:00pm",
-      //   "4:00pm",
-      //   "5:00pm",
-      //   "6:00pm",
-      //   "7:00pm",
-      //   "8:00pm",
-      //   "9:00pm",
-      //   "10:00pm",
-      //   "11:00pm"
-      // ];
-      // for (let i = 0; i < hourLabels.length; i++) {
-      //   let mock_data = {
-      //     timestamp: hourLabels[i],
-      //     on_peak: {
-      //       generation_kwh: Math.random() * 50,
-      //       generation_savings: Math.random() * 10,
-      //       consumption_kwh: Math.random() * 100,
-      //       consumption_cost: Math.random() * 10
-      //     },
-      //     off_peak: {
-      //       generation_kwh: Math.random() * 50,
-      //       generation_savings: Math.random() * 10,
-      //       consumption_kwh: Math.random() * 100,
-      //       consumption_cost: Math.random() * 10
-      //     }
-      //   };
-      //   // push data to hourly array
-      //   this.hourlyData.push(mock_data);
-      // }
-      // this.getTotals(this.hourlyData);
+      const hourLabels = [
+        "12:00am",
+        "1:00am",
+        "2:00am",
+        "3:00am",
+        "4:00am",
+        "5:00am",
+        "6:00am",
+        "7:00am",
+        "8:00am",
+        "9:00am",
+        "10:00am",
+        "11:00am",
+        "12:00pm",
+        "1:00pm",
+        "2:00pm",
+        "3:00pm",
+        "4:00pm",
+        "5:00pm",
+        "6:00pm",
+        "7:00pm",
+        "8:00pm",
+        "9:00pm",
+        "10:00pm",
+        "11:00pm"
+      ];
+      for (let i = 0; i < hourLabels.length; i++) {
+        let mock_data = {
+          timestamp: hourLabels[i],
+          on_peak: {
+            generation_kwh: Math.random() * 50,
+            generation_savings: Math.random() * 10,
+            consumption_kwh: Math.random() * 100,
+            consumption_cost: Math.random() * 10
+          },
+          off_peak: {
+            generation_kwh: Math.random() * 50,
+            generation_savings: Math.random() * 10,
+            consumption_kwh: Math.random() * 100,
+            consumption_cost: Math.random() * 10
+          }
+        };
+        // push data to hourly array
+        this.hourlyData.push(mock_data);
+      }
+      this.getTotals(this.hourlyData);
+
       // Actually hit backend for data
-      let start = moment(this.date).tz("America/New_York");
-      const start_string = start.toISOString();
-      let end = start.add(1, "days");
-      const end_string = end.toISOString();
-      await axios
-        .get(
-          `${process.env.VUE_APP_API_URL}/locations/${this.locationId}/energy_info?start=${start_string}&end=${end_string}`
-        )
-        .then(data => {
-          this.hourlyData = data.data;
-          this.getTotals(data.data);
-        });
+      // let start = moment(this.date).tz("America/New_York");
+      // const start_string = start.toISOString();
+      // let end = start.add(1, "days");
+      // const end_string = end.toISOString();
+      // await axios
+      //   .get(
+      //     `${process.env.VUE_APP_API_URL}/locations/${this.locationId}/energy_info?start=${start_string}&end=${end_string}`
+      //   )
+      //   .then(data => {
+      //     this.hourlyData = data.data;
+      //     this.getTotals(data.data);
+      //   });
     },
     getTotals(data) {
       let on_peak_consumption = 0;

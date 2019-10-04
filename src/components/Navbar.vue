@@ -35,7 +35,6 @@ export default {
   methods: {
     endSession() {
       this.$session.destroy();
-      this.$router.push("/login");
     }
   },
   watch: {

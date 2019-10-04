@@ -63,8 +63,11 @@ export default {
           this.locations = formattedLocations;
           this.locationId =
             this.locations.length > 0 ? this.locations[0].id : null;
-
-          this.$router.push("/");
+        })
+        .catch(err => {
+          if (err.response.status == 401) {
+            this.$session.destroy();
+          }
         });
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <b-row class="dashboard">
-    <b-col lg="6">
+    <b-col v-if="data.length > 0" lg="6">
       <!-- Header bar -->
       <b-row class="d-flex justify-content-between">
         <b-col sm="4">
@@ -99,7 +99,7 @@
         :off_peak_generation_savings="savingTotals.off_peak_generation_savings"
       />
     </b-col>
-    <b-col lg="6">
+    <b-col v-if="data.length > 0" lg="6">
       <consumption-bar-chart :data="data" :displayKwh="chartDisplay == 'kwh'" />
       <generation-bar-chart :data="data" :displayKwh="chartDisplay == 'kwh'" />
       <b-row class="justify-content-center">
@@ -111,6 +111,9 @@
           <b-form-radio value="cost">Cost</b-form-radio>
         </b-form-radio-group>
       </b-row>
+    </b-col>
+    <b-col v-if="data.length == 0">
+      <h2>Loading...</h2>
     </b-col>
   </b-row>
 </template> 
@@ -157,6 +160,11 @@ export default {
   },
   watch: {
     locationId: function() {
+      this.loadEnergyInfo(this.locationId);
+    }
+  },
+  created() {
+    if (this.locationId != null) {
       this.loadEnergyInfo(this.locationId);
     }
   },
@@ -236,23 +244,24 @@ export default {
       const billingCycle = this.getCurrentBillingCycle();
       this.start_date = billingCycle.start;
       this.end_date = billingCycle.end;
+      this.mockEnergyInfo(this.start_date, this.end_date);
 
-      const start = moment(this.start_date)
-        .tz("America/New_York")
-        .toISOString();
-      const end = moment(this.end_date)
-        .tz("America/New_York")
-        .toISOString();
-      // Get energy data for current billing cycle
-      axios
-        .get(
-          `${process.env.VUE_APP_API_URL}/locations/${locationId}/energy_info?start=${start}&end=${end}`
-        )
-        .then(res => {
-          const energy_data = res.data;
-          this.data = energy_data;
-          this.getTotals(this.data);
-        });
+      // const start = moment(this.start_date)
+      //   .tz("America/New_York")
+      //   .toISOString();
+      // const end = moment(this.end_date)
+      //   .tz("America/New_York")
+      //   .toISOString();
+      // // Get energy data for current billing cycle
+      // axios
+      //   .get(
+      //     `${process.env.VUE_APP_API_URL}/locations/${locationId}/energy_info?start=${start}&end=${end}`
+      //   )
+      //   .then(res => {
+      //     const energy_data = res.data;
+      //     this.data = energy_data;
+      //     this.getTotals(this.data);
+      //   });
       // Get current billing cycle and generation goal from location object
       // axios
       //   .get(`${process.env.VUE_APP_API_URL}/locations/${locationId}`)
@@ -261,8 +270,9 @@ export default {
       //   });
       this.generationGoal = 100;
     },
-    async getNeurioData(start, end) {
+    async mockEnergyInfo(start, end) {
       //mock data fetching for now
+      console.log("Fetching mock data");
       this.data = [];
       let start_date = moment(start).tz("America/New_York");
       let end_date = moment(end).tz("America/New_York");
@@ -286,20 +296,6 @@ export default {
         start_date.add(1, "days");
       }
       this.getTotals(this.data);
-      // console.log("API URL ", process.env.VUE_APP_API_URL);
-      // await axios
-      //   .get(
-      //     `${process.env.VUE_APP_API_URL}/locations/f8128cc4-6c70-4458-9f1f-b1d185f3014e/energy_info?start=${start_date.toISOString()}&end=${end_date.toISOString()}`
-      //   )
-      //   .then(data => {
-      //     console.log("data we get from backend ", data.data);
-      //     this.data = data.data;
-      //     this.getTotals(data.data);
-      //   })
-      //   .catch(err => {
-      //     console.log("Error fetching dashboard data", err);
-      //     this.data = [];
-      //   });
     },
     getTotals(data) {
       let on_peak_consumption = 0;
